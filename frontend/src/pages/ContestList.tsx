@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ContestSummary } from '../types'
-import { contestAPI } from '../services/api'
-import { Clock, Code, Trophy, Target, CheckCircle, PlayCircle, RotateCcw } from 'lucide-react'
+import { contestAPI, attemptAPI } from '../services/api'
+import { Clock, Code, Trophy, Target, CheckCircle, PlayCircle, RotateCcw, History } from 'lucide-react'
 
 export const ContestList: React.FC = () => {
+  const navigate = useNavigate()
   const [contests, setContests] = useState<ContestSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'attempted' | 'not-attempted'>('all')
+  const [startingContests, setStartingContests] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     fetchContests()
@@ -21,6 +23,41 @@ export const ContestList: React.FC = () => {
       console.error('Error fetching contests:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleContestClick = async (contest: ContestSummary, e: React.MouseEvent) => {
+    e.preventDefault()
+    
+    // If contest has attempts, check if there's an in-progress attempt
+    if (contest.has_attempts) {
+      try {
+        const attempts = await contestAPI.getAttempts(contest.id)
+        const inProgressAttempt = attempts.find(attempt => attempt.status === 'in_progress')
+        
+        if (inProgressAttempt) {
+          // Resume existing attempt
+          navigate(`/contest/${contest.id}/attempt/${inProgressAttempt.id}`)
+          return
+        }
+      } catch (error) {
+        console.error('Error fetching attempts:', error)
+      }
+    }
+    
+    // Create new attempt
+    setStartingContests(prev => new Set(prev).add(contest.id))
+    try {
+      const attempt = await attemptAPI.create({ contest_id: contest.id })
+      navigate(`/contest/${contest.id}/attempt/${attempt.id}`)
+    } catch (error) {
+      console.error('Error starting contest:', error)
+    } finally {
+      setStartingContests(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(contest.id)
+        return newSet
+      })
     }
   }
 
@@ -187,11 +224,12 @@ export const ContestList: React.FC = () => {
           </div>
         ) : (
           filteredContests.map((contest) => {
+            const isStarting = startingContests.has(contest.id)
             return (
-              <Link
+              <div
                 key={contest.id}
-                to={`/contest/${contest.id}`}
-                className="bg-white rounded-lg p-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 flex flex-col h-20 cursor-pointer group"
+                className="bg-white rounded-lg p-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 flex flex-col h-20 cursor-pointer group relative"
+                onClick={(e) => handleContestClick(contest, e)}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className={`w-2 h-2 rounded-full ${
@@ -201,8 +239,20 @@ export const ContestList: React.FC = () => {
                         ? 'bg-blue-500'
                         : 'bg-gray-300'
                   }`}></span>
-                  <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-xs">
-                    →
+                  <div className="flex items-center space-x-1">
+                    {contest.has_attempts && (
+                      <Link
+                        to={`/contest/${contest.id}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                        title="View contest history"
+                      >
+                        <History className="w-3 h-3" />
+                      </Link>
+                    )}
+                    <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-xs">
+                      {isStarting ? '⟳' : '→'}
+                    </div>
                   </div>
                 </div>
                 
@@ -210,9 +260,17 @@ export const ContestList: React.FC = () => {
                   <h3 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
                     {contest.name}
                   </h3>
-                  <p className="text-xs text-gray-500">3 Problems</p>
+                  <p className="text-xs text-gray-500">
+                    {isStarting ? 'Starting...' : '3 Problems'}
+                  </p>
                 </div>
-              </Link>
+                
+                {isStarting && (
+                  <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                  </div>
+                )}
+              </div>
             )
           })
         )}

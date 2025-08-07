@@ -6,6 +6,7 @@ import { Timer } from '../components/Timer'
 import { CodeEditor } from '../components/CodeEditor'
 import { LanguageSelector } from '../components/LanguageSelector'
 import { difficultyColors } from '../utils/language'
+import { decodeHtmlEntities } from '../utils/html'
 
 export const ContestAttempt: React.FC = () => {
   const { id, attemptId } = useParams<{ id: string; attemptId: string }>()
@@ -175,8 +176,9 @@ export const ContestAttempt: React.FC = () => {
             <button
               onClick={() => navigate(`/contest/${id}`)}
               className="text-meta-textSecondary hover:text-meta-text transition-colors text-sm"
+              title="View contest history and details"
             >
-              ← Back
+              ← Contest Info
             </button>
             <div className="text-meta-text font-semibold">{attempt.contest?.name}</div>
           </div>
@@ -264,7 +266,7 @@ export const ContestAttempt: React.FC = () => {
                 <div className="glass rounded-2xl p-6 mb-6">
                   <div className="prose prose-sm max-w-none text-meta-text">
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                      {questions[activeQuestion - 1]?.description}
+                      {decodeHtmlEntities(questions[activeQuestion - 1]?.description || '')}
                     </div>
                   </div>
                 </div>

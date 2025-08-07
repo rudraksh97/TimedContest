@@ -57,10 +57,6 @@ test:
 test-coverage:
 	docker-compose exec backend python -m pytest test_main.py --cov=. --cov-report=html
 
-# Seed database (happens automatically on startup)
-seed:
-	docker-compose exec backend python seed_data.py
-
 # Clean up everything
 clean:
 	docker-compose down -v --rmi all --remove-orphans

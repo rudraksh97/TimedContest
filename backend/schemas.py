@@ -15,6 +15,21 @@ class QuestionBase(BaseModel):
     cpp_template: Optional[str] = None
     javascript_template: Optional[str] = None
 
+# Clean question schema without difficulty/category for API responses
+class QuestionClean(BaseModel):
+    id: int
+    title: str
+    description: str
+    neetcode_number: int
+    python_template: Optional[str] = None
+    java_template: Optional[str] = None
+    cpp_template: Optional[str] = None
+    javascript_template: Optional[str] = None
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
 class QuestionCreate(QuestionBase):
     pass
 
@@ -40,6 +55,21 @@ class Contest(ContestBase):
     question1: Optional[Question] = None
     question2: Optional[Question] = None
     question3: Optional[Question] = None
+    
+    class Config:
+        from_attributes = True
+
+# Clean contest schema without difficulty/category for API responses
+class ContestClean(BaseModel):
+    id: int
+    name: str
+    question1_id: int
+    question2_id: int
+    question3_id: int
+    created_at: datetime
+    question1: Optional[QuestionClean] = None
+    question2: Optional[QuestionClean] = None
+    question3: Optional[QuestionClean] = None
     
     class Config:
         from_attributes = True

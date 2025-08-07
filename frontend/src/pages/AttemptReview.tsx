@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { Attempt } from '../types'
-import { attemptAPI } from '../services/api'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { Question, Attempt, Language } from '../types'
 import { CodeEditor } from '../components/CodeEditor'
-import { statusColors, getStatusText, difficultyColors } from '../utils/language'
+import { decodeHtmlEntities } from '../utils/html'
+import { attemptAPI, contestAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
+import { statusColors, getStatusText, difficultyColors } from '../utils/language'
 
 export const AttemptReview: React.FC = () => {
   const { attemptId } = useParams<{ attemptId: string }>()
+  const navigate = useNavigate()
 
   const [attempt, setAttempt] = useState<Attempt | null>(null)
   const [activeQuestion, setActiveQuestion] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [startingNewAttempt, setStartingNewAttempt] = useState(false)
 
   useEffect(() => {
     fetchAttempt()
@@ -27,6 +30,20 @@ export const AttemptReview: React.FC = () => {
       console.error('Error fetching attempt:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleTryAgain = async () => {
+    if (!attempt) return
+    
+    setStartingNewAttempt(true)
+    try {
+      const newAttempt = await attemptAPI.create({ contest_id: attempt.contest_id })
+      navigate(`/contest/${attempt.contest_id}/attempt/${newAttempt.id}`)
+    } catch (error) {
+      console.error('Error starting new attempt:', error)
+    } finally {
+      setStartingNewAttempt(false)
     }
   }
 
@@ -216,7 +233,7 @@ export const AttemptReview: React.FC = () => {
                 </div>
                 
                 <div className="prose prose-sm max-w-none mb-4 text-meta-textSecondary">
-                  <p>{currentQuestion.description}</p>
+                  <p>{decodeHtmlEntities(currentQuestion.description || '')}</p>
                 </div>
                 
                 <div className="pt-4 border-t border-meta-border text-sm text-meta-textSecondary">
@@ -275,12 +292,13 @@ export const AttemptReview: React.FC = () => {
           Back to Submissions
         </Link>
         
-        <Link
-          to={`/contest/${attempt.contest_id}`}
+        <button
+          onClick={handleTryAgain}
+          disabled={startingNewAttempt}
           className="btn btn-primary"
         >
-          Try Again
-        </Link>
+          {startingNewAttempt ? 'Starting...' : 'Try Again'}
+        </button>
       </div>
     </div>
   )

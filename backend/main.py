@@ -8,7 +8,6 @@ import uuid
 from database import get_db, engine
 from models import Base, Question, Contest, Attempt, AttemptStatus, Language
 import schemas
-from seed_data import seed_database
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -23,14 +22,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.on_event("startup")
-async def startup_event():
-    """Seed database on startup if empty"""
-    try:
-        seed_database()
-    except Exception as e:
-        print(f"Database seeding failed: {e}")
 
 @app.get("/")
 async def root():
@@ -68,7 +59,7 @@ async def get_contests(db: Session = Depends(get_db)):
     
     return contest_summaries
 
-@app.get("/contests/{contest_id}", response_model=schemas.Contest)
+@app.get("/contests/{contest_id}", response_model=schemas.ContestClean)
 async def get_contest(contest_id: int, db: Session = Depends(get_db)):
     """Get a specific contest with all questions"""
     contest = db.query(Contest).options(
@@ -244,7 +235,7 @@ async def get_contest_attempts(contest_id: int, db: Session = Depends(get_db)):
     return attempts
 
 # Question endpoints (for reference)
-@app.get("/questions/{question_id}", response_model=schemas.Question)
+@app.get("/questions/{question_id}", response_model=schemas.QuestionClean)
 async def get_question(question_id: int, db: Session = Depends(get_db)):
     """Get a specific question"""
     question = db.query(Question).filter(Question.id == question_id).first()
@@ -253,7 +244,7 @@ async def get_question(question_id: int, db: Session = Depends(get_db)):
     
     return question
 
-@app.get("/questions", response_model=List[schemas.Question])
+@app.get("/questions", response_model=List[schemas.QuestionClean])
 async def get_questions(
     category: Optional[str] = None,
     difficulty: Optional[str] = None,

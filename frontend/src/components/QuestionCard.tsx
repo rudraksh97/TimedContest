@@ -1,6 +1,7 @@
 import React from 'react'
 import { Question, Language } from '../types'
 import { difficultyColors } from '../utils/language'
+import { decodeHtmlEntities } from '../utils/html'
 
 interface QuestionCardProps {
   question: Question
@@ -49,7 +50,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           </h3>
           
           <p className="text-meta-textSecondary text-sm mb-4 line-clamp-3 leading-relaxed">
-            {question.description}
+            {decodeHtmlEntities(question.description || '')}
           </p>
           
           <div className="flex items-center justify-between text-xs text-meta-textSecondary">
