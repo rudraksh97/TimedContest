@@ -192,7 +192,6 @@ export const ContestAttempt: React.FC = () => {
     )
   }
 
-  const currentQuestion = templates[`question${activeQuestion}` as keyof ContestTemplates]
   const currentCode = codes[activeQuestion as keyof typeof codes]
   const questions = [attempt.contest?.question1, attempt.contest?.question2, attempt.contest?.question3].filter(Boolean)
 
