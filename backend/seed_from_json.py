@@ -68,8 +68,18 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
     """
     print("Loading leetcode_data.json...")
     
-    with open('leetcode_data.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    try:
+        with open('leetcode_data.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print("❌ leetcode_data.json not found. Skipping seeding.")
+        return {}
+    except json.JSONDecodeError as e:
+        print(f"❌ Error parsing leetcode_data.json: {e}")
+        return {}
+    except Exception as e:
+        print(f"❌ Error reading leetcode_data.json: {e}")
+        return {}
     
     print(f"Found {len(data)} questions in leetcode_data.json")
     
@@ -98,12 +108,12 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
             go_template = extract_code_snippet(code_snippets, "go") or generate_basic_template("go", title)
             c_template = extract_code_snippet(code_snippets, "c") or generate_basic_template("c", title)
             
-            # Map difficulty
-            difficulty_enum = Difficulty.MEDIUM
+            # Map difficulty - use string values that match the database constraint
+            difficulty_enum = "Medium"
             if difficulty.lower() == "easy":
-                difficulty_enum = Difficulty.EASY
+                difficulty_enum = "Easy"
             elif difficulty.lower() == "hard":
-                difficulty_enum = Difficulty.HARD
+                difficulty_enum = "Hard"
             
             # Create question
             question = Question(
@@ -194,6 +204,49 @@ def create_contests(db: Session, title_to_id: Dict[str, int], questions_per_cont
     
     db.commit()
     print(f"Successfully created {target_contests} contests!")
+
+def is_database_empty(db: Session) -> bool:
+    """
+    Check if the database is empty (no questions or contests)
+    """
+    question_count = db.query(Question).count()
+    contest_count = db.query(Contest).count()
+    return question_count == 0 and contest_count == 0
+
+
+def seed_database_if_empty():
+    """
+    Seed the database only if it's empty
+    """
+    db = SessionLocal()
+    try:
+        if is_database_empty(db):
+            print("🚀 Database is empty. Starting automatic seeding...")
+            
+            # Seed questions
+            title_to_id = seed_questions_from_json(db)
+            
+            if title_to_id:
+                # Create contests
+                create_contests(db, title_to_id)
+                
+                print("🎉 Automatic database seeding completed successfully!")
+                
+                # Print summary
+                total_questions = db.query(Question).count()
+                total_contests = db.query(Contest).count()
+                print(f"📊 Summary: {total_questions} questions, {total_contests} contests")
+            else:
+                print("⚠️  No questions were seeded. Check if leetcode_data.json exists and is valid.")
+        else:
+            print("✅ Database already contains data. Skipping seeding.")
+            
+    except Exception as e:
+        print(f"❌ Error during automatic seeding: {e}")
+        db.rollback()
+    finally:
+        db.close()
+
 
 def main():
     """

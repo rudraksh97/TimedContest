@@ -12,6 +12,13 @@ import schemas
 # Create tables
 Base.metadata.create_all(bind=engine)
 
+# Import and run seeding if database is empty
+try:
+    from seed_from_json import seed_database_if_empty
+    seed_database_if_empty()
+except Exception as e:
+    print(f"Warning: Could not run automatic seeding: {e}")
+
 app = FastAPI(title="Timed Contest API", version="1.0.0")
 
 # Configure CORS
