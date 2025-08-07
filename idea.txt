@@ -1,0 +1,36 @@
+I want to build a small LC contest of 1 Hour in which three questions need to be done.
+
+There are 150 questions in Neetcode 150 list. I want to make 50 contests of 3 questions.
+The questions for contest need to be selected such that they are balanced for a contest.
+Contest should be named, Contest 1 to 50.
+
+UI layout would be like. 
+A list of contest, there should be marker whether you have attempted them or not. 
+It should have option to reset it, but it should save the last attempt for future 
+use (to analyse). User can also delete an attempt. 
+So attempt history should be there.
+As long as a user opens it, it is marked as attempted.
+
+A 1 hour timer should be there. It should give you notification, half time has elapsed, or 5 minutes are remaining.
+When time is done, it should be contest is done. and gives user option to review it or restart or exit contest.
+
+User can select 4 languages (Python, Java, C++, Javascript)
+
+We will just provide the template code.
+
+The ide will be a notepad and not an actual ide with autocompletion or anything. 
+This platform is for people to write the code correctly within one go and 
+not rely on test cases to cirrect the code.
+
+Tech stack:
+1. Vite, React
+2. Python, FastAPI
+3. Postgres
+4. Docker deployable
+
+Whenever an API is added or any functionality is changed,
+Run all the integration tests to make sure things work after every change.
+
+UI should be very rich and minimalistic. No fancy shit but very rich looking.
+
+

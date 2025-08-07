@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimedContest Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .contest-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .status {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 TimedContest Platform</h1>
+        <p>Welcome to the ultimate timed coding challenge platform!</p>
+        
+        <h2>📋 Available Contests</h2>
+        <div id="contests">
+            <div class="contest-card">
+                <h3>Sample Contest 1</h3>
+                <p><strong>Questions:</strong> 3 carefully selected problems</p>
+                <p><strong>Time Limit:</strong> 1 hour</p>
+                <p><strong>Languages:</strong> Python, Java, C++, JavaScript</p>
+                <p><strong>Status:</strong> <span class="status">Ready to start</span></p>
+                <button class="btn" onclick="startContest()">Start Contest</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: #e3f2fd; border-radius: 8px;">
+            <h3>🚀 Platform Features</h3>
+            <ul>
+                <li>✅ 1-hour timed coding contests</li>
+                <li>✅ Multi-language support (Python, Java, C++, JavaScript)</li>
+                <li>✅ Built-in code editor with syntax highlighting</li>
+                <li>✅ Real-time timer with notifications</li>
+                <li>✅ Attempt history and review system</li>
+                <li>✅ Balanced question difficulty</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px;">
+            <h3>📊 API Status</h3>
+            <p id="api-status">Checking API connection...</p>
+            <button class="btn" onclick="checkAPI()">Test API</button>
+        </div>
+    </div>
+
+    <script>
+        function startContest() {
+            alert('Contest functionality will start the full React app with timer, code editor, and question navigation!');
+        }
+        
+        function checkAPI() {
+            fetch('http://localhost:8000/health')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('api-status').innerHTML = 
+                        `✅ API is healthy! Status: ${data.status}`;
+                })
+                .catch(error => {
+                    document.getElementById('api-status').innerHTML = 
+                        '❌ API connection failed. Please check if backend is running.';
+                });
+        }
+        
+        // Auto-check API on load
+        checkAPI();
+        
+        // Load contests from API
+        fetch('http://localhost:8000/contests')
+            .then(response => response.json())
+            .then(contests => {
+                if (contests.length > 0) {
+                    const contestsDiv = document.getElementById('contests');
+                    contestsDiv.innerHTML = contests.map(contest => `
+                        <div class="contest-card">
+                            <h3>${contest.name}</h3>
+                            <p><strong>Questions:</strong> 3 problems</p>
+                            <p><strong>Time Limit:</strong> 1 hour</p>
+                            <p><strong>Languages:</strong> Python, Java, C++, JavaScript</p>
+                            <p><strong>Status:</strong> <span class="status">${contest.has_attempts ? 'Previously attempted' : 'Ready to start'}</span></p>
+                            <button class="btn" onclick="startContest()">Start Contest</button>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.log('Could not load contests:', error);
+            });
+    </script>
+</body>
+</html>
+
