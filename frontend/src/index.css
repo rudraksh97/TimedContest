@@ -8,7 +8,7 @@
   }
   
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply bg-hackerrank-dark text-hackerrank-text antialiased;
   }
   
   code, pre {
@@ -22,15 +22,15 @@
   }
   
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+    @apply bg-hackerrank-green text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-green font-semibold;
   }
   
   .btn-secondary {
-    @apply bg-white text-gray-700 border-gray-300 hover:bg-gray-50 focus:ring-blue-500;
+    @apply bg-hackerrank-light text-hackerrank-text border-hackerrank-border hover:bg-hackerrank-lighter focus:ring-hackerrank-green;
   }
   
   .btn-success {
-    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+    @apply bg-hackerrank-green text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-green font-semibold;
   }
   
   .btn-danger {
@@ -50,35 +50,35 @@
   }
   
   .badge-success {
-    @apply bg-green-100 text-green-800;
+    @apply bg-hackerrank-green text-hackerrank-dark font-semibold;
   }
   
   .badge-warning {
-    @apply bg-yellow-100 text-yellow-800;
+    @apply bg-yellow-500 text-hackerrank-dark font-semibold;
   }
   
   .badge-danger {
-    @apply bg-red-100 text-red-800;
+    @apply bg-red-500 text-white font-semibold;
   }
   
   .badge-info {
-    @apply bg-blue-100 text-blue-800;
+    @apply bg-blue-500 text-white font-semibold;
   }
   
   .badge-secondary {
-    @apply bg-gray-100 text-gray-800;
+    @apply bg-hackerrank-light text-hackerrank-text border border-hackerrank-border;
   }
   
   .difficulty-easy {
-    @apply text-green-600 bg-green-50 border-green-200;
+    @apply text-hackerrank-green bg-hackerrank-green/10 border-hackerrank-green/20;
   }
   
   .difficulty-medium {
-    @apply text-orange-600 bg-orange-50 border-orange-200;
+    @apply text-yellow-400 bg-yellow-400/10 border-yellow-400/20;
   }
   
   .difficulty-hard {
-    @apply text-red-600 bg-red-50 border-red-200;
+    @apply text-red-400 bg-red-400/10 border-red-400/20;
   }
   
   .status-indicator {
@@ -86,7 +86,7 @@
   }
   
   .status-completed {
-    @apply bg-green-500;
+    @apply bg-hackerrank-green;
   }
   
   .status-attempted {
@@ -94,21 +94,37 @@
   }
   
   .status-not-attempted {
-    @apply bg-gray-300;
+    @apply bg-hackerrank-border;
+  }
+
+  .card {
+    @apply bg-hackerrank-light border border-hackerrank-border rounded-lg p-6 shadow-sm;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors;
+  }
+
+  .nav-link-active {
+    @apply text-hackerrank-green bg-hackerrank-green/10;
+  }
+
+  .nav-link-inactive {
+    @apply text-hackerrank-textSecondary hover:text-hackerrank-text hover:bg-hackerrank-lighter;
   }
 }
 
 /* Code editor styles */
 .code-editor-container {
-  @apply border border-gray-300 rounded-lg overflow-hidden bg-white;
+  @apply border border-hackerrank-border rounded-lg overflow-hidden bg-hackerrank-darker;
 }
 
 .code-editor-header {
-  @apply bg-gray-50 border-b border-gray-200 px-4 py-2 flex items-center justify-between;
+  @apply bg-hackerrank-light border-b border-hackerrank-border px-4 py-2 flex items-center justify-between;
 }
 
 .code-editor-textarea {
-  @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none;
+  @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none bg-hackerrank-darker text-hackerrank-text;
   font-family: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace;
   line-height: 1.5;
   tab-size: 2;
@@ -143,21 +159,21 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #2d2d2d;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
+  background: #404040;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
+  background: #505050;
 }
 
 /* Utility classes */
@@ -166,4 +182,17 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* HackerRank specific styles */
+.hackerrank-gradient {
+  background: linear-gradient(135deg, #00ea64 0%, #00c853 100%);
+}
+
+.hackerrank-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.hackerrank-card-hover {
+  @apply transition-all duration-200 hover:shadow-lg hover:border-hackerrank-green/30;
 }

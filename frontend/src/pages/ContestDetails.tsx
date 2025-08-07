@@ -64,10 +64,10 @@ export const ContestDetails: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-hackerrank-light rounded w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-64 bg-gray-200 rounded"></div>
+              <div key={i} className="h-64 bg-hackerrank-light rounded"></div>
             ))}
           </div>
         </div>
@@ -79,7 +79,7 @@ export const ContestDetails: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Contest not found</h1>
+          <h1 className="text-2xl font-bold text-hackerrank-text mb-4">Contest not found</h1>
           <Link to="/" className="btn btn-primary">Back to Problems</Link>
         </div>
       </div>
@@ -94,16 +94,16 @@ export const ContestDetails: React.FC = () => {
       <nav className="flex mb-6" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-4">
           <li>
-            <Link to="/" className="text-gray-500 hover:text-gray-700">
+            <Link to="/" className="text-hackerrank-textSecondary hover:text-hackerrank-text">
               Problems
             </Link>
           </li>
           <li>
             <div className="flex items-center">
-              <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="flex-shrink-0 h-5 w-5 text-hackerrank-border" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
-              <span className="ml-4 text-sm font-medium text-gray-900">{contest.name}</span>
+              <span className="ml-4 text-sm font-medium text-hackerrank-text">{contest.name}</span>
             </div>
           </li>
         </ol>
@@ -113,8 +113,8 @@ export const ContestDetails: React.FC = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{contest.name}</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-bold text-hackerrank-text mb-2">{contest.name}</h1>
+            <p className="text-hackerrank-textSecondary">
               Solve 3 problems in 1 hour • Choose your programming language
             </p>
           </div>
@@ -132,33 +132,31 @@ export const ContestDetails: React.FC = () => {
 
       {/* Problems */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Problems</h2>
+        <h2 className="text-xl font-semibold text-hackerrank-text mb-4">Problems</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {questions.map((question, index) => (
-            <div key={question?.id} className="card">
-              <div className="card-body">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-500">
-                      {index + 1}.
-                    </span>
-                    <h3 className="font-semibold text-gray-900">{question?.title}</h3>
-                  </div>
-                  {question && (
-                    <span className={`badge ${difficultyColors[question.difficulty]} border`}>
-                      {question.difficulty}
-                    </span>
-                  )}
+            <div key={question?.id} className="card hackerrank-card-hover">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium text-hackerrank-textSecondary">
+                    {index + 1}.
+                  </span>
+                  <h3 className="font-semibold text-hackerrank-text">{question?.title}</h3>
                 </div>
-                
-                <p className="text-sm text-gray-600 mb-4 line-clamp-3">
-                  {question?.description}
-                </p>
-                
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>{question?.category}</span>
-                  <span>#{question?.neetcode_number}</span>
-                </div>
+                {question && (
+                  <span className={`badge ${difficultyColors[question.difficulty]} border`}>
+                    {question.difficulty}
+                  </span>
+                )}
+              </div>
+              
+              <p className="text-sm text-hackerrank-textSecondary mb-4 line-clamp-3">
+                {question?.description}
+              </p>
+              
+              <div className="flex items-center justify-between text-xs text-hackerrank-textSecondary">
+                <span>{question?.category}</span>
+                <span>#{question?.neetcode_number}</span>
               </div>
             </div>
           ))}
@@ -168,18 +166,18 @@ export const ContestDetails: React.FC = () => {
       {/* Submissions History */}
       {attempts.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Submissions</h2>
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-hackerrank-text mb-4">Your Submissions</h2>
+          <div className="card p-0 overflow-hidden">
+            <div className="px-6 py-4 bg-hackerrank-darker border-b border-hackerrank-border">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-gray-900">Submission History</h3>
-                <div className="text-sm text-gray-500">
+                <h3 className="text-sm font-medium text-hackerrank-text">Submission History</h3>
+                <div className="text-sm text-hackerrank-textSecondary">
                   {attempts.length} submission{attempts.length !== 1 ? 's' : ''}
                 </div>
               </div>
             </div>
             
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-hackerrank-border">
               {attempts.map((attempt) => (
                 <div key={attempt.id} className="px-6 py-4">
                   <div className="flex items-center justify-between">
@@ -189,12 +187,12 @@ export const ContestDetails: React.FC = () => {
                           {getStatusText(attempt.status)}
                         </span>
                         
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-hackerrank-textSecondary">
                           {new Date(attempt.started_at).toLocaleString()}
                         </span>
                         
                         {attempt.completed_at && (
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-hackerrank-textSecondary">
                             Duration: {formatTime(attempt.duration_seconds || 0)}
                           </span>
                         )}
@@ -202,20 +200,20 @@ export const ContestDetails: React.FC = () => {
                       
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="text-gray-500">Problem 1:</span>
-                          <span className="ml-2 font-medium">
+                          <span className="text-hackerrank-textSecondary">Problem 1:</span>
+                          <span className="ml-2 font-medium text-hackerrank-text">
                             {attempt.question1_language || 'Not attempted'}
                           </span>
                         </div>
                         <div>
-                          <span className="text-gray-500">Problem 2:</span>
-                          <span className="ml-2 font-medium">
+                          <span className="text-hackerrank-textSecondary">Problem 2:</span>
+                          <span className="ml-2 font-medium text-hackerrank-text">
                             {attempt.question2_language || 'Not attempted'}
                           </span>
                         </div>
                         <div>
-                          <span className="text-gray-500">Problem 3:</span>
-                          <span className="ml-2 font-medium">
+                          <span className="text-hackerrank-textSecondary">Problem 3:</span>
+                          <span className="ml-2 font-medium text-hackerrank-text">
                             {attempt.question3_language || 'Not attempted'}
                           </span>
                         </div>
@@ -255,9 +253,9 @@ export const ContestDetails: React.FC = () => {
       )}
 
       {/* Contest Info */}
-      <div className="mt-8 bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Contest Rules</h3>
-        <ul className="text-gray-700 space-y-2">
+      <div className="mt-8 card bg-hackerrank-green/10 border-hackerrank-green/20">
+        <h3 className="text-lg font-medium text-hackerrank-green mb-4">Contest Rules</h3>
+        <ul className="text-hackerrank-textSecondary space-y-2">
           <li>• You have 1 hour to complete all 3 problems</li>
           <li>• Choose from Python, Java, C++, or JavaScript</li>
           <li>• Your code is automatically saved as you type</li>

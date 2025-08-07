@@ -82,10 +82,10 @@ export const Timer: React.FC<TimerProps> = ({
   const progressPercentage = (timerState.timeLeft / initialTime) * 100
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="card">
       {/* Notification */}
       {notification && (
-        <div className="px-6 py-3 bg-yellow-50 border-b border-yellow-200 text-yellow-800 text-sm">
+        <div className="px-6 py-3 bg-yellow-500/20 border-b border-yellow-500/30 text-yellow-400 text-sm">
           {notification}
         </div>
       )}
@@ -97,28 +97,28 @@ export const Timer: React.FC<TimerProps> = ({
               <div className={`text-2xl font-mono font-bold ${timerColorClass}`}>
                 {formatTime(timerState.timeLeft)}
               </div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-hackerrank-textSecondary">
                 {timerState.timeLeft <= 0 ? 'Time\'s up!' : 'remaining'}
               </div>
             </div>
             
             {/* Progress indicator */}
             <div className="flex items-center space-x-2">
-              <div className="w-32 bg-gray-200 rounded-full h-2">
+              <div className="w-32 bg-hackerrank-border rounded-full h-2">
                 <div
                   className={`h-2 rounded-full transition-all duration-1000 ${
                     timerState.timeLeft <= 300 
                       ? 'bg-red-500' 
                       : timerState.timeLeft <= 1800 
-                      ? 'bg-orange-500' 
-                      : 'bg-green-500'
+                      ? 'bg-yellow-500' 
+                      : 'bg-hackerrank-green'
                   }`}
                   style={{
                     width: `${progressPercentage}%`
                   }}
                 />
               </div>
-              <span className="text-xs text-gray-500 min-w-0">
+              <span className="text-xs text-hackerrank-textSecondary min-w-0">
                 {Math.round(progressPercentage)}%
               </span>
             </div>
