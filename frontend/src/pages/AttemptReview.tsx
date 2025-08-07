@@ -5,7 +5,7 @@ import { CodeEditor } from '../components/CodeEditor'
 import { decodeHtmlEntities } from '../utils/html'
 import { attemptAPI, contestAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
-import { statusColors, getStatusText, difficultyColors } from '../utils/language'
+import { statusColors, getStatusText } from '../utils/language'
 
 export const AttemptReview: React.FC = () => {
   const { attemptId } = useParams<{ attemptId: string }>()
@@ -227,9 +227,6 @@ export const AttemptReview: React.FC = () => {
                   <h3 className="text-lg font-semibold text-meta-text">
                     {currentQuestion.title}
                   </h3>
-                  <span className={`badge ${difficultyColors[currentQuestion.difficulty]} border`}>
-                    {currentQuestion.difficulty}
-                  </span>
                 </div>
                 
                 <div className="prose prose-sm max-w-none mb-4 text-meta-textSecondary">
@@ -238,7 +235,6 @@ export const AttemptReview: React.FC = () => {
                 
                 <div className="pt-4 border-t border-meta-border text-sm text-meta-textSecondary">
                   <div className="flex items-center justify-between">
-                    <span>Category: {currentQuestion.category}</span>
                     <span>Problem #{currentQuestion.neetcode_number}</span>
                   </div>
                 </div>

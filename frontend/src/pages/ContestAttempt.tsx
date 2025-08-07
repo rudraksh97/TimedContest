@@ -249,17 +249,11 @@ export const ContestAttempt: React.FC = () => {
           <div className="flex-1 overflow-y-auto">
             {questions[activeQuestion - 1] && (
               <div className="p-6">
-                {/* Problem Title and Difficulty */}
+                {/* Problem Title */}
                 <div className="flex items-center justify-between mb-6">
                   <h1 className="text-2xl font-bold text-meta-text">
                     {questions[activeQuestion - 1]?.title}
                   </h1>
-                  <span className={`glass rounded-full px-3 py-1 text-xs font-semibold ${
-                    questions[activeQuestion - 1]?.difficulty === 'Easy' ? 'text-green-600' :
-                    questions[activeQuestion - 1]?.difficulty === 'Medium' ? 'text-yellow-600' : 'text-red-600'
-                  }`}>
-                    {questions[activeQuestion - 1]?.difficulty}
-                  </span>
                 </div>
                 
                 {/* Problem Description */}
@@ -274,7 +268,6 @@ export const ContestAttempt: React.FC = () => {
                 {/* Problem Info */}
                 <div className="glass rounded-xl p-4 text-sm">
                   <div className="flex items-center justify-between text-meta-textSecondary">
-                    <span><strong>Category:</strong> {questions[activeQuestion - 1]?.category}</span>
                     <span><strong>Problem:</strong> #{questions[activeQuestion - 1]?.neetcode_number}</span>
                   </div>
                 </div>

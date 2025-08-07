@@ -8,7 +8,7 @@ import re
 import html
 from typing import Dict, List, Optional
 from database import SessionLocal
-from models import Question, Contest, Difficulty
+from models import Question, Contest, Difficulty, Attempt
 from sqlalchemy.orm import Session
 
 def clean_html_content(content: str) -> str:
@@ -18,17 +18,73 @@ def clean_html_content(content: str) -> str:
     if not content:
         return ""
     
-    # Decode HTML entities first (like &nbsp;, &amp;, etc.)
+    # Decode HTML entities first (like &nbsp;, &amp;, &lt;, &gt;, etc.)
     content = html.unescape(content)
     
-    # Remove HTML tags but preserve structure
+    # Handle superscript tags properly (e.g., 10<sup>4</sup> -> 10^4)
+    content = re.sub(r'<sup>([^<]+)</sup>', r'^\1', content)
+    
+    # Handle subscript tags (e.g., <sub>2</sub> -> _2)
+    content = re.sub(r'<sub>([^<]+)</sub>', r'_\1', content)
+    
+    # Handle code tags (e.g., <code>nums</code> -> `nums`)
+    # But first, make sure HTML entities in code tags are decoded
+    content = re.sub(r'<code>([^<]+)</code>', lambda m: f'`{html.unescape(m.group(1))}`', content)
+    
+    # Handle strong tags (e.g., <strong>Example</strong> -> **Example**)
+    content = re.sub(r'<strong>([^<]+)</strong>', r'**\1**', content)
+    
+    # Handle emphasis tags (e.g., <em>exactly</em> -> *exactly*)
+    content = re.sub(r'<em>([^<]+)</em>', r'*\1*', content)
+    
+    # Handle paragraph tags
+    content = re.sub(r'<p>([^<]*)</p>', r'\1\n\n', content)
+    
+    # Handle list items - process them step by step
+    # First, replace <li> tags with bullet points
+    content = re.sub(r'<li>', r'• ', content)
+    content = re.sub(r'</li>', r'', content)
+    
+    # Handle unordered lists
+    content = re.sub(r'<ul>', r'', content)
+    content = re.sub(r'</ul>', r'', content)
+    
+    # Handle ordered lists
+    content = re.sub(r'<ol>', r'', content)
+    content = re.sub(r'</ol>', r'', content)
+    
+    # Handle pre tags (code blocks)
+    content = re.sub(r'<pre>([^<]*)</pre>', r'```\n\1\n```', content)
+    
+    # Handle div tags with class
+    content = re.sub(r'<div[^>]*>([^<]*)</div>', r'\1', content)
+    
+    # Handle span tags
+    content = re.sub(r'<span[^>]*>([^<]*)</span>', r'\1', content)
+    
+    # Remove remaining HTML tags but preserve structure
     content = re.sub(r'<[^>]+>', '', content)
     
-    # Clean up extra whitespace
+    # Clean up extra whitespace and newlines
     content = re.sub(r'\n\s*\n', '\n\n', content)
+    content = re.sub(r' +', ' ', content)
+    content = re.sub(r'•\s+•', '•', content)  # Fix double bullets
+    content = re.sub(r'•\s*•', '•', content)  # Fix consecutive bullets
+    
+    # Clean up any remaining HTML entities that might have been missed
+    content = html.unescape(content)
+    
+    # Final cleanup of extra spaces and formatting
+    content = re.sub(r'•\s+', '• ', content)  # Ensure proper spacing after bullets
     content = content.strip()
     
     return content
+
+def add_leetcode_link(title_slug: str) -> str:
+    """
+    Add LeetCode problem link to the description
+    """
+    return f"\n\n**LeetCode Problem:** https://leetcode.com/problems/{title_slug}/"
 
 def extract_code_snippet(code_snippets: List[Dict], language: str) -> Optional[str]:
     """
@@ -79,6 +135,9 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
             # Clean the content
             description = clean_html_content(content)
             
+            # Add LeetCode problem link
+            description += add_leetcode_link(title_slug)
+            
             # Extract code templates
             python_template = extract_code_snippet(code_snippets, "python")
             java_template = extract_code_snippet(code_snippets, "java")
@@ -123,45 +182,62 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
 
 def create_contests(db: Session, title_to_id: Dict[str, int], questions_per_contest: int = 3) -> None:
     """
-    Create contests with random questions
+    Create 50 balanced contests with questions ordered from low to high difficulty
     """
-    print("Creating contests...")
+    print("Creating 50 balanced contests...")
     
-    question_ids = list(title_to_id.values())
-    total_questions = len(question_ids)
+    # Get all questions with their difficulty levels
+    questions = []
+    for title_slug, question_id in title_to_id.items():
+        question = db.query(Question).filter(Question.id == question_id).first()
+        if question:
+            questions.append({
+                'id': question.id,
+                'difficulty': question.difficulty,
+                'title': question.title
+            })
     
-    if total_questions < questions_per_contest:
-        print(f"❌ Not enough questions ({total_questions}) to create contests with {questions_per_contest} questions each")
+    # Sort questions by difficulty (Easy -> Medium -> Hard)
+    difficulty_order = {'Easy': 1, 'Medium': 2, 'Hard': 3}
+    questions.sort(key=lambda x: difficulty_order[x['difficulty']])
+    
+    total_questions = len(questions)
+    target_contests = 50
+    
+    if total_questions < target_contests * questions_per_contest:
+        print(f"❌ Not enough questions ({total_questions}) to create {target_contests} contests with {questions_per_contest} questions each")
         return
     
-    # Create contests
-    contest_number = 1
-    for i in range(0, total_questions - questions_per_contest + 1, questions_per_contest):
+    # Create exactly 50 contests
+    for contest_number in range(1, target_contests + 1):
         try:
-            # Get questions for this contest
-            contest_questions = question_ids[i:i + questions_per_contest]
+            # Calculate question indices for this contest
+            start_idx = (contest_number - 1) * questions_per_contest
+            end_idx = start_idx + questions_per_contest
             
-            if len(contest_questions) < questions_per_contest:
+            if end_idx > total_questions:
+                print(f"❌ Not enough questions for contest {contest_number}")
                 break
+            
+            # Get questions for this contest (already sorted by difficulty)
+            contest_questions = questions[start_idx:end_idx]
             
             contest = Contest(
                 name=f"Contest {contest_number}",
-                question1_id=contest_questions[0],
-                question2_id=contest_questions[1] if len(contest_questions) > 1 else None,
-                question3_id=contest_questions[2] if len(contest_questions) > 2 else None
+                question1_id=contest_questions[0]['id'],
+                question2_id=contest_questions[1]['id'] if len(contest_questions) > 1 else None,
+                question3_id=contest_questions[2]['id'] if len(contest_questions) > 2 else None
             )
             
             db.add(contest)
-            print(f"✅ Created Contest {contest_number} with {len(contest_questions)} questions")
-            
-            contest_number += 1
+            print(f"✅ Created Contest {contest_number} with questions: {[q['title'][:30] + '...' for q in contest_questions]}")
             
         except Exception as e:
             print(f"❌ Error creating contest {contest_number}: {e}")
             continue
     
     db.commit()
-    print(f"Successfully created {contest_number - 1} contests!")
+    print(f"Successfully created {target_contests} contests!")
 
 def main():
     """
@@ -175,8 +251,11 @@ def main():
         existing_questions = db.query(Question).count()
         if existing_questions > 0:
             print(f"⚠️  Database already has {existing_questions} questions. Clearing...")
-            db.query(Question).delete()
+            # Clear attempts first to avoid foreign key constraint violations
+            db.query(Attempt).delete()
+            # Clear contests before clearing questions
             db.query(Contest).delete()
+            db.query(Question).delete()
             db.commit()
         
         # Seed questions

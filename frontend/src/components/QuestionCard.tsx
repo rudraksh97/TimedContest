@@ -1,6 +1,5 @@
 import React from 'react'
 import { Question, Language } from '../types'
-import { difficultyColors } from '../utils/language'
 import { decodeHtmlEntities } from '../utils/html'
 
 interface QuestionCardProps {
@@ -35,9 +34,6 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             <span className="bg-meta-lighter text-meta-text px-3 py-1.5 rounded-lg text-sm font-semibold">
               Question {questionNumber}
             </span>
-            <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${difficultyColors[question.difficulty]}`}>
-              {question.difficulty}
-            </span>
             {hasCode && (
               <span className="bg-meta-success/10 text-meta-success px-3 py-1.5 rounded-lg text-xs font-semibold border border-meta-success/20">
                 Code Written
@@ -54,7 +50,6 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           </p>
           
           <div className="flex items-center justify-between text-xs text-meta-textSecondary">
-            <span className="font-medium">{question.category}</span>
             <span className="font-mono">#{question.neetcode_number}</span>
           </div>
           
