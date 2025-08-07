@@ -20,39 +20,38 @@ export default {
           900: '#792e14',
         },
         meta: {
-          // Main brand colors - Warm brown
-          blue: '#d97706',
-          blueDark: '#b45309',
-          blueLight: '#f59e0b',
+          // Main brand colors - Monochromatic greys
+          primary: '#374151',
+          primaryDark: '#1f2937',
+          primaryLight: '#6b7280',
           
-          // Background colors - Light, warm whites and creams
-          dark: '#fefefe',
-          darker: '#fafaf9',
-          light: '#fefcfb',
-          lighter: '#fef3f2',
+          // Background colors - Clean whites and light greys
+          dark: '#ffffff',
+          darker: '#f9fafb',
+          light: '#f3f4f6',
+          lighter: '#e5e7eb',
           
-          // Text colors - Rich browns and grays
-          text: '#292524',
-          textSecondary: '#57534e',
-          textMuted: '#78716c',
+          // Text colors - Grey scale hierarchy
+          text: '#111827',
+          textSecondary: '#6b7280',
+          textMuted: '#9ca3af',
           
-          // Border colors - Soft, warm borders
-          border: '#e7e5e4',
+          // Border colors - Subtle grey borders
+          border: '#e5e7eb',
           borderLight: '#f3f4f6',
           
-          // Accent colors - Warm, earthy tones
-          purple: '#a855f7',
-          purpleLight: '#c084fc',
-          yellow: '#f59e0b',
-          yellowLight: '#fbbf24',
-          red: '#ef4444',
-          redLight: '#f87171',
+          // Status colors - Monochromatic versions
+          success: '#374151',
+          warning: '#6b7280',
+          error: '#374151',
+          info: '#9ca3af',
           
-          // Status colors - Muted, warm versions
-          success: '#059669',
-          warning: '#d97706',
-          error: '#dc2626',
-          info: '#2563eb',
+          // Glass effect colors - Pure whites and greys
+          glass: 'rgba(255, 255, 255, 0.8)',
+          glassDark: 'rgba(255, 255, 255, 0.6)',
+          glassLight: 'rgba(255, 255, 255, 0.95)',
+          glassBorder: 'rgba(0, 0, 0, 0.1)',
+          glassOverlay: 'rgba(0, 0, 0, 0.05)',
         }
       },
       fontFamily: {

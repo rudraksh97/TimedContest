@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Contest, Attempt } from '../types'
 import { contestAPI, attemptAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
-import { difficultyColors, statusColors, getStatusText } from '../utils/language'
+import { statusColors, getStatusText } from '../utils/language'
 
 export const ContestDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -86,8 +86,6 @@ export const ContestDetails: React.FC = () => {
     )
   }
 
-  const questions = [contest.question1, contest.question2, contest.question3].filter(Boolean)
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
@@ -129,39 +127,6 @@ export const ContestDetails: React.FC = () => {
               {startingContest ? 'Starting...' : 'Start Contest'}
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* Problems */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-meta-text mb-6">Problems</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {questions.map((question, index) => (
-            <div key={question?.id} className="card meta-card-hover gradient-card">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <span className="text-lg font-bold text-meta-textSecondary">
-                    {index + 1}.
-                  </span>
-                  <h3 className="font-bold text-meta-text text-lg">{question?.title}</h3>
-                </div>
-                {question && (
-                  <span className={`badge ${difficultyColors[question.difficulty]} border`}>
-                    {question.difficulty}
-                  </span>
-                )}
-              </div>
-              
-              <p className="text-sm text-meta-textSecondary mb-4 line-clamp-3">
-                {question?.description}
-              </p>
-              
-              <div className="flex items-center justify-between text-xs text-meta-textSecondary">
-                <span className="font-medium">{question?.category}</span>
-                <span className="font-mono">#{question?.neetcode_number}</span>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -253,37 +218,6 @@ export const ContestDetails: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Contest Info */}
-      <div className="mt-8 card bg-meta-success/10 border-meta-success/20 gradient-card">
-        <h3 className="text-lg font-semibold text-meta-success mb-4">Contest Rules</h3>
-        <ul className="text-meta-textSecondary space-y-2">
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>You have 1 hour to complete all 3 problems</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Choose from Python, Java, C++, or JavaScript</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Your code is automatically saved as you type</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>You'll receive notifications at 30 minutes and 5 minutes remaining</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>You can finish early or let the timer expire</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Multiple attempts are allowed</span>
-          </li>
-        </ul>
-      </div>
     </div>
   )
 }

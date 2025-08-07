@@ -23,7 +23,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const saveTimeoutRef = useRef<NodeJS.Timeout>()
+  const saveTimeoutRef = useRef<number>()
 
   useEffect(() => {
     fetchData()

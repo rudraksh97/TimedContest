@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Navigation } from './components/Navigation'
 import { ContestList } from './pages/ContestList'
@@ -10,7 +10,7 @@ import { AttemptReview } from './pages/AttemptReview'
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-br from-white to-gray-50">
+      <div className="min-h-screen gradient-bg">
         <Navigation />
         <main>
           <Routes>

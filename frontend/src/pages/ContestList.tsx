@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ContestSummary } from '../types'
 import { contestAPI } from '../services/api'
+import { Clock, Code, Trophy, Target, CheckCircle, PlayCircle, RotateCcw } from 'lucide-react'
 
 export const ContestList: React.FC = () => {
   const [contests, setContests] = useState<ContestSummary[]>([])
@@ -40,9 +41,9 @@ export const ContestList: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
           <div className="h-8 bg-meta-lighter rounded-xl w-1/4 mb-6"></div>
-          <div className="grid grid-cols-1 gap-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-16 bg-meta-lighter rounded-xl"></div>
+          <div className="grid grid-cols-10 gap-3">
+            {[...Array(50)].map((_, i) => (
+              <div key={i} className="h-20 bg-slate-200 rounded-lg animate-pulse"></div>
             ))}
           </div>
         </div>
@@ -51,195 +52,173 @@ export const ContestList: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-meta-text mb-3 bg-gradient-to-r from-meta-text to-meta-textSecondary bg-clip-text text-transparent">
-          Problems
-        </h1>
-        <p className="text-meta-textSecondary text-lg">
-          Practice coding with timed contests. Each contest contains 3 carefully selected problems.
-        </p>
-      </div>
+    <div className="max-w-full mx-auto px-6 py-4">
+
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="card meta-card-hover gradient-card">
-          <div className="flex items-center">
-            <div className="flex-1">
-              <p className="text-sm font-medium text-meta-textSecondary">Total Problems</p>
-              <p className="text-3xl font-bold text-meta-text">{stats.total * 3}</p>
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-slate-100 rounded-xl">
+              <Target className="w-6 h-6 text-slate-600" />
             </div>
-            <div className="w-12 h-12 bg-meta-success/20 rounded-xl flex items-center justify-center">
-              <div className="w-6 h-6 bg-meta-success rounded-lg"></div>
-            </div>
-          </div>
-        </div>
-
-        <div className="card meta-card-hover gradient-card">
-          <div className="flex items-center">
-            <div className="flex-1">
-              <p className="text-sm font-medium text-meta-textSecondary">Attempted</p>
-              <p className="text-3xl font-bold text-meta-text">{stats.attempted}</p>
-            </div>
-            <div className="w-12 h-12 bg-meta-warning/20 rounded-xl flex items-center justify-center">
-              <div className="w-6 h-6 bg-meta-warning rounded-lg"></div>
+            <div>
+              <p className="text-xs font-medium text-slate-500">Total Challenges</p>
+              <p className="text-2xl font-bold text-slate-800">{stats.total}</p>
             </div>
           </div>
         </div>
 
-        <div className="card meta-card-hover gradient-card">
-          <div className="flex items-center">
-            <div className="flex-1">
-              <p className="text-sm font-medium text-meta-textSecondary">Solved</p>
-              <p className="text-3xl font-bold text-meta-text">{stats.completed}</p>
+        <div className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-blue-50 rounded-xl">
+              <Clock className="w-6 h-6 text-blue-600" />
             </div>
-            <div className="w-12 h-12 bg-meta-success/20 rounded-xl flex items-center justify-center">
-              <div className="w-6 h-6 bg-meta-success rounded-lg"></div>
+            <div>
+              <p className="text-xs font-medium text-slate-500">In Progress</p>
+              <p className="text-2xl font-bold text-slate-800">{stats.attempted}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-emerald-50 rounded-xl">
+              <Trophy className="w-6 h-6 text-emerald-600" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-slate-500">Completed</p>
+              <p className="text-2xl font-bold text-slate-800">{stats.completed}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="border-b border-meta-border mb-6">
-        <nav className="-mb-px flex space-x-8">
+      <div className="flex justify-between items-center mb-6">
+        <div></div>
+        <div className="bg-slate-100 rounded-2xl p-2 inline-flex space-x-2">
           <button
             onClick={() => setFilter('all')}
-            className={`py-3 px-1 border-b-2 font-semibold text-sm transition-all duration-200 ${
+            className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
               filter === 'all'
-                ? 'border-meta-blue text-meta-blue'
-                : 'border-transparent text-meta-textSecondary hover:text-meta-text hover:border-meta-border'
+                ? 'bg-slate-800 text-white shadow-md transform scale-105'
+                : 'text-slate-600 hover:text-slate-800 hover:bg-slate-200'
             }`}
           >
-            All ({contests.length})
+            All Contests
+            <span className={`ml-3 px-3 py-1 rounded-full text-xs ${
+              filter === 'all' 
+                ? 'bg-white/20 text-white' 
+                : 'bg-slate-200 text-slate-600'
+            }`}>
+              {contests.length}
+            </span>
           </button>
           <button
             onClick={() => setFilter('not-attempted')}
-            className={`py-3 px-1 border-b-2 font-semibold text-sm transition-all duration-200 ${
+            className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
               filter === 'not-attempted'
-                ? 'border-meta-blue text-meta-blue'
-                : 'border-transparent text-meta-textSecondary hover:text-meta-text hover:border-meta-border'
+                ? 'bg-blue-600 text-white shadow-md transform scale-105'
+                : 'text-slate-600 hover:text-slate-800 hover:bg-slate-200'
             }`}
           >
-            Todo ({contests.length - stats.attempted})
+            New
+            <span className={`ml-3 px-3 py-1 rounded-full text-xs ${
+              filter === 'not-attempted' 
+                ? 'bg-white/20 text-white' 
+                : 'bg-slate-200 text-slate-600'
+            }`}>
+              {contests.length - stats.attempted}
+            </span>
           </button>
           <button
             onClick={() => setFilter('attempted')}
-            className={`py-3 px-1 border-b-2 font-semibold text-sm transition-all duration-200 ${
+            className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
               filter === 'attempted'
-                ? 'border-meta-blue text-meta-blue'
-                : 'border-transparent text-meta-textSecondary hover:text-meta-text hover:border-meta-border'
+                ? 'bg-emerald-600 text-white shadow-md transform scale-105'
+                : 'text-slate-600 hover:text-slate-800 hover:bg-slate-200'
             }`}
           >
-            Attempted ({stats.attempted})
+            Started
+            <span className={`ml-3 px-3 py-1 rounded-full text-xs ${
+              filter === 'attempted' 
+                ? 'bg-white/20 text-white' 
+                : 'bg-slate-200 text-slate-600'
+            }`}>
+              {stats.attempted}
+            </span>
           </button>
-        </nav>
+        </div>
+        <div></div>
       </div>
 
-      {/* Contest List */}
-      <div className="card p-0 overflow-hidden gradient-card">
-        <div className="px-6 py-4 bg-meta-lighter/50 border-b border-meta-border">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-meta-text">Contests</h3>
-            <div className="text-sm text-meta-textSecondary">
-              {filteredContests.length} contest{filteredContests.length !== 1 ? 's' : ''}
+      {/* Contest Grid */}
+      <div className="grid grid-cols-10 gap-3">
+        {filteredContests.length === 0 ? (
+          <div className="col-span-full">
+            <div className="bg-slate-50 rounded-3xl p-12 text-center border-2 border-slate-200">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-800 rounded-full mb-6 shadow-lg">
+                <Target className="w-10 h-10 text-slate-200" />
+              </div>
+              <div className="text-2xl font-bold text-slate-800 mb-3">
+                {filter === 'attempted' 
+                  ? "Ready to Begin Your Coding Journey?"
+                  : filter === 'not-attempted'
+                  ? "Amazing! You're on a Roll!"
+                  : "Your Coding Adventure Awaits!"}
+              </div>
+              <p className="text-slate-600 text-lg max-w-md mx-auto leading-relaxed">
+                {filter === 'attempted' 
+                  ? "Time to dive into your first coding challenge! Pick any contest and start building your skills."
+                  : filter === 'not-attempted'
+                  ? "You've tackled all available challenges! New contests are coming soon. Keep checking back!"
+                  : "We're preparing exciting coding challenges just for you. Check back soon for fresh problems to solve!"}
+              </p>
+              {filter === 'attempted' && (
+                <button 
+                  onClick={() => setFilter('not-attempted')}
+                  className="mt-6 px-8 py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  Show Me Fresh Challenges
+                </button>
+              )}
             </div>
           </div>
-        </div>
-
-        <div className="divide-y divide-meta-border">
-          {filteredContests.length === 0 ? (
-            <div className="px-6 py-12 text-center">
-              <div className="text-meta-textSecondary mb-2 text-lg font-medium">No contests found</div>
-              <p className="text-sm text-meta-textSecondary">
-                {filter === 'attempted' 
-                  ? "You haven't attempted any contests yet."
-                  : filter === 'not-attempted'
-                  ? "All contests have been attempted."
-                  : "No contests available."}
-              </p>
-            </div>
-          ) : (
-            filteredContests.map((contest) => (
-              <div key={contest.id} className="px-6 py-4 hover:bg-meta-lighter/50 transition-all duration-200">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className={`status-indicator ${
-                        contest.last_attempt_status === 'completed' 
-                          ? 'status-completed'
-                          : contest.has_attempts
-                          ? 'status-attempted'
-                          : 'status-not-attempted'
-                      }`}></div>
-                    </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3">
-                        <Link 
-                          to={`/contest/${contest.id}`}
-                          className="text-meta-blue hover:text-meta-blueLight font-semibold text-lg transition-colors"
-                        >
-                          {contest.name}
-                        </Link>
-                        {contest.last_attempt_status === 'completed' && (
-                          <span className="badge badge-success">Solved</span>
-                        )}
-                        {contest.has_attempts && contest.last_attempt_status !== 'completed' && (
-                          <span className="badge badge-warning">Attempted</span>
-                        )}
-                      </div>
-                      <div className="mt-1 text-sm text-meta-textSecondary">
-                        3 problems • 1 hour time limit • Multiple languages
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-3">
-                    <div className="text-sm text-meta-textSecondary">
-                      {contest.has_attempts ? 'Attempted' : 'New'}
-                    </div>
-                    <Link
-                      to={`/contest/${contest.id}`}
-                      className="btn btn-primary btn-sm"
-                    >
-                      {contest.has_attempts ? 'View' : 'Start'}
-                    </Link>
+        ) : (
+          filteredContests.map((contest) => {
+            return (
+              <Link
+                key={contest.id}
+                to={`/contest/${contest.id}`}
+                className="bg-white rounded-lg p-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 flex flex-col h-20 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`w-2 h-2 rounded-full ${
+                    contest.last_attempt_status === 'completed' 
+                      ? 'bg-green-500' 
+                      : contest.has_attempts 
+                        ? 'bg-blue-500'
+                        : 'bg-gray-300'
+                  }`}></span>
+                  <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-xs">
+                    →
                   </div>
                 </div>
-              </div>
-            ))
-          )}
-        </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+                    {contest.name}
+                  </h3>
+                  <p className="text-xs text-gray-500">3 Problems</p>
+                </div>
+              </Link>
+            )
+          })
+        )}
       </div>
 
-      {/* Help Section */}
-      <div className="mt-8 card bg-meta-success/10 border-meta-success/20 gradient-card">
-        <h3 className="text-lg font-semibold text-meta-success mb-3">How it works</h3>
-        <ul className="text-meta-textSecondary space-y-2 text-sm">
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Each contest contains 3 carefully selected problems</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>You have 1 hour to solve all problems</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Choose from Python, Java, C++, or JavaScript</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Your progress is automatically saved</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <div className="w-1.5 h-1.5 bg-meta-success rounded-full"></div>
-            <span>Get notifications at 30 minutes and 5 minutes remaining</span>
-          </li>
-        </ul>
-      </div>
+
     </div>
   )
 }

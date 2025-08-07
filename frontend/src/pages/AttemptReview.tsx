@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Attempt } from '../types'
 import { attemptAPI } from '../services/api'
 import { CodeEditor } from '../components/CodeEditor'
@@ -8,7 +8,7 @@ import { formatTime } from '../utils/timer'
 
 export const AttemptReview: React.FC = () => {
   const { attemptId } = useParams<{ attemptId: string }>()
-  const navigate = useNavigate()
+
   const [attempt, setAttempt] = useState<Attempt | null>(null)
   const [activeQuestion, setActiveQuestion] = useState(1)
   const [loading, setLoading] = useState(true)
