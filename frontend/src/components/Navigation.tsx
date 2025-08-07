@@ -11,27 +11,27 @@ export const Navigation: React.FC = () => {
   }
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-hackerrank-darker border-b border-hackerrank-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-14">
+        <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link 
               to="/" 
-              className="flex items-center space-x-2 text-lg font-bold text-gray-900 hover:text-blue-600 transition-colors"
+              className="flex items-center space-x-3 text-lg font-bold text-hackerrank-text hover:text-hackerrank-green transition-colors"
             >
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
-                TC
+              <div className="w-10 h-10 hackerrank-gradient rounded-lg flex items-center justify-center text-hackerrank-dark text-lg font-bold shadow-lg">
+                HR
               </div>
-              <span>TimedContest</span>
+              <span className="text-xl">HackerRank</span>
             </Link>
             
             <div className="hidden md:flex space-x-1">
               <Link
                 to="/"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`nav-link ${
                   isActive('/') 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'nav-link-active' 
+                    : 'nav-link-inactive'
                 }`}
               >
                 Problems
@@ -39,10 +39,10 @@ export const Navigation: React.FC = () => {
               
               <Link
                 to="/history"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`nav-link ${
                   isActive('/history') 
-                    ? 'text-blue-600 bg-blue-50' 
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'nav-link-active' 
+                    : 'nav-link-inactive'
                 }`}
               >
                 Submissions
@@ -51,8 +51,9 @@ export const Navigation: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
+            <div className="hidden sm:flex items-center space-x-2 text-sm text-hackerrank-textSecondary">
               <span>Ready to code?</span>
+              <div className="w-2 h-2 bg-hackerrank-green rounded-full animate-pulse"></div>
             </div>
           </div>
         </div>

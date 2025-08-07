@@ -52,10 +52,10 @@ export const AttemptHistory: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+          <div className="h-8 bg-hackerrank-light rounded w-1/4 mb-6"></div>
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-20 bg-gray-200 rounded"></div>
+              <div key={i} className="h-20 bg-hackerrank-light rounded"></div>
             ))}
           </div>
         </div>
@@ -67,62 +67,62 @@ export const AttemptHistory: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Submissions</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold text-hackerrank-text mb-2">Submissions</h1>
+        <p className="text-hackerrank-textSecondary">
           Track your progress across all contest attempts
         </p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="card hackerrank-card-hover">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-600">Total</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-sm font-medium text-hackerrank-textSecondary">Total</p>
+              <p className="text-2xl font-bold text-hackerrank-text">{stats.total}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="card hackerrank-card-hover">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-600">Completed</p>
-              <p className="text-2xl font-bold text-green-600">{stats.completed}</p>
+              <p className="text-sm font-medium text-hackerrank-textSecondary">Completed</p>
+              <p className="text-2xl font-bold text-hackerrank-green">{stats.completed}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="card hackerrank-card-hover">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-600">In Progress</p>
-              <p className="text-2xl font-bold text-blue-600">{stats.inProgress}</p>
+              <p className="text-sm font-medium text-hackerrank-textSecondary">In Progress</p>
+              <p className="text-2xl font-bold text-hackerrank-green">{stats.inProgress}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="card hackerrank-card-hover">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-600">Abandoned</p>
-              <p className="text-2xl font-bold text-gray-600">{stats.abandoned}</p>
+              <p className="text-sm font-medium text-hackerrank-textSecondary">Abandoned</p>
+              <p className="text-2xl font-bold text-hackerrank-textSecondary">{stats.abandoned}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="border-b border-gray-200 mb-6">
+      <div className="border-b border-hackerrank-border mb-6">
         <nav className="-mb-px flex space-x-8">
           {(['all', 'completed', 'in_progress', 'abandoned'] as const).map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 filter === status
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-hackerrank-green text-hackerrank-green'
+                  : 'border-transparent text-hackerrank-textSecondary hover:text-hackerrank-text hover:border-hackerrank-border'
               }`}
             >
               {status === 'all' ? 'All' : getStatusText(status)} ({
@@ -137,11 +137,11 @@ export const AttemptHistory: React.FC = () => {
       </div>
 
       {/* Submissions List */}
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div className="card p-0 overflow-hidden">
         {filteredAttempts.length === 0 ? (
           <div className="px-6 py-12 text-center">
-            <div className="text-gray-400 mb-2">No submissions found</div>
-            <p className="text-sm text-gray-500 mb-4">
+            <div className="text-hackerrank-textSecondary mb-2">No submissions found</div>
+            <p className="text-sm text-hackerrank-textSecondary mb-4">
               {filter === 'all' 
                 ? "You haven't made any submissions yet."
                 : `No ${getStatusText(filter).toLowerCase()} submissions found.`}
@@ -153,15 +153,15 @@ export const AttemptHistory: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-hackerrank-border">
             {filteredAttempts.map((attempt) => (
-              <div key={attempt.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
+              <div key={attempt.id} className="px-6 py-4 hover:bg-hackerrank-darker transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-4 mb-3">
                       <Link 
                         to={`/contest/${attempt.contest_id}`}
-                        className="text-blue-600 hover:text-blue-800 font-medium"
+                        className="text-hackerrank-green hover:text-hackerrank-greenDark font-medium"
                       >
                         {attempt.contest?.name || `Contest ${attempt.contest_id}`}
                       </Link>
@@ -171,28 +171,28 @@ export const AttemptHistory: React.FC = () => {
                       </span>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-hackerrank-textSecondary">
                       <div>
-                        <span className="text-gray-500">Started:</span>
-                        <div className="font-medium">
+                        <span className="text-hackerrank-textSecondary">Started:</span>
+                        <div className="font-medium text-hackerrank-text">
                           {new Date(attempt.started_at).toLocaleDateString()}
                         </div>
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs text-hackerrank-textSecondary">
                           {new Date(attempt.started_at).toLocaleTimeString()}
                         </div>
                       </div>
                       
                       {attempt.completed_at && (
                         <div>
-                          <span className="text-gray-500">Duration:</span>
-                          <div className="font-medium">
+                          <span className="text-hackerrank-textSecondary">Duration:</span>
+                          <div className="font-medium text-hackerrank-text">
                             {formatTime(attempt.duration_seconds || 0)}
                           </div>
                         </div>
                       )}
                       
                       <div>
-                        <span className="text-gray-500">Languages:</span>
+                        <span className="text-hackerrank-textSecondary">Languages:</span>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {[attempt.question1_language, attempt.question2_language, attempt.question3_language]
                             .filter(Boolean)
@@ -203,21 +203,21 @@ export const AttemptHistory: React.FC = () => {
                             ))}
                           {![attempt.question1_language, attempt.question2_language, attempt.question3_language]
                             .some(Boolean) && (
-                            <span className="text-gray-400 text-xs">None</span>
+                            <span className="text-hackerrank-textSecondary text-xs">None</span>
                           )}
                         </div>
                       </div>
                       
                       <div>
-                        <span className="text-gray-500">Problems:</span>
+                        <span className="text-hackerrank-textSecondary">Problems:</span>
                         <div className="flex space-x-1 mt-1">
                           {[1, 2, 3].map(i => (
                             <div
                               key={i}
                               className={`w-3 h-3 rounded-full ${
                                 attempt[`question${i}_code` as keyof Attempt]
-                                  ? 'bg-green-500'
-                                  : 'bg-gray-300'
+                                  ? 'bg-hackerrank-green'
+                                  : 'bg-hackerrank-border'
                               }`}
                             />
                           ))}

@@ -46,11 +46,11 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
     <div className="code-editor-container h-full flex flex-col">
       <div className="code-editor-header">
         <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium text-gray-700">{languageConfig.name}</span>
-          <span className="text-xs text-gray-500">{languageConfig.extension}</span>
+          <span className="text-sm font-medium text-hackerrank-text">{languageConfig.name}</span>
+          <span className="text-xs text-hackerrank-textSecondary">{languageConfig.extension}</span>
         </div>
         {readOnly && (
-          <div className="text-xs text-gray-500">Read Only</div>
+          <div className="text-xs text-hackerrank-textSecondary">Read Only</div>
         )}
       </div>
       
@@ -64,7 +64,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           style={{ 
             height: height === '100%' ? '100%' : height,
             minHeight: height === '100%' ? '400px' : height,
-            backgroundColor: readOnly ? '#f8f9fa' : 'white',
+            backgroundColor: readOnly ? '#2d2d2d' : '#1e1e1e',
             resize: 'none',
           }}
           placeholder={readOnly ? '' : `Write your ${languageConfig.name} code here...`}
@@ -75,7 +75,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         />
         
         {/* Line numbers overlay */}
-        <div className="absolute left-0 top-0 p-4 pointer-events-none select-none text-gray-400 text-sm font-mono leading-relaxed">
+        <div className="absolute left-0 top-0 p-4 pointer-events-none select-none text-hackerrank-textSecondary text-sm font-mono leading-relaxed">
           {value.split('\n').map((_, index) => (
             <div key={index} className="text-right pr-2" style={{ minWidth: '2em' }}>
               {index + 1}

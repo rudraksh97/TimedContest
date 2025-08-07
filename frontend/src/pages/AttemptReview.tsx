@@ -34,10 +34,10 @@ export const AttemptReview: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-hackerrank-light rounded w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="h-96 bg-gray-200 rounded"></div>
-            <div className="h-96 bg-gray-200 rounded"></div>
+            <div className="h-96 bg-hackerrank-light rounded"></div>
+            <div className="h-96 bg-hackerrank-light rounded"></div>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export const AttemptReview: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Submission not found</h1>
+          <h1 className="text-2xl font-bold text-hackerrank-text mb-4">Submission not found</h1>
           <Link to="/history" className="btn btn-primary">Back to Submissions</Link>
         </div>
       </div>
@@ -93,16 +93,16 @@ export const AttemptReview: React.FC = () => {
       <nav className="flex mb-6" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-4">
           <li>
-            <Link to="/history" className="text-gray-500 hover:text-gray-700">
+            <Link to="/history" className="text-hackerrank-textSecondary hover:text-hackerrank-text">
               Submissions
             </Link>
           </li>
           <li>
             <div className="flex items-center">
-              <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="flex-shrink-0 h-5 w-5 text-hackerrank-border" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
-              <span className="ml-4 text-sm font-medium text-gray-900">
+              <span className="ml-4 text-sm font-medium text-hackerrank-text">
                 {attempt.contest?.name || 'Review'}
               </span>
             </div>
@@ -114,10 +114,10 @@ export const AttemptReview: React.FC = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-hackerrank-text mb-2">
               Submission Review
             </h1>
-            <p className="text-gray-600">
+            <p className="text-hackerrank-textSecondary">
               {attempt.contest?.name} • Problem {activeQuestion} of 3
             </p>
           </div>
@@ -125,42 +125,42 @@ export const AttemptReview: React.FC = () => {
       </div>
 
       {/* Submission Info */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Submission Details</h2>
+      <div className="card mb-8">
+        <h2 className="text-lg font-semibold text-hackerrank-text mb-4">Submission Details</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Status</h3>
+            <h3 className="text-sm font-medium text-hackerrank-textSecondary mb-2">Status</h3>
             <span className={`badge ${statusColors[attempt.status]} border`}>
               {getStatusText(attempt.status)}
             </span>
           </div>
           
           <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Started</h3>
-            <div className="text-sm text-gray-900">
+            <h3 className="text-sm font-medium text-hackerrank-textSecondary mb-2">Started</h3>
+            <div className="text-sm text-hackerrank-text">
               {new Date(attempt.started_at).toLocaleString()}
             </div>
           </div>
           
           {attempt.completed_at && (
             <div>
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Duration</h3>
-              <div className="text-sm text-gray-900">
+              <h3 className="text-sm font-medium text-hackerrank-textSecondary mb-2">Duration</h3>
+              <div className="text-sm text-hackerrank-text">
                 {formatTime(attempt.duration_seconds || 0)}
               </div>
             </div>
           )}
           
           <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Problems Attempted</h3>
+            <h3 className="text-sm font-medium text-hackerrank-textSecondary mb-2">Problems Attempted</h3>
             <div className="flex space-x-1">
               {[1, 2, 3].map(i => (
                 <div
                   key={i}
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                     attempt[`question${i}_code` as keyof Attempt]
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-400'
+                      ? 'bg-hackerrank-green text-hackerrank-dark'
+                      : 'bg-hackerrank-light text-hackerrank-textSecondary'
                   }`}
                 >
                   {i}
@@ -173,22 +173,22 @@ export const AttemptReview: React.FC = () => {
 
       {/* Problem Navigation */}
       <div className="mb-6">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-hackerrank-border">
           <nav className="-mb-px flex space-x-8">
             {questions.map((question, index) => (
               <button
                 key={question?.id}
                 onClick={() => setActiveQuestion(index + 1)}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeQuestion === index + 1
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-hackerrank-green text-hackerrank-green'
+                    : 'border-transparent text-hackerrank-textSecondary hover:text-hackerrank-text hover:border-hackerrank-border'
                 }`}
               >
                 <div className="flex items-center space-x-2">
                   <span>{index + 1}. {question?.title}</span>
                   {attempt[`question${index + 1}_code` as keyof Attempt] && (
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-hackerrank-green rounded-full"></div>
                   )}
                 </div>
               </button>
@@ -201,13 +201,13 @@ export const AttemptReview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Problem Description */}
         <div>
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Problem Description</h2>
+          <div className="card">
+            <h2 className="text-lg font-semibold text-hackerrank-text mb-4">Problem Description</h2>
             
             {currentQuestion && (
               <div className="problem-description">
                 <div className="flex items-center space-x-3 mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-hackerrank-text">
                     {currentQuestion.title}
                   </h3>
                   <span className={`badge ${difficultyColors[currentQuestion.difficulty]} border`}>
@@ -215,11 +215,11 @@ export const AttemptReview: React.FC = () => {
                   </span>
                 </div>
                 
-                <div className="prose prose-sm max-w-none mb-4">
+                <div className="prose prose-sm max-w-none mb-4 text-hackerrank-textSecondary">
                   <p>{currentQuestion.description}</p>
                 </div>
                 
-                <div className="pt-4 border-t border-gray-200 text-sm text-gray-500">
+                <div className="pt-4 border-t border-hackerrank-border text-sm text-hackerrank-textSecondary">
                   <div className="flex items-center justify-between">
                     <span>Category: {currentQuestion.category}</span>
                     <span>Problem #{currentQuestion.neetcode_number}</span>
@@ -232,10 +232,10 @@ export const AttemptReview: React.FC = () => {
 
         {/* Code Submission */}
         <div>
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <div className="card p-0 overflow-hidden">
+            <div className="px-6 py-4 border-b border-hackerrank-border bg-hackerrank-darker">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">Your Submission</h2>
+                <h2 className="text-lg font-semibold text-hackerrank-text">Your Submission</h2>
                 {currentCode.language && (
                   <span className="badge badge-info">
                     {currentCode.language}
@@ -255,8 +255,8 @@ export const AttemptReview: React.FC = () => {
                 />
               ) : (
                 <div className="p-12 text-center">
-                  <div className="text-gray-400 mb-2">No code submitted</div>
-                  <p className="text-sm text-gray-500">
+                  <div className="text-hackerrank-textSecondary mb-2">No code submitted</div>
+                  <p className="text-sm text-hackerrank-textSecondary">
                     This problem was not attempted during the contest.
                   </p>
                 </div>

@@ -107,11 +107,9 @@ export const ContestAttempt: React.FC = () => {
   }
 
   const handleLanguageChange = (language: Language) => {
-    const questionTemplate = getTemplateForQuestion(activeQuestion, language)
-    
     const updatedCodes = {
       ...codes,
-      [activeQuestion]: { code: questionTemplate, language }
+      [activeQuestion]: { ...codes[activeQuestion as keyof typeof codes], language }
     }
     setCodes(updatedCodes)
     debouncedSave(updatedCodes)
@@ -119,10 +117,8 @@ export const ContestAttempt: React.FC = () => {
 
   const getTemplateForQuestion = (questionNum: number, language: Language): string => {
     if (!templates) return ''
-    
     const questionKey = `question${questionNum}` as keyof ContestTemplates
-    const question = templates[questionKey]
-    return question.templates[language] || ''
+    return templates[questionKey].templates[language] || ''
   }
 
   const handleTimeUp = async () => {
@@ -140,12 +136,12 @@ export const ContestAttempt: React.FC = () => {
       
       navigate(`/attempt/${attemptId}/review`)
     } catch (error) {
-      console.error('Error completing contest:', error)
+      console.error('Error finishing contest:', error)
     }
   }
 
   const abandonContest = async () => {
-    if (!confirm('Are you sure you want to abandon this contest?')) return
+    if (!confirm('Are you sure you want to exit this contest? Your progress will be saved.')) return
     
     try {
       await attemptAPI.update(attemptId!, {
@@ -160,10 +156,10 @@ export const ContestAttempt: React.FC = () => {
 
   if (loading || !attempt || !templates) {
     return (
-      <div className="h-screen flex items-center justify-center">
+      <div className="h-screen flex items-center justify-center bg-hackerrank-dark">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading contest...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-hackerrank-green mx-auto mb-4"></div>
+          <p className="text-hackerrank-textSecondary">Loading contest...</p>
         </div>
       </div>
     )
@@ -174,9 +170,9 @@ export const ContestAttempt: React.FC = () => {
   const questions = [attempt.contest?.question1, attempt.contest?.question2, attempt.contest?.question3].filter(Boolean)
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-hackerrank-dark">
       {/* Header */}
-      <div className="flex-shrink-0 border-b border-gray-200 bg-white px-6 py-4">
+      <div className="flex-shrink-0 border-b border-hackerrank-border bg-hackerrank-darker px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
@@ -187,17 +183,17 @@ export const ContestAttempt: React.FC = () => {
             </button>
             
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">
+              <h1 className="text-lg font-semibold text-hackerrank-text">
                 {attempt.contest?.name}
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-hackerrank-textSecondary">
                 Problem {activeQuestion} of 3
               </p>
             </div>
             
             {saving && (
-              <div className="flex items-center space-x-2 text-sm text-gray-500">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-400"></div>
+              <div className="flex items-center space-x-2 text-sm text-hackerrank-textSecondary">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-hackerrank-green"></div>
                 <span>Saving...</span>
               </div>
             )}
@@ -222,31 +218,31 @@ export const ContestAttempt: React.FC = () => {
       </div>
 
       {/* Timer */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-gray-200 bg-gray-50">
+      <div className="flex-shrink-0 px-6 py-4 border-b border-hackerrank-border bg-hackerrank-light">
         <Timer onTimeUp={handleTimeUp} />
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Problem Description */}
-        <div className="w-1/2 flex flex-col border-r border-gray-200">
+        <div className="w-1/2 flex flex-col border-r border-hackerrank-border">
           {/* Problem Navigation */}
-          <div className="flex-shrink-0 border-b border-gray-200 bg-white">
+          <div className="flex-shrink-0 border-b border-hackerrank-border bg-hackerrank-darker">
             <div className="flex">
               {questions.map((question, index) => (
                 <button
                   key={question?.id}
                   onClick={() => setActiveQuestion(index + 1)}
-                  className={`flex-1 px-4 py-3 text-sm font-medium border-r border-gray-200 last:border-r-0 ${
+                  className={`flex-1 px-4 py-3 text-sm font-medium border-r border-hackerrank-border last:border-r-0 transition-colors ${
                     activeQuestion === index + 1
-                      ? 'bg-blue-50 text-blue-700 border-b-2 border-blue-500'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-hackerrank-green/10 text-hackerrank-green border-b-2 border-hackerrank-green'
+                      : 'text-hackerrank-textSecondary hover:bg-hackerrank-light hover:text-hackerrank-text'
                   }`}
                 >
                   <div className="flex items-center justify-center space-x-2">
                     <span>{index + 1}. {question?.title}</span>
                     {codes[index + 1 as keyof typeof codes].code.trim() && (
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-hackerrank-green rounded-full"></div>
                     )}
                   </div>
                 </button>
@@ -255,11 +251,11 @@ export const ContestAttempt: React.FC = () => {
           </div>
 
           {/* Problem Content */}
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-6 bg-hackerrank-light">
             {questions[activeQuestion - 1] && (
               <div className="problem-description">
                 <div className="flex items-center space-x-3 mb-4">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-hackerrank-text">
                     {questions[activeQuestion - 1]?.title}
                   </h2>
                   <span className={`badge ${difficultyColors[questions[activeQuestion - 1]?.difficulty!]} border`}>
@@ -267,11 +263,11 @@ export const ContestAttempt: React.FC = () => {
                   </span>
                 </div>
                 
-                <div className="prose prose-sm max-w-none">
+                <div className="prose prose-sm max-w-none text-hackerrank-textSecondary">
                   <p>{questions[activeQuestion - 1]?.description}</p>
                 </div>
                 
-                <div className="mt-6 pt-4 border-t border-gray-200 text-sm text-gray-500">
+                <div className="mt-6 pt-4 border-t border-hackerrank-border text-sm text-hackerrank-textSecondary">
                   <div className="flex items-center justify-between">
                     <span>Category: {questions[activeQuestion - 1]?.category}</span>
                     <span>Problem #{questions[activeQuestion - 1]?.neetcode_number}</span>
@@ -285,9 +281,9 @@ export const ContestAttempt: React.FC = () => {
         {/* Right Panel - Code Editor */}
         <div className="w-1/2 flex flex-col">
           {/* Editor Header */}
-          <div className="flex-shrink-0 border-b border-gray-200 bg-white px-6 py-4">
+          <div className="flex-shrink-0 border-b border-hackerrank-border bg-hackerrank-darker px-6 py-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-gray-900">Code</h3>
+              <h3 className="text-sm font-medium text-hackerrank-text">Code</h3>
               <LanguageSelector
                 selectedLanguage={currentCode.language}
                 onChange={handleLanguageChange}

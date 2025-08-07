@@ -32,15 +32,15 @@ export const getLanguageConfig = (language: Language) => {
 };
 
 export const difficultyColors = {
-  Easy: 'text-green-600 bg-green-50 border-green-200',
-  Medium: 'text-orange-600 bg-orange-50 border-orange-200',
-  Hard: 'text-red-600 bg-red-50 border-red-200',
+  Easy: 'text-hackerrank-green bg-hackerrank-green/10 border-hackerrank-green/20',
+  Medium: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
+  Hard: 'text-red-400 bg-red-400/10 border-red-400/20',
 } as const;
 
 export const statusColors = {
-  in_progress: 'text-blue-600 bg-blue-50 border-blue-200',
-  completed: 'text-green-600 bg-green-50 border-green-200',
-  abandoned: 'text-gray-600 bg-gray-50 border-gray-200',
+  in_progress: 'text-hackerrank-green bg-hackerrank-green/10 border-hackerrank-green/20',
+  completed: 'text-hackerrank-green bg-hackerrank-green text-hackerrank-dark font-semibold',
+  abandoned: 'text-hackerrank-textSecondary bg-hackerrank-light border-hackerrank-border',
 } as const;
 
 export const getStatusText = (status: AttemptStatus): string => {
