@@ -14,7 +14,6 @@ class Difficulty(str, enum.Enum):
 class AttemptStatus(str, enum.Enum):
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
-    ABANDONED = "abandoned"
 
 class Language(str, enum.Enum):
     PYTHON = "python"

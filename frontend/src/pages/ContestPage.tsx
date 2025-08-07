@@ -183,7 +183,6 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
   }
 
   const handleTimeUp = async () => {
-    // Time is up - auto-submit the contest
     await finishContest()
   }
 
@@ -204,25 +203,6 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
       window.location.href = '/'
     } catch (err) {
       alert('Failed to complete contest')
-    }
-  }
-
-  const abandonContest = async () => {
-    if (!confirm('Are you sure you want to abandon this contest?')) return
-    
-    try {
-      if (attempt) {
-        await fetch(`http://localhost:8000/attempts/${attempt.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: 'abandoned' as AttemptStatus }),
-        })
-      }
-      
-      alert('Contest abandoned')
-      window.location.href = '/'
-    } catch (err) {
-      alert('Failed to abandon contest')
     }
   }
 
@@ -292,12 +272,6 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
                 ✅ Submit Contest
               </button>
               
-              <button
-                onClick={abandonContest}
-                className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-error text-white hover:bg-meta-error/90 focus:ring-meta-error"
-              >
-                ❌ Abandon
-              </button>
             </div>
           </div>
         </div>

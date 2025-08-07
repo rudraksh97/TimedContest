@@ -52,7 +52,6 @@ export const difficultyColors = {
 export const statusColors = {
   in_progress: 'text-meta-blue bg-meta-blue/10 border-meta-blue/20',
   completed: 'text-meta-success bg-meta-success/10 border-meta-success/20',
-  abandoned: 'text-meta-textSecondary bg-meta-lighter border-meta-border',
 } as const;
 
 export const getStatusText = (status: AttemptStatus): string => {
@@ -61,8 +60,6 @@ export const getStatusText = (status: AttemptStatus): string => {
       return 'In Progress';
     case 'completed':
       return 'Completed';
-    case 'abandoned':
-      return 'Abandoned';
     default:
       return status;
   }

@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS attempts (
     completed_at TIMESTAMP,
     duration_seconds INTEGER,
     remaining_time_seconds INTEGER DEFAULT 3600,
-    status VARCHAR(20) DEFAULT 'in_progress' CHECK (status IN ('in_progress', 'completed', 'abandoned')),
+    status VARCHAR(20) DEFAULT 'in_progress' CHECK (status IN ('in_progress', 'completed')),
     question1_code TEXT,
     question1_language VARCHAR(20) CHECK (question1_language IN ('python', 'java', 'cpp', 'javascript', 'go', 'c')),
     question2_code TEXT,

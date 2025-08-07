@@ -9,7 +9,7 @@ import { ConfirmationModal } from '../components/ConfirmationModal'
 export const AttemptHistory: React.FC = () => {
   const [attempts, setAttempts] = useState<Attempt[]>([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<'all' | 'completed' | 'in_progress' | 'abandoned'>('all')
+  const [filter, setFilter] = useState<'all' | 'completed' | 'in_progress'>('all')
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; attemptId: string | null }>({
     isOpen: false,
     attemptId: null
@@ -63,7 +63,6 @@ export const AttemptHistory: React.FC = () => {
     total: attempts.length,
     completed: completedAttempts.length,
     inProgress: attempts.filter(a => a.status === 'in_progress').length,
-    abandoned: attempts.filter(a => a.status === 'abandoned').length,
     avgTime: avgCompletionTime,
   }
 
@@ -95,7 +94,7 @@ export const AttemptHistory: React.FC = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="card meta-card-hover gradient-card">
           <div className="flex items-center">
             <div className="flex-1">
@@ -126,15 +125,6 @@ export const AttemptHistory: React.FC = () => {
         <div className="card meta-card-hover gradient-card">
           <div className="flex items-center">
             <div className="flex-1">
-              <p className="text-sm font-medium text-meta-textSecondary">Abandoned</p>
-              <p className="text-3xl font-bold text-meta-textSecondary">{stats.abandoned}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="card meta-card-hover gradient-card">
-          <div className="flex items-center">
-            <div className="flex-1">
               <p className="text-sm font-medium text-meta-textSecondary">Avg. Time</p>
               <p className="text-3xl font-bold text-meta-primary">{formatTime(stats.avgTime)}</p>
             </div>
@@ -145,7 +135,7 @@ export const AttemptHistory: React.FC = () => {
       {/* Filter Tabs */}
       <div className="border-b border-meta-border mb-6">
         <nav className="-mb-px flex space-x-8">
-          {(['all', 'completed', 'in_progress', 'abandoned'] as const).map((status) => (
+          {(['all', 'completed', 'in_progress'] as const).map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
@@ -159,7 +149,7 @@ export const AttemptHistory: React.FC = () => {
                 status === 'all' ? stats.total :
                 status === 'completed' ? stats.completed :
                 status === 'in_progress' ? stats.inProgress :
-                stats.abandoned
+                0
               })
             </button>
           ))}

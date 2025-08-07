@@ -35,7 +35,7 @@ export interface ContestSummary {
 }
 
 // Use string literal types instead of enums
-export type AttemptStatus = 'in_progress' | 'completed' | 'abandoned';
+export type AttemptStatus = 'in_progress' | 'completed';
 export type Language = 'python' | 'java' | 'cpp' | 'javascript' | 'go' | 'c';
 
 export interface Attempt {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { PlayCircle, CheckCircle, Clock, RotateCcw } from 'lucide-react'
+import { PlayCircle, CheckCircle, Clock } from 'lucide-react'
 import { ContestSummary } from '../types'
 import { statusColors, getStatusText } from '../utils/language'
 
@@ -18,8 +18,6 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
         return <CheckCircle className="w-5 h-5 text-meta-success" />
       case 'in_progress':
         return <Clock className="w-5 h-5 text-meta-success" />
-      case 'abandoned':
-        return <RotateCcw className="w-5 h-5 text-meta-textSecondary" />
       default:
         return <PlayCircle className="w-5 h-5 text-meta-textSecondary" />
     }
