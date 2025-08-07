@@ -15,9 +15,9 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
     
     switch (contest.last_attempt_status) {
       case 'completed':
-        return <CheckCircle className="w-5 h-5 text-hackerrank-green" />
+        return <CheckCircle className="w-5 h-5 text-hackerrank-success" />
       case 'in_progress':
-        return <Clock className="w-5 h-5 text-hackerrank-green" />
+        return <Clock className="w-5 h-5 text-hackerrank-success" />
       case 'abandoned':
         return <RotateCcw className="w-5 h-5 text-hackerrank-textSecondary" />
       default:
@@ -28,7 +28,7 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
   const getStatusBadge = () => {
     if (!contest.has_attempts) {
       return (
-        <span className="px-2 py-1 rounded text-xs font-medium border text-hackerrank-textSecondary bg-hackerrank-light border-hackerrank-border">
+        <span className="px-3 py-1 rounded-full text-xs font-semibold border text-hackerrank-textSecondary bg-hackerrank-light border-hackerrank-border">
           Not Attempted
         </span>
       )
@@ -38,22 +38,22 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
     const colorClass = statusColors[status]
     
     return (
-      <span className={`px-2 py-1 rounded text-xs font-medium border ${colorClass}`}>
+      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${colorClass}`}>
         {getStatusText(status)}
       </span>
     )
   }
 
   return (
-    <div className="card hackerrank-card-hover">
+    <div className="card hackerrank-card-hover gradient-card">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-semibold text-hackerrank-text">{contest.name}</h3>
+        <h3 className="text-xl font-bold text-hackerrank-text">{contest.name}</h3>
         {getStatusIcon()}
       </div>
       
       <div className="flex items-center justify-between mb-6">
         {getStatusBadge()}
-        <span className="text-sm text-hackerrank-textSecondary">3 Questions • 1 Hour</span>
+        <span className="text-sm text-hackerrank-textSecondary font-medium">3 Questions • 1 Hour</span>
       </div>
       
       <div className="flex space-x-3">

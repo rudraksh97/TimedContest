@@ -11,21 +11,23 @@ export const Navigation: React.FC = () => {
   }
 
   return (
-    <nav className="bg-hackerrank-darker border-b border-hackerrank-border sticky top-0 z-50">
+    <nav className="bg-hackerrank-darker/80 backdrop-blur-md border-b border-hackerrank-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link 
               to="/" 
-              className="flex items-center space-x-3 text-lg font-bold text-hackerrank-text hover:text-hackerrank-green transition-colors"
+              className="flex items-center space-x-3 text-lg font-bold text-hackerrank-text hover:text-hackerrank-green transition-all duration-200 group"
             >
-              <div className="w-10 h-10 hackerrank-gradient rounded-lg flex items-center justify-center text-hackerrank-dark text-lg font-bold shadow-lg">
+              <div className="w-10 h-10 hackerrank-gradient rounded-xl flex items-center justify-center text-hackerrank-dark text-lg font-bold shadow-hackerrank group-hover:shadow-hackerrank-lg transition-all duration-200">
                 HR
               </div>
-              <span className="text-xl">HackerRank</span>
+              <span className="text-xl font-extrabold bg-gradient-to-r from-hackerrank-green to-hackerrank-greenLight bg-clip-text text-transparent">
+                HackerRank
+              </span>
             </Link>
             
-            <div className="hidden md:flex space-x-1">
+            <div className="hidden md:flex space-x-2">
               <Link
                 to="/"
                 className={`nav-link ${
@@ -51,9 +53,9 @@ export const Navigation: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-2 text-sm text-hackerrank-textSecondary">
-              <span>Ready to code?</span>
-              <div className="w-2 h-2 bg-hackerrank-green rounded-full animate-pulse"></div>
+            <div className="hidden sm:flex items-center space-x-3 text-sm text-hackerrank-textSecondary">
+              <span className="font-medium">Ready to code?</span>
+              <div className="w-2 h-2 bg-hackerrank-green rounded-full animate-pulse-slow"></div>
             </div>
           </div>
         </div>

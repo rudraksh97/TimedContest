@@ -64,10 +64,10 @@ export const ContestDetails: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-hackerrank-light rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-hackerrank-light rounded-xl w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-64 bg-hackerrank-light rounded"></div>
+              <div key={i} className="h-64 bg-hackerrank-light rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -94,7 +94,7 @@ export const ContestDetails: React.FC = () => {
       <nav className="flex mb-6" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-4">
           <li>
-            <Link to="/" className="text-hackerrank-textSecondary hover:text-hackerrank-text">
+            <Link to="/" className="text-hackerrank-textSecondary hover:text-hackerrank-text transition-colors">
               Problems
             </Link>
           </li>
@@ -103,7 +103,7 @@ export const ContestDetails: React.FC = () => {
               <svg className="flex-shrink-0 h-5 w-5 text-hackerrank-border" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
-              <span className="ml-4 text-sm font-medium text-hackerrank-text">{contest.name}</span>
+              <span className="ml-4 text-sm font-semibold text-hackerrank-text">{contest.name}</span>
             </div>
           </li>
         </ol>
@@ -113,8 +113,10 @@ export const ContestDetails: React.FC = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-hackerrank-text mb-2">{contest.name}</h1>
-            <p className="text-hackerrank-textSecondary">
+            <h1 className="text-4xl font-bold text-hackerrank-text mb-3 bg-gradient-to-r from-hackerrank-text to-hackerrank-textSecondary bg-clip-text text-transparent">
+              {contest.name}
+            </h1>
+            <p className="text-hackerrank-textSecondary text-lg">
               Solve 3 problems in 1 hour • Choose your programming language
             </p>
           </div>
@@ -122,7 +124,7 @@ export const ContestDetails: React.FC = () => {
             <button
               onClick={handleStartContest}
               disabled={startingContest}
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg shadow-hackerrank-lg"
             >
               {startingContest ? 'Starting...' : 'Start Contest'}
             </button>
@@ -132,16 +134,16 @@ export const ContestDetails: React.FC = () => {
 
       {/* Problems */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-hackerrank-text mb-4">Problems</h2>
+        <h2 className="text-2xl font-bold text-hackerrank-text mb-6">Problems</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {questions.map((question, index) => (
-            <div key={question?.id} className="card hackerrank-card-hover">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm font-medium text-hackerrank-textSecondary">
+            <div key={question?.id} className="card hackerrank-card-hover gradient-card">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-lg font-bold text-hackerrank-textSecondary">
                     {index + 1}.
                   </span>
-                  <h3 className="font-semibold text-hackerrank-text">{question?.title}</h3>
+                  <h3 className="font-bold text-hackerrank-text text-lg">{question?.title}</h3>
                 </div>
                 {question && (
                   <span className={`badge ${difficultyColors[question.difficulty]} border`}>
@@ -155,8 +157,8 @@ export const ContestDetails: React.FC = () => {
               </p>
               
               <div className="flex items-center justify-between text-xs text-hackerrank-textSecondary">
-                <span>{question?.category}</span>
-                <span>#{question?.neetcode_number}</span>
+                <span className="font-medium">{question?.category}</span>
+                <span className="font-mono">#{question?.neetcode_number}</span>
               </div>
             </div>
           ))}
@@ -166,11 +168,11 @@ export const ContestDetails: React.FC = () => {
       {/* Submissions History */}
       {attempts.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold text-hackerrank-text mb-4">Your Submissions</h2>
-          <div className="card p-0 overflow-hidden">
-            <div className="px-6 py-4 bg-hackerrank-darker border-b border-hackerrank-border">
+          <h2 className="text-2xl font-bold text-hackerrank-text mb-6">Your Submissions</h2>
+          <div className="card p-0 overflow-hidden gradient-card">
+            <div className="px-6 py-4 bg-hackerrank-darker/50 border-b border-hackerrank-border">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-hackerrank-text">Submission History</h3>
+                <h3 className="text-sm font-semibold text-hackerrank-text">Submission History</h3>
                 <div className="text-sm text-hackerrank-textSecondary">
                   {attempts.length} submission{attempts.length !== 1 ? 's' : ''}
                 </div>
@@ -179,20 +181,20 @@ export const ContestDetails: React.FC = () => {
             
             <div className="divide-y divide-hackerrank-border">
               {attempts.map((attempt) => (
-                <div key={attempt.id} className="px-6 py-4">
+                <div key={attempt.id} className="px-6 py-4 hover:bg-hackerrank-darker/30 transition-all duration-200">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-4 mb-2">
+                      <div className="flex items-center space-x-4 mb-3">
                         <span className={`badge ${statusColors[attempt.status]} border`}>
                           {getStatusText(attempt.status)}
                         </span>
                         
-                        <span className="text-sm text-hackerrank-textSecondary">
+                        <span className="text-sm text-hackerrank-textSecondary font-medium">
                           {new Date(attempt.started_at).toLocaleString()}
                         </span>
                         
                         {attempt.completed_at && (
-                          <span className="text-sm text-hackerrank-textSecondary">
+                          <span className="text-sm text-hackerrank-textSecondary font-medium">
                             Duration: {formatTime(attempt.duration_seconds || 0)}
                           </span>
                         )}
@@ -201,19 +203,19 @@ export const ContestDetails: React.FC = () => {
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
                           <span className="text-hackerrank-textSecondary">Problem 1:</span>
-                          <span className="ml-2 font-medium text-hackerrank-text">
+                          <span className="ml-2 font-semibold text-hackerrank-text">
                             {attempt.question1_language || 'Not attempted'}
                           </span>
                         </div>
                         <div>
                           <span className="text-hackerrank-textSecondary">Problem 2:</span>
-                          <span className="ml-2 font-medium text-hackerrank-text">
+                          <span className="ml-2 font-semibold text-hackerrank-text">
                             {attempt.question2_language || 'Not attempted'}
                           </span>
                         </div>
                         <div>
                           <span className="text-hackerrank-textSecondary">Problem 3:</span>
-                          <span className="ml-2 font-medium text-hackerrank-text">
+                          <span className="ml-2 font-semibold text-hackerrank-text">
                             {attempt.question3_language || 'Not attempted'}
                           </span>
                         </div>
@@ -253,15 +255,33 @@ export const ContestDetails: React.FC = () => {
       )}
 
       {/* Contest Info */}
-      <div className="mt-8 card bg-hackerrank-green/10 border-hackerrank-green/20">
-        <h3 className="text-lg font-medium text-hackerrank-green mb-4">Contest Rules</h3>
+      <div className="mt-8 card bg-hackerrank-success/10 border-hackerrank-success/20 gradient-card">
+        <h3 className="text-lg font-semibold text-hackerrank-success mb-4">Contest Rules</h3>
         <ul className="text-hackerrank-textSecondary space-y-2">
-          <li>• You have 1 hour to complete all 3 problems</li>
-          <li>• Choose from Python, Java, C++, or JavaScript</li>
-          <li>• Your code is automatically saved as you type</li>
-          <li>• You'll receive notifications at 30 minutes and 5 minutes remaining</li>
-          <li>• You can finish early or let the timer expire</li>
-          <li>• Multiple attempts are allowed</li>
+          <li className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 bg-hackerrank-success rounded-full"></div>
+            <span>You have 1 hour to complete all 3 problems</span>
+          </li>
+          <li className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 bg-hackerrank-success rounded-full"></div>
+            <span>Choose from Python, Java, C++, or JavaScript</span>
+          </li>
+          <li className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 bg-hackerrank-success rounded-full"></div>
+            <span>Your code is automatically saved as you type</span>
+          </li>
+          <li className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 bg-hackerrank-success rounded-full"></div>
+            <span>You'll receive notifications at 30 minutes and 5 minutes remaining</span>
+          </li>
+          <li className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 bg-hackerrank-success rounded-full"></div>
+            <span>You can finish early or let the timer expire</span>
+          </li>
+          <li className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 bg-hackerrank-success rounded-full"></div>
+            <span>Multiple attempts are allowed</span>
+          </li>
         </ul>
       </div>
     </div>

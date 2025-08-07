@@ -9,6 +9,7 @@
   
   body {
     @apply bg-hackerrank-dark text-hackerrank-text antialiased;
+    background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
   }
   
   code, pre {
@@ -18,23 +19,23 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200;
+    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 font-semibold;
   }
   
   .btn-primary {
-    @apply bg-hackerrank-green text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-green font-semibold;
+    @apply bg-hackerrank-green text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-green shadow-hackerrank;
   }
   
   .btn-secondary {
-    @apply bg-hackerrank-light text-hackerrank-text border-hackerrank-border hover:bg-hackerrank-lighter focus:ring-hackerrank-green;
+    @apply bg-hackerrank-light text-hackerrank-text border-hackerrank-border hover:bg-hackerrank-lighter focus:ring-hackerrank-green shadow-hackerrank;
   }
   
   .btn-success {
-    @apply bg-hackerrank-green text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-green font-semibold;
+    @apply bg-hackerrank-success text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-success font-semibold shadow-hackerrank;
   }
   
   .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+    @apply bg-hackerrank-error text-white hover:bg-red-600 focus:ring-hackerrank-error shadow-hackerrank;
   }
   
   .btn-sm {
@@ -50,19 +51,19 @@
   }
   
   .badge-success {
-    @apply bg-hackerrank-green text-hackerrank-dark font-semibold;
+    @apply bg-hackerrank-success text-hackerrank-dark font-semibold;
   }
   
   .badge-warning {
-    @apply bg-yellow-500 text-hackerrank-dark font-semibold;
+    @apply bg-hackerrank-warning text-hackerrank-dark font-semibold;
   }
   
   .badge-danger {
-    @apply bg-red-500 text-white font-semibold;
+    @apply bg-hackerrank-error text-white font-semibold;
   }
   
   .badge-info {
-    @apply bg-blue-500 text-white font-semibold;
+    @apply bg-hackerrank-info text-white font-semibold;
   }
   
   .badge-secondary {
@@ -70,15 +71,15 @@
   }
   
   .difficulty-easy {
-    @apply text-hackerrank-green bg-hackerrank-green/10 border-hackerrank-green/20;
+    @apply text-hackerrank-success bg-hackerrank-success/10 border-hackerrank-success/20;
   }
   
   .difficulty-medium {
-    @apply text-yellow-400 bg-yellow-400/10 border-yellow-400/20;
+    @apply text-hackerrank-warning bg-hackerrank-warning/10 border-hackerrank-warning/20;
   }
   
   .difficulty-hard {
-    @apply text-red-400 bg-red-400/10 border-red-400/20;
+    @apply text-hackerrank-error bg-hackerrank-error/10 border-hackerrank-error/20;
   }
   
   .status-indicator {
@@ -86,11 +87,11 @@
   }
   
   .status-completed {
-    @apply bg-hackerrank-green;
+    @apply bg-hackerrank-success;
   }
   
   .status-attempted {
-    @apply bg-yellow-500;
+    @apply bg-hackerrank-warning;
   }
   
   .status-not-attempted {
@@ -98,15 +99,15 @@
   }
 
   .card {
-    @apply bg-hackerrank-light border border-hackerrank-border rounded-lg p-6 shadow-sm;
+    @apply bg-hackerrank-light border border-hackerrank-border rounded-xl p-6 shadow-hackerrank backdrop-blur-sm;
   }
 
   .nav-link {
-    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors;
+    @apply px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200;
   }
 
   .nav-link-active {
-    @apply text-hackerrank-green bg-hackerrank-green/10;
+    @apply text-hackerrank-green bg-hackerrank-green/10 border border-hackerrank-green/20;
   }
 
   .nav-link-inactive {
@@ -116,17 +117,17 @@
 
 /* Code editor styles */
 .code-editor-container {
-  @apply border border-hackerrank-border rounded-lg overflow-hidden bg-hackerrank-darker;
+  @apply border border-hackerrank-border rounded-xl overflow-hidden bg-hackerrank-darker shadow-hackerrank;
 }
 
 .code-editor-header {
-  @apply bg-hackerrank-light border-b border-hackerrank-border px-4 py-2 flex items-center justify-between;
+  @apply bg-hackerrank-light border-b border-hackerrank-border px-4 py-3 flex items-center justify-between;
 }
 
 .code-editor-textarea {
   @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none bg-hackerrank-darker text-hackerrank-text;
   font-family: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace;
-  line-height: 1.5;
+  line-height: 1.6;
   tab-size: 2;
 }
 
@@ -164,16 +165,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #2d2d2d;
+  background: #1a1f2e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #404040;
+  background: #4a5568;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #505050;
+  background: #718096;
 }
 
 /* Utility classes */
@@ -194,5 +195,22 @@
 }
 
 .hackerrank-card-hover {
-  @apply transition-all duration-200 hover:shadow-lg hover:border-hackerrank-green/30;
+  @apply transition-all duration-300 hover:shadow-hackerrank-lg hover:border-hackerrank-green/30 hover:transform hover:-translate-y-1;
+}
+
+/* Modern glass effect */
+.glass {
+  background: rgba(26, 31, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+}
+
+.gradient-card {
+  background: linear-gradient(135deg, rgba(26, 31, 46, 0.9) 0%, rgba(42, 47, 62, 0.9) 100%);
+  backdrop-filter: blur(10px);
 }

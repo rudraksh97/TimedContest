@@ -23,44 +23,44 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   
   return (
     <div 
-      className={`card cursor-pointer transition-all hover:shadow-lg ${
-        isActive ? 'ring-2 ring-hackerrank-green border-hackerrank-green' : 'hackerrank-card-hover'
+      className={`card cursor-pointer transition-all duration-300 hover:shadow-hackerrank-lg ${
+        isActive ? 'ring-2 ring-hackerrank-green border-hackerrank-green shadow-hackerrank-lg' : 'hackerrank-card-hover gradient-card'
       }`}
       onClick={onClick}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center space-x-3 mb-2">
-            <span className="bg-hackerrank-darker text-hackerrank-text px-2 py-1 rounded text-sm font-medium">
+          <div className="flex items-center space-x-3 mb-3">
+            <span className="bg-hackerrank-darker text-hackerrank-text px-3 py-1.5 rounded-lg text-sm font-semibold">
               Question {questionNumber}
             </span>
-            <span className={`px-2 py-1 rounded text-xs font-medium border ${difficultyColors[question.difficulty]}`}>
+            <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${difficultyColors[question.difficulty]}`}>
               {question.difficulty}
             </span>
             {hasCode && (
-              <span className="bg-hackerrank-green text-hackerrank-dark px-2 py-1 rounded text-xs font-medium border border-hackerrank-green font-semibold">
+              <span className="bg-hackerrank-success text-hackerrank-dark px-3 py-1.5 rounded-lg text-xs font-semibold border border-hackerrank-success">
                 Code Written
               </span>
             )}
           </div>
           
-          <h3 className="text-lg font-semibold text-hackerrank-text mb-2">
+          <h3 className="text-xl font-bold text-hackerrank-text mb-3">
             {question.title}
           </h3>
           
-          <p className="text-hackerrank-textSecondary text-sm mb-3 line-clamp-3">
+          <p className="text-hackerrank-textSecondary text-sm mb-4 line-clamp-3 leading-relaxed">
             {question.description}
           </p>
           
           <div className="flex items-center justify-between text-xs text-hackerrank-textSecondary">
-            <span>{question.category}</span>
-            <span>#{question.neetcode_number}</span>
+            <span className="font-medium">{question.category}</span>
+            <span className="font-mono">#{question.neetcode_number}</span>
           </div>
           
           {userLanguage && (
-            <div className="mt-2">
-              <span className="text-xs text-hackerrank-textSecondary">
-                Language: <span className="font-medium text-hackerrank-text">{userLanguage}</span>
+            <div className="mt-3">
+              <span className="text-xs text-hackerrank-textSecondary font-medium">
+                Language: <span className="font-semibold text-hackerrank-text">{userLanguage}</span>
               </span>
             </div>
           )}
