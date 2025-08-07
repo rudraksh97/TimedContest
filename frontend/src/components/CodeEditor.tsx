@@ -88,7 +88,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         </div>
         
         {/* Adjust textarea padding to make room for line numbers */}
-        <style jsx>{`
+        <style>{`
           .code-editor-textarea {
             padding-left: ${Math.max(2, value.split('\n').length.toString().length) * 0.7 + 3.5}rem !important;
           }

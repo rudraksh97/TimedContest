@@ -1,6 +1,6 @@
 import React from 'react'
 import { Question, Language } from '../types'
-import { decodeHtmlEntities } from '../utils/html'
+import { HtmlRenderer } from './HtmlRenderer'
 
 interface QuestionCardProps {
   question: Question
@@ -21,10 +21,23 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
 }) => {
   const hasCode = userCode && userCode.trim() !== ''
   
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty.toLowerCase()) {
+      case 'easy':
+        return 'bg-green-100 text-green-700 border-green-200'
+      case 'medium':
+        return 'bg-yellow-100 text-yellow-700 border-yellow-200'
+      case 'hard':
+        return 'bg-red-100 text-red-700 border-red-200'
+      default:
+        return 'bg-gray-100 text-gray-700 border-gray-200'
+    }
+  }
+  
   return (
     <div 
       className={`card cursor-pointer transition-all duration-300 hover:shadow-meta-lg ${
-        isActive ? 'ring-2 ring-meta-blue border-meta-blue shadow-meta-lg' : 'meta-card-hover gradient-card'
+        isActive ? 'ring-2 ring-meta-primary border-meta-primary shadow-meta-lg' : 'meta-card-hover gradient-card'
       }`}
       onClick={onClick}
     >
@@ -33,6 +46,9 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           <div className="flex items-center space-x-3 mb-3">
             <span className="bg-meta-lighter text-meta-text px-3 py-1.5 rounded-lg text-sm font-semibold">
               Question {questionNumber}
+            </span>
+            <span className={`px-2 py-1 rounded-full text-xs font-semibold border ${getDifficultyColor(question.difficulty)}`}>
+              {question.difficulty}
             </span>
             {hasCode && (
               <span className="bg-meta-success/10 text-meta-success px-3 py-1.5 rounded-lg text-xs font-semibold border border-meta-success/20">
@@ -45,12 +61,21 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             {question.title}
           </h3>
           
-          <p className="text-meta-textSecondary text-sm mb-4 line-clamp-3 leading-relaxed">
-            {decodeHtmlEntities(question.description || '')}
-          </p>
+          <HtmlRenderer 
+            content={question.description || ''}
+            className="text-meta-textSecondary text-sm mb-4 leading-relaxed"
+            maxHeight="200px"
+          />
           
           <div className="flex items-center justify-between text-xs text-meta-textSecondary">
-            <span className="font-mono">#{question.neetcode_number}</span>
+            <div className="flex items-center space-x-4">
+              <span className="font-mono">#{question.neetcode_number}</span>
+              {question.category && (
+                <span className="bg-meta-lighter px-2 py-1 rounded text-xs font-medium">
+                  {question.category}
+                </span>
+              )}
+            </div>
           </div>
           
           {userLanguage && (

@@ -11,80 +11,12 @@ from database import SessionLocal
 from models import Question, Contest, Difficulty, Attempt
 from sqlalchemy.orm import Session
 
-def clean_html_content(content: str) -> str:
-    """
-    Clean HTML content and convert to plain text with proper formatting
-    """
-    if not content:
-        return ""
-    
-    # Decode HTML entities first (like &nbsp;, &amp;, &lt;, &gt;, etc.)
-    content = html.unescape(content)
-    
-    # Handle superscript tags properly (e.g., 10<sup>4</sup> -> 10^4)
-    content = re.sub(r'<sup>([^<]+)</sup>', r'^\1', content)
-    
-    # Handle subscript tags (e.g., <sub>2</sub> -> _2)
-    content = re.sub(r'<sub>([^<]+)</sub>', r'_\1', content)
-    
-    # Handle code tags (e.g., <code>nums</code> -> `nums`)
-    # But first, make sure HTML entities in code tags are decoded
-    content = re.sub(r'<code>([^<]+)</code>', lambda m: f'`{html.unescape(m.group(1))}`', content)
-    
-    # Handle strong tags (e.g., <strong>Example</strong> -> **Example**)
-    content = re.sub(r'<strong>([^<]+)</strong>', r'**\1**', content)
-    
-    # Handle emphasis tags (e.g., <em>exactly</em> -> *exactly*)
-    content = re.sub(r'<em>([^<]+)</em>', r'*\1*', content)
-    
-    # Handle paragraph tags
-    content = re.sub(r'<p>([^<]*)</p>', r'\1\n\n', content)
-    
-    # Handle list items - process them step by step
-    # First, replace <li> tags with bullet points
-    content = re.sub(r'<li>', r'• ', content)
-    content = re.sub(r'</li>', r'', content)
-    
-    # Handle unordered lists
-    content = re.sub(r'<ul>', r'', content)
-    content = re.sub(r'</ul>', r'', content)
-    
-    # Handle ordered lists
-    content = re.sub(r'<ol>', r'', content)
-    content = re.sub(r'</ol>', r'', content)
-    
-    # Handle pre tags (code blocks)
-    content = re.sub(r'<pre>([^<]*)</pre>', r'```\n\1\n```', content)
-    
-    # Handle div tags with class
-    content = re.sub(r'<div[^>]*>([^<]*)</div>', r'\1', content)
-    
-    # Handle span tags
-    content = re.sub(r'<span[^>]*>([^<]*)</span>', r'\1', content)
-    
-    # Remove remaining HTML tags but preserve structure
-    content = re.sub(r'<[^>]+>', '', content)
-    
-    # Clean up extra whitespace and newlines
-    content = re.sub(r'\n\s*\n', '\n\n', content)
-    content = re.sub(r' +', ' ', content)
-    content = re.sub(r'•\s+•', '•', content)  # Fix double bullets
-    content = re.sub(r'•\s*•', '•', content)  # Fix consecutive bullets
-    
-    # Clean up any remaining HTML entities that might have been missed
-    content = html.unescape(content)
-    
-    # Final cleanup of extra spaces and formatting
-    content = re.sub(r'•\s+', '• ', content)  # Ensure proper spacing after bullets
-    content = content.strip()
-    
-    return content
 
 def add_leetcode_link(title_slug: str) -> str:
     """
     Add LeetCode problem link to the description
     """
-    return f"\n\n**LeetCode Problem:** https://leetcode.com/problems/{title_slug}/"
+    return f"\n\nLeetCode Problem: https://leetcode.com/problems/{title_slug}/"
 
 def extract_code_snippet(code_snippets: List[Dict], language: str) -> Optional[str]:
     """
@@ -133,7 +65,7 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
             code_snippets = question_data.get("codeSnippets", [])
             
             # Clean the content
-            description = clean_html_content(content)
+            description = content if content else ''
             
             # Add LeetCode problem link
             description += add_leetcode_link(title_slug)

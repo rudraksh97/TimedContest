@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Question, Attempt, Language } from '../types'
 import { CodeEditor } from '../components/CodeEditor'
-import { decodeHtmlEntities } from '../utils/html'
+import { HtmlRenderer } from '../components/HtmlRenderer'
 import { attemptAPI, contestAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
 import { statusColors, getStatusText } from '../utils/language'
@@ -229,8 +229,12 @@ export const AttemptReview: React.FC = () => {
                   </h3>
                 </div>
                 
-                <div className="prose prose-sm max-w-none mb-4 text-meta-textSecondary">
-                  <p>{decodeHtmlEntities(currentQuestion.description || '')}</p>
+                <div className="mb-4 text-meta-textSecondary">
+                  <HtmlRenderer 
+                    content={currentQuestion.description || ''}
+                    className="text-meta-textSecondary"
+                    maxHeight="300px"
+                  />
                 </div>
                 
                 <div className="pt-4 border-t border-meta-border text-sm text-meta-textSecondary">

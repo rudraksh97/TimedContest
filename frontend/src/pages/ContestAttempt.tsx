@@ -5,8 +5,7 @@ import { attemptAPI, contestAPI } from '../services/api'
 import { Timer } from '../components/Timer'
 import { CodeEditor } from '../components/CodeEditor'
 import { LanguageSelector } from '../components/LanguageSelector'
-import { difficultyColors } from '../utils/language'
-import { decodeHtmlEntities } from '../utils/html'
+import { HtmlRenderer } from '../components/HtmlRenderer'
 
 export const ContestAttempt: React.FC = () => {
   const { id, attemptId } = useParams<{ id: string; attemptId: string }>()
@@ -258,11 +257,11 @@ export const ContestAttempt: React.FC = () => {
                 
                 {/* Problem Description */}
                 <div className="glass rounded-2xl p-6 mb-6">
-                  <div className="prose prose-sm max-w-none text-meta-text">
-                    <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                      {decodeHtmlEntities(questions[activeQuestion - 1]?.description || '')}
-                    </div>
-                  </div>
+                  <HtmlRenderer 
+                    content={questions[activeQuestion - 1]?.description || ''}
+                    className="text-meta-text"
+                    maxHeight="400px"
+                  />
                 </div>
                 
                 {/* Problem Info */}
