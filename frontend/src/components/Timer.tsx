@@ -1,33 +1,35 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { formatTime, getTimerColor, shouldShowNotification } from '../utils/timer'
 import { TimerState } from '../types'
 
 interface TimerProps {
   initialTime?: number // in seconds, defaults to 1 hour
   startTime?: string // ISO string of when the timer should start from
+  remainingTime?: number // remaining time from database
   onTimeUp?: () => void
   onWarning?: (type: '30min' | '5min') => void
+  onTimeUpdate?: (remainingTime: number) => void // callback to save remaining time
   autoStart?: boolean
 }
 
 export const Timer: React.FC<TimerProps> = ({ 
   initialTime = 3600, 
   startTime,
+  remainingTime,
   onTimeUp, 
   onWarning,
+  onTimeUpdate,
   autoStart = true 
 }) => {
-  // Generate a unique key for localStorage based on startTime
-  const getStorageKey = () => {
-    if (!startTime) return null
-    // Create a stable key by using the startTime directly
-    const key = `timer_${startTime.replace(/[:.]/g, '_')}`
-    console.log('Generated storage key:', key, 'for startTime:', startTime)
-    return key
-  }
-
-  // Calculate remaining time based on start time if provided
+  // Calculate remaining time based on start time if provided, or use stored remaining time
   const calculateRemainingTime = () => {
+    // If we have a stored remaining time, use it (this takes priority)
+    if (remainingTime !== undefined && remainingTime !== null && remainingTime >= 0) {
+      console.log('Using stored remaining time from database:', remainingTime, 'seconds')
+      return Math.max(0, remainingTime)
+    }
+    
+    // Only calculate based on start time if no stored remaining time exists
     if (startTime && startTime !== '') {
       try {
         const startDate = new Date(startTime).getTime()
@@ -36,100 +38,65 @@ export const Timer: React.FC<TimerProps> = ({
         
         // If startDate is in the future or invalid, return initialTime
         if (elapsedSeconds < 0 || isNaN(elapsedSeconds)) {
+          console.log('Invalid start time, using initial time:', initialTime, 'seconds')
           return initialTime
         }
         
         const remaining = Math.max(0, initialTime - elapsedSeconds)
-        console.log('Calculated remaining time:', remaining, 'seconds')
+        console.log('Calculated remaining time from start time:', remaining, 'seconds (elapsed:', elapsedSeconds, 'seconds)')
         return remaining
       } catch (error) {
-        // If there's any error parsing the date, return initialTime
+        console.error('Error calculating remaining time from start time:', error)
         return initialTime
       }
     }
+    
+    console.log('No stored time or start time, using initial time:', initialTime, 'seconds')
     return initialTime
-  }
-
-  // Load timer state from localStorage
-  const loadTimerState = (): TimerState | null => {
-    const key = getStorageKey()
-    if (!key) return null
-    
-    try {
-      const stored = localStorage.getItem(key)
-      if (stored) {
-        const parsed = JSON.parse(stored)
-        // Check if the stored state is still valid (not expired)
-        if (parsed.timeLeft > 0) {
-          console.log('Loaded timer state from localStorage:', parsed)
-          return parsed
-        }
-      }
-    } catch (error) {
-      console.error('Error loading timer state from localStorage:', error)
-    }
-    return null
-  }
-
-  // Save timer state to localStorage
-  const saveTimerState = (state: TimerState) => {
-    const key = getStorageKey()
-    if (!key) return
-    
-    try {
-      localStorage.setItem(key, JSON.stringify(state))
-      console.log('Saved timer state to localStorage:', state)
-    } catch (error) {
-      console.error('Error saving timer state to localStorage:', error)
-    }
   }
 
   // Initialize timer state
   const [timerState, setTimerState] = useState<TimerState>(() => {
-    console.log('Initializing timer with startTime:', startTime)
-    
-    // Try to load from localStorage first
-    const storedState = loadTimerState()
-    if (storedState) {
-      // Use stored state but recalculate timeLeft to account for time passed
-      const currentTimeLeft = calculateRemainingTime()
-      const newState = {
-        ...storedState,
-        timeLeft: currentTimeLeft,
-        isRunning: currentTimeLeft > 0 && storedState.isRunning
-      }
-      console.log('Restored timer state:', newState)
-      return newState
-    }
-    
-    // No stored state, initialize with calculated time
     const remaining = calculateRemainingTime()
     const newState = {
       timeLeft: remaining,
       isRunning: remaining > 0 && autoStart,
-      hasWarned30Min: false,
-      hasWarned5Min: false,
+      hasWarned30Min: remaining <= 1800, // 30 minutes - already warned if time is <= 30 min
+      hasWarned5Min: remaining <= 300,   // 5 minutes - already warned if time is <= 5 min
     }
-    console.log('Initialized new timer state:', newState)
+    console.log('Initialized timer state:', newState)
     return newState
   })
 
   const [notification, setNotification] = useState<string | null>(null)
-  const isInitialized = useRef(false)
 
-  // Save timer state whenever it changes
+  // Update timer state when remainingTime prop changes (e.g., after refresh)
   useEffect(() => {
-    if (isInitialized.current) {
-      console.log('Saving timer state:', timerState)
-      saveTimerState(timerState)
+    if (remainingTime !== undefined && remainingTime !== null) {
+      const newTimeLeft = Math.max(0, remainingTime)
+      setTimerState(prev => {
+        // Only update if the time has actually changed
+        if (prev.timeLeft !== newTimeLeft) {
+          console.log('Updated timer state from remainingTime prop:', newTimeLeft, 'seconds')
+          return {
+            ...prev,
+            timeLeft: newTimeLeft,
+            isRunning: newTimeLeft > 0 && autoStart,
+            hasWarned30Min: newTimeLeft <= 1800,
+            hasWarned5Min: newTimeLeft <= 300,
+          }
+        }
+        return prev
+      })
     }
-  }, [timerState])
+  }, [remainingTime, autoStart])
 
-  // Mark as initialized after first render
+  // Save remaining time to database when it changes
   useEffect(() => {
-    isInitialized.current = true
-    console.log('Timer initialized')
-  }, [])
+    if (onTimeUpdate && timerState.timeLeft >= 0) {
+      onTimeUpdate(timerState.timeLeft)
+    }
+  }, [timerState.timeLeft, onTimeUpdate])
 
   useEffect(() => {
     let interval: number | null = null
@@ -177,13 +144,19 @@ export const Timer: React.FC<TimerProps> = ({
   }
 
   const resetTimer = () => {
+    // Ask for confirmation before resetting
+    if (!confirm('Are you sure you want to reset the timer? This will reset the remaining time to 1 hour and cannot be undone.')) {
+      return
+    }
+    
     const newState = {
-      timeLeft: calculateRemainingTime(),
+      timeLeft: initialTime, // Always reset to initial time (3600 seconds)
       isRunning: false,
       hasWarned30Min: false,
       hasWarned5Min: false,
     }
     setTimerState(newState)
+    console.log('Timer reset to initial time:', initialTime, 'seconds')
   }
 
   const timerColorClass = getTimerColor(timerState.timeLeft)

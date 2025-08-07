@@ -63,6 +63,7 @@ class Attempt(Base):
     started_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
     duration_seconds = Column(Integer)
+    remaining_time_seconds = Column(Integer, default=3600)  # Default 1 hour in seconds
     status = Column(SQLEnum(AttemptStatus), default=AttemptStatus.IN_PROGRESS)
     question1_code = Column(Text)
     question1_language = Column(SQLEnum(Language))

@@ -44,6 +44,7 @@ export interface Attempt {
   started_at: string;
   completed_at?: string;
   duration_seconds?: number;
+  remaining_time_seconds?: number;
   status: AttemptStatus;
   question1_code?: string;
   question1_language?: Language;
@@ -75,6 +76,7 @@ export interface AttemptUpdate {
   status?: AttemptStatus;
   completed_at?: string;
   duration_seconds?: number;
+  remaining_time_seconds?: number;
 }
 
 export interface QuestionTemplate {

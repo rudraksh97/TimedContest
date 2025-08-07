@@ -97,6 +97,16 @@ export const ContestAttempt: React.FC = () => {
     }
   }
 
+  const saveRemainingTime = async (remainingTime: number) => {
+    if (!attemptId) return
+    
+    try {
+      await attemptAPI.update(attemptId, { remaining_time_seconds: remainingTime })
+    } catch (error) {
+      console.error('Error saving remaining time:', error)
+    }
+  }
+
   const handleCodeChange = (questionNum: number, newCode: string) => {
     const updatedCodes = {
       ...codes,
@@ -191,7 +201,12 @@ export const ContestAttempt: React.FC = () => {
           
           {/* Center - Timer */}
           <div className="flex-1 flex justify-center">
-            <Timer onTimeUp={handleTimeUp} startTime={attempt?.started_at} />
+            <Timer 
+              onTimeUp={handleTimeUp} 
+              startTime={attempt?.started_at}
+              remainingTime={attempt?.remaining_time_seconds}
+              onTimeUpdate={saveRemainingTime}
+            />
           </div>
           
           {/* Right side */}

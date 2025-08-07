@@ -109,12 +109,14 @@ class AttemptUpdate(BaseModel):
     status: Optional[AttemptStatus] = None
     completed_at: Optional[datetime] = None
     duration_seconds: Optional[int] = None
+    remaining_time_seconds: Optional[int] = None
 
 class Attempt(AttemptBase):
     id: uuid.UUID
     started_at: datetime
     completed_at: Optional[datetime] = None
     duration_seconds: Optional[int] = None
+    remaining_time_seconds: Optional[int] = None
     status: AttemptStatus
     created_at: datetime
     contest: Optional[Contest] = None
