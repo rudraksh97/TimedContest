@@ -8,8 +8,8 @@
   }
   
   body {
-    @apply bg-hackerrank-dark text-hackerrank-text antialiased;
-    background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+    @apply bg-meta-dark text-meta-text antialiased;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   }
   
   code, pre {
@@ -23,19 +23,19 @@
   }
   
   .btn-primary {
-    @apply bg-hackerrank-green text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-green shadow-hackerrank;
+    @apply bg-meta-blue text-meta-dark hover:bg-meta-blueDark focus:ring-meta-blue shadow-meta;
   }
   
   .btn-secondary {
-    @apply bg-hackerrank-light text-hackerrank-text border-hackerrank-border hover:bg-hackerrank-lighter focus:ring-hackerrank-green shadow-hackerrank;
+    @apply bg-meta-light text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue shadow-meta;
   }
   
   .btn-success {
-    @apply bg-hackerrank-success text-hackerrank-dark hover:bg-hackerrank-greenDark focus:ring-hackerrank-success font-semibold shadow-hackerrank;
+    @apply bg-meta-success text-meta-dark hover:bg-meta-success/90 focus:ring-meta-success font-semibold shadow-meta;
   }
   
   .btn-danger {
-    @apply bg-hackerrank-error text-white hover:bg-red-600 focus:ring-hackerrank-error shadow-hackerrank;
+    @apply bg-meta-error text-white hover:bg-meta-error/90 focus:ring-meta-error shadow-meta;
   }
   
   .btn-sm {
@@ -51,35 +51,35 @@
   }
   
   .badge-success {
-    @apply bg-hackerrank-success text-hackerrank-dark font-semibold;
+    @apply bg-meta-success text-meta-dark font-semibold;
   }
   
   .badge-warning {
-    @apply bg-hackerrank-warning text-hackerrank-dark font-semibold;
+    @apply bg-meta-warning text-meta-dark font-semibold;
   }
   
   .badge-danger {
-    @apply bg-hackerrank-error text-white font-semibold;
+    @apply bg-meta-error text-white font-semibold;
   }
   
   .badge-info {
-    @apply bg-hackerrank-info text-white font-semibold;
+    @apply bg-meta-info text-white font-semibold;
   }
   
   .badge-secondary {
-    @apply bg-hackerrank-light text-hackerrank-text border border-hackerrank-border;
+    @apply bg-meta-light text-meta-text border border-meta-border;
   }
   
   .difficulty-easy {
-    @apply text-hackerrank-success bg-hackerrank-success/10 border-hackerrank-success/20;
+    @apply text-meta-success bg-meta-success/10 border-meta-success/20;
   }
   
   .difficulty-medium {
-    @apply text-hackerrank-warning bg-hackerrank-warning/10 border-hackerrank-warning/20;
+    @apply text-meta-warning bg-meta-warning/10 border-meta-warning/20;
   }
   
   .difficulty-hard {
-    @apply text-hackerrank-error bg-hackerrank-error/10 border-hackerrank-error/20;
+    @apply text-meta-error bg-meta-error/10 border-meta-error/20;
   }
   
   .status-indicator {
@@ -87,19 +87,19 @@
   }
   
   .status-completed {
-    @apply bg-hackerrank-success;
+    @apply bg-meta-success;
   }
   
   .status-attempted {
-    @apply bg-hackerrank-warning;
+    @apply bg-meta-warning;
   }
   
   .status-not-attempted {
-    @apply bg-hackerrank-border;
+    @apply bg-meta-border;
   }
 
   .card {
-    @apply bg-hackerrank-light border border-hackerrank-border rounded-xl p-6 shadow-hackerrank backdrop-blur-sm;
+    @apply bg-meta-light border border-meta-border rounded-xl p-6 shadow-meta backdrop-blur-sm;
   }
 
   .nav-link {
@@ -107,25 +107,25 @@
   }
 
   .nav-link-active {
-    @apply text-hackerrank-green bg-hackerrank-green/10 border border-hackerrank-green/20;
+    @apply text-meta-blue bg-meta-blue/10 border border-meta-blue/20;
   }
 
   .nav-link-inactive {
-    @apply text-hackerrank-textSecondary hover:text-hackerrank-text hover:bg-hackerrank-lighter;
+    @apply text-meta-textSecondary hover:text-meta-text hover:bg-meta-lighter;
   }
 }
 
 /* Code editor styles */
 .code-editor-container {
-  @apply border border-hackerrank-border rounded-xl overflow-hidden bg-hackerrank-darker shadow-hackerrank;
+  @apply border border-meta-border rounded-xl overflow-hidden bg-meta-darker shadow-meta;
 }
 
 .code-editor-header {
-  @apply bg-hackerrank-light border-b border-hackerrank-border px-4 py-3 flex items-center justify-between;
+  @apply bg-meta-light border-b border-meta-border px-4 py-3 flex items-center justify-between;
 }
 
 .code-editor-textarea {
-  @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none bg-hackerrank-darker text-hackerrank-text;
+  @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none bg-meta-darker text-meta-text;
   font-family: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace;
   line-height: 1.6;
   tab-size: 2;
@@ -165,16 +165,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1f2e;
+  background: #1e293b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4a5568;
+  background: #475569;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #718096;
+  background: #64748b;
 }
 
 /* Utility classes */
@@ -185,32 +185,32 @@
   overflow: hidden;
 }
 
-/* HackerRank specific styles */
-.hackerrank-gradient {
-  background: linear-gradient(135deg, #00ea64 0%, #00c853 100%);
+/* Meta specific styles */
+.meta-gradient {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
 }
 
-.hackerrank-shadow {
+.meta-shadow {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.hackerrank-card-hover {
-  @apply transition-all duration-300 hover:shadow-hackerrank-lg hover:border-hackerrank-green/30 hover:transform hover:-translate-y-1;
+.meta-card-hover {
+  @apply transition-all duration-300 hover:shadow-meta-lg hover:border-meta-blue/30 hover:transform hover:-translate-y-1;
 }
 
 /* Modern glass effect */
 .glass {
-  background: rgba(26, 31, 46, 0.8);
+  background: rgba(30, 41, 59, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Gradient backgrounds */
 .gradient-bg {
-  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
 .gradient-card {
-  background: linear-gradient(135deg, rgba(26, 31, 46, 0.9) 0%, rgba(42, 47, 62, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 100%);
   backdrop-filter: blur(10px);
 }

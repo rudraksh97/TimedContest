@@ -15,12 +15,12 @@ export const getTimerColor = (timeLeft: number): string => {
   const percentage = timeLeft / totalTime;
   
   if (percentage <= 0.083) { // 5 minutes or less (5/60 = 0.083)
-    return 'text-red-500 timer-danger';
+    return 'text-meta-error timer-danger';
   } else if (percentage <= 0.5) { // 30 minutes or less
-    return 'text-yellow-500 timer-warning';
+    return 'text-meta-warning timer-warning';
   }
   
-  return 'text-hackerrank-green';
+  return 'text-meta-blue';
 };
 
 export const shouldShowNotification = (

@@ -10,25 +10,25 @@ interface ContestCardProps {
 export const ContestCard = ({ contest }: ContestCardProps) => {
   const getStatusIcon = () => {
     if (!contest.has_attempts) {
-      return <PlayCircle className="w-5 h-5 text-hackerrank-textSecondary" />
+      return <PlayCircle className="w-5 h-5 text-meta-textSecondary" />
     }
     
     switch (contest.last_attempt_status) {
       case 'completed':
-        return <CheckCircle className="w-5 h-5 text-hackerrank-success" />
+        return <CheckCircle className="w-5 h-5 text-meta-success" />
       case 'in_progress':
-        return <Clock className="w-5 h-5 text-hackerrank-success" />
+        return <Clock className="w-5 h-5 text-meta-success" />
       case 'abandoned':
-        return <RotateCcw className="w-5 h-5 text-hackerrank-textSecondary" />
+        return <RotateCcw className="w-5 h-5 text-meta-textSecondary" />
       default:
-        return <PlayCircle className="w-5 h-5 text-hackerrank-textSecondary" />
+        return <PlayCircle className="w-5 h-5 text-meta-textSecondary" />
     }
   }
 
   const getStatusBadge = () => {
     if (!contest.has_attempts) {
       return (
-        <span className="px-3 py-1 rounded-full text-xs font-semibold border text-hackerrank-textSecondary bg-hackerrank-light border-hackerrank-border">
+        <span className="px-3 py-1 rounded-full text-xs font-semibold border text-meta-textSecondary bg-meta-light border-meta-border">
           Not Attempted
         </span>
       )
@@ -45,15 +45,15 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
   }
 
   return (
-    <div className="card hackerrank-card-hover gradient-card">
+    <div className="card meta-card-hover gradient-card">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-hackerrank-text">{contest.name}</h3>
+        <h3 className="text-xl font-bold text-meta-text">{contest.name}</h3>
         {getStatusIcon()}
       </div>
       
       <div className="flex items-center justify-between mb-6">
         {getStatusBadge()}
-        <span className="text-sm text-hackerrank-textSecondary font-medium">3 Questions • 1 Hour</span>
+        <span className="text-sm text-meta-textSecondary font-medium">3 Questions • 1 Hour</span>
       </div>
       
       <div className="flex space-x-3">

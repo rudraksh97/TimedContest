@@ -154,8 +154,8 @@ export const ContestAttempt: React.FC = () => {
     return (
       <div className="h-screen flex items-center justify-center bg-gradient-bg">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-hackerrank-green mx-auto mb-4"></div>
-          <p className="text-hackerrank-textSecondary text-lg font-medium">Loading contest...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-meta-blue mx-auto mb-4"></div>
+          <p className="text-meta-textSecondary text-lg font-medium">Loading contest...</p>
         </div>
       </div>
     )
@@ -168,28 +168,28 @@ export const ContestAttempt: React.FC = () => {
   return (
     <div className="h-screen flex flex-col bg-gradient-bg">
       {/* Header */}
-      <div className="flex-shrink-0 border-b border-hackerrank-border bg-hackerrank-darker/80 backdrop-blur-md px-6 py-4">
+      <div className="flex-shrink-0 border-b border-meta-border bg-meta-darker/80 backdrop-blur-md px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => navigate(`/contest/${id}`)}
-              className="btn btn-secondary btn-sm shadow-hackerrank"
+              className="btn btn-secondary btn-sm shadow-meta"
             >
               Back
             </button>
             
             <div>
-              <h1 className="text-xl font-bold text-hackerrank-text">
+              <h1 className="text-xl font-bold text-meta-text">
                 {attempt.contest?.name}
               </h1>
-              <p className="text-sm text-hackerrank-textSecondary font-medium">
+              <p className="text-sm text-meta-textSecondary font-medium">
                 Problem {activeQuestion} of 3
               </p>
             </div>
             
             {saving && (
-              <div className="flex items-center space-x-2 text-sm text-hackerrank-textSecondary">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-hackerrank-green"></div>
+              <div className="flex items-center space-x-2 text-sm text-meta-textSecondary">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-meta-blue"></div>
                 <span className="font-medium">Saving...</span>
               </div>
             )}
@@ -198,14 +198,14 @@ export const ContestAttempt: React.FC = () => {
           <div className="flex items-center space-x-3">
             <button
               onClick={finishContest}
-              className="btn btn-success btn-sm shadow-hackerrank"
+              className="btn btn-success btn-sm shadow-meta"
             >
               Submit
             </button>
             
             <button
               onClick={abandonContest}
-              className="btn btn-danger btn-sm shadow-hackerrank"
+              className="btn btn-danger btn-sm shadow-meta"
             >
               Exit
             </button>
@@ -214,31 +214,31 @@ export const ContestAttempt: React.FC = () => {
       </div>
 
       {/* Timer */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-hackerrank-border bg-hackerrank-light/50 backdrop-blur-sm">
+      <div className="flex-shrink-0 px-6 py-4 border-b border-meta-border bg-meta-light/50 backdrop-blur-sm">
         <Timer onTimeUp={handleTimeUp} />
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Problem Description */}
-        <div className="w-1/2 flex flex-col border-r border-hackerrank-border">
+        <div className="w-1/2 flex flex-col border-r border-meta-border">
           {/* Problem Navigation */}
-          <div className="flex-shrink-0 border-b border-hackerrank-border bg-hackerrank-darker/50 backdrop-blur-sm">
+          <div className="flex-shrink-0 border-b border-meta-border bg-meta-darker/50 backdrop-blur-sm">
             <div className="flex">
               {questions.map((question, index) => (
                 <button
                   key={question?.id}
                   onClick={() => setActiveQuestion(index + 1)}
-                  className={`flex-1 px-4 py-3 text-sm font-semibold border-r border-hackerrank-border last:border-r-0 transition-all duration-200 ${
+                  className={`flex-1 px-4 py-3 text-sm font-semibold border-r border-meta-border last:border-r-0 transition-all duration-200 ${
                     activeQuestion === index + 1
-                      ? 'bg-hackerrank-green/10 text-hackerrank-green border-b-2 border-hackerrank-green'
-                      : 'text-hackerrank-textSecondary hover:bg-hackerrank-light hover:text-hackerrank-text'
+                      ? 'bg-meta-blue/10 text-meta-blue border-b-2 border-meta-blue'
+                      : 'text-meta-textSecondary hover:bg-meta-light hover:text-meta-text'
                   }`}
                 >
                   <div className="flex items-center justify-center space-x-2">
                     <span>{index + 1}. {question?.title}</span>
                     {codes[index + 1 as keyof typeof codes].code.trim() && (
-                      <div className="w-2 h-2 bg-hackerrank-green rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-meta-blue rounded-full animate-pulse"></div>
                     )}
                   </div>
                 </button>
@@ -247,11 +247,11 @@ export const ContestAttempt: React.FC = () => {
           </div>
 
           {/* Problem Content */}
-          <div className="flex-1 overflow-y-auto p-6 bg-hackerrank-light/50 backdrop-blur-sm">
+          <div className="flex-1 overflow-y-auto p-6 bg-meta-light/50 backdrop-blur-sm">
             {questions[activeQuestion - 1] && (
               <div className="problem-description">
                 <div className="flex items-center space-x-3 mb-6">
-                  <h2 className="text-2xl font-bold text-hackerrank-text">
+                  <h2 className="text-2xl font-bold text-meta-text">
                     {questions[activeQuestion - 1]?.title}
                   </h2>
                   <span className={`badge ${difficultyColors[questions[activeQuestion - 1]?.difficulty!]} border`}>
@@ -259,11 +259,11 @@ export const ContestAttempt: React.FC = () => {
                   </span>
                 </div>
                 
-                <div className="prose prose-sm max-w-none text-hackerrank-textSecondary leading-relaxed">
+                <div className="prose prose-sm max-w-none text-meta-textSecondary leading-relaxed">
                   <p className="text-base">{questions[activeQuestion - 1]?.description}</p>
                 </div>
                 
-                <div className="mt-8 pt-4 border-t border-hackerrank-border text-sm text-hackerrank-textSecondary">
+                <div className="mt-8 pt-4 border-t border-meta-border text-sm text-meta-textSecondary">
                   <div className="flex items-center justify-between">
                     <span className="font-medium">Category: {questions[activeQuestion - 1]?.category}</span>
                     <span className="font-mono">Problem #{questions[activeQuestion - 1]?.neetcode_number}</span>
@@ -277,9 +277,9 @@ export const ContestAttempt: React.FC = () => {
         {/* Right Panel - Code Editor */}
         <div className="w-1/2 flex flex-col">
           {/* Editor Header */}
-          <div className="flex-shrink-0 border-b border-hackerrank-border bg-hackerrank-darker/50 backdrop-blur-sm px-6 py-4">
+          <div className="flex-shrink-0 border-b border-meta-border bg-meta-darker/50 backdrop-blur-sm px-6 py-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-hackerrank-text">Code</h3>
+              <h3 className="text-sm font-semibold text-meta-text">Code</h3>
               <LanguageSelector
                 selectedLanguage={currentCode.language}
                 onChange={handleLanguageChange}
