@@ -82,64 +82,62 @@ export const Timer: React.FC<TimerProps> = ({
   const progressPercentage = (timerState.timeLeft / initialTime) * 100
 
   return (
-    <div className="card">
+    <div className="bg-hackerrank-light/50 backdrop-blur-sm border border-hackerrank-border rounded-xl p-4 shadow-hackerrank">
       {/* Notification */}
       {notification && (
-        <div className="px-6 py-3 bg-yellow-500/20 border-b border-yellow-500/30 text-yellow-400 text-sm">
+        <div className="px-4 py-3 bg-hackerrank-warning/20 border border-hackerrank-warning/30 rounded-lg text-hackerrank-warning text-sm font-medium mb-4">
           {notification}
         </div>
       )}
       
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3">
-              <div className={`text-2xl font-mono font-bold ${timerColorClass}`}>
-                {formatTime(timerState.timeLeft)}
-              </div>
-              <div className="text-sm text-hackerrank-textSecondary">
-                {timerState.timeLeft <= 0 ? 'Time\'s up!' : 'remaining'}
-              </div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-3">
+            <div className={`text-3xl font-mono font-bold ${timerColorClass}`}>
+              {formatTime(timerState.timeLeft)}
             </div>
-            
-            {/* Progress indicator */}
-            <div className="flex items-center space-x-2">
-              <div className="w-32 bg-hackerrank-border rounded-full h-2">
-                <div
-                  className={`h-2 rounded-full transition-all duration-1000 ${
-                    timerState.timeLeft <= 300 
-                      ? 'bg-red-500' 
-                      : timerState.timeLeft <= 1800 
-                      ? 'bg-yellow-500' 
-                      : 'bg-hackerrank-green'
-                  }`}
-                  style={{
-                    width: `${progressPercentage}%`
-                  }}
-                />
-              </div>
-              <span className="text-xs text-hackerrank-textSecondary min-w-0">
-                {Math.round(progressPercentage)}%
-              </span>
+            <div className="text-sm text-hackerrank-textSecondary font-medium">
+              {timerState.timeLeft <= 0 ? 'Time\'s up!' : 'remaining'}
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={toggleTimer}
-              disabled={timerState.timeLeft <= 0}
-              className="btn btn-secondary btn-sm"
-            >
-              {timerState.isRunning ? 'Pause' : 'Resume'}
-            </button>
-            
-            <button
-              onClick={resetTimer}
-              className="btn btn-secondary btn-sm"
-            >
-              Reset
-            </button>
+          {/* Progress indicator */}
+          <div className="flex items-center space-x-3">
+            <div className="w-40 bg-hackerrank-border rounded-full h-3 overflow-hidden">
+              <div
+                className={`h-3 rounded-full transition-all duration-1000 ${
+                  timerState.timeLeft <= 300 
+                    ? 'bg-hackerrank-error' 
+                    : timerState.timeLeft <= 1800 
+                    ? 'bg-hackerrank-warning' 
+                    : 'bg-hackerrank-success'
+                }`}
+                style={{
+                  width: `${progressPercentage}%`
+                }}
+              />
+            </div>
+            <span className="text-sm text-hackerrank-textSecondary font-medium min-w-0">
+              {Math.round(progressPercentage)}%
+            </span>
           </div>
+        </div>
+        
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={toggleTimer}
+            disabled={timerState.timeLeft <= 0}
+            className="btn btn-secondary btn-sm shadow-hackerrank"
+          >
+            {timerState.isRunning ? 'Pause' : 'Resume'}
+          </button>
+          
+          <button
+            onClick={resetTimer}
+            className="btn btn-secondary btn-sm shadow-hackerrank"
+          >
+            Reset
+          </button>
         </div>
       </div>
     </div>

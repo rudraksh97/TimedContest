@@ -45,12 +45,16 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   return (
     <div className="code-editor-container h-full flex flex-col">
       <div className="code-editor-header">
-        <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium text-hackerrank-text">{languageConfig.name}</span>
-          <span className="text-xs text-hackerrank-textSecondary">{languageConfig.extension}</span>
+        <div className="flex items-center space-x-3">
+          <span className="text-sm font-semibold text-hackerrank-text">{languageConfig.name}</span>
+          <span className="text-xs text-hackerrank-textSecondary font-medium bg-hackerrank-light px-2 py-1 rounded-md">
+            {languageConfig.extension}
+          </span>
         </div>
         {readOnly && (
-          <div className="text-xs text-hackerrank-textSecondary">Read Only</div>
+          <div className="text-xs text-hackerrank-textSecondary font-medium bg-hackerrank-light px-2 py-1 rounded-md">
+            Read Only
+          </div>
         )}
       </div>
       
@@ -64,7 +68,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           style={{ 
             height: height === '100%' ? '100%' : height,
             minHeight: height === '100%' ? '400px' : height,
-            backgroundColor: readOnly ? '#2d2d2d' : '#1e1e1e',
+            backgroundColor: readOnly ? '#1a1f2e' : '#0f1419',
             resize: 'none',
           }}
           placeholder={readOnly ? '' : `Write your ${languageConfig.name} code here...`}
@@ -77,7 +81,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         {/* Line numbers overlay */}
         <div className="absolute left-0 top-0 p-4 pointer-events-none select-none text-hackerrank-textSecondary text-sm font-mono leading-relaxed">
           {value.split('\n').map((_, index) => (
-            <div key={index} className="text-right pr-2" style={{ minWidth: '2em' }}>
+            <div key={index} className="text-right pr-3" style={{ minWidth: '2.5em' }}>
               {index + 1}
             </div>
           ))}
@@ -86,7 +90,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         {/* Adjust textarea padding to make room for line numbers */}
         <style jsx>{`
           .code-editor-textarea {
-            padding-left: ${Math.max(2, value.split('\n').length.toString().length) * 0.6 + 3}rem !important;
+            padding-left: ${Math.max(2, value.split('\n').length.toString().length) * 0.7 + 3.5}rem !important;
           }
         `}</style>
       </div>
