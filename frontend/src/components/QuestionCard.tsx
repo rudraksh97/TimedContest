@@ -31,14 +31,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center space-x-3 mb-3">
-            <span className="bg-meta-darker text-meta-text px-3 py-1.5 rounded-lg text-sm font-semibold">
+            <span className="bg-meta-lighter text-meta-text px-3 py-1.5 rounded-lg text-sm font-semibold">
               Question {questionNumber}
             </span>
             <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${difficultyColors[question.difficulty]}`}>
               {question.difficulty}
             </span>
             {hasCode && (
-              <span className="bg-meta-success text-meta-dark px-3 py-1.5 rounded-lg text-xs font-semibold border border-meta-success">
+              <span className="bg-meta-success/10 text-meta-success px-3 py-1.5 rounded-lg text-xs font-semibold border border-meta-success/20">
                 Code Written
               </span>
             )}

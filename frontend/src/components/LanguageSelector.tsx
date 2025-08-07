@@ -22,7 +22,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         value={selectedLanguage}
         onChange={(e) => onChange(e.target.value as Language)}
         disabled={disabled}
-        className="text-sm border border-meta-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-meta-blue focus:border-transparent bg-meta-light text-meta-text font-medium shadow-meta transition-all duration-200 hover:border-meta-borderLight"
+        className={`px-3 py-2 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-meta-blue focus:border-transparent bg-white text-meta-text font-medium shadow-meta transition-all duration-200 hover:border-meta-borderLight`}
       >
         {languages.map((language) => {
           const config = getLanguageConfig(language)

@@ -9,7 +9,7 @@
   
   body {
     @apply bg-meta-dark text-meta-text antialiased;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, #fefefe 0%, #fafaf9 100%);
   }
   
   code, pre {
@@ -23,15 +23,15 @@
   }
   
   .btn-primary {
-    @apply bg-meta-blue text-meta-dark hover:bg-meta-blueDark focus:ring-meta-blue shadow-meta;
+    @apply bg-meta-blue text-white hover:bg-meta-blueDark focus:ring-meta-blue shadow-meta;
   }
   
   .btn-secondary {
-    @apply bg-meta-light text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue shadow-meta;
+    @apply bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue shadow-meta;
   }
   
   .btn-success {
-    @apply bg-meta-success text-meta-dark hover:bg-meta-success/90 focus:ring-meta-success font-semibold shadow-meta;
+    @apply bg-meta-success text-white hover:bg-meta-success/90 focus:ring-meta-success font-semibold shadow-meta;
   }
   
   .btn-danger {
@@ -51,23 +51,23 @@
   }
   
   .badge-success {
-    @apply bg-meta-success text-meta-dark font-semibold;
+    @apply bg-meta-success/10 text-meta-success font-semibold border border-meta-success/20;
   }
   
   .badge-warning {
-    @apply bg-meta-warning text-meta-dark font-semibold;
+    @apply bg-meta-warning/10 text-meta-warning font-semibold border border-meta-warning/20;
   }
   
   .badge-danger {
-    @apply bg-meta-error text-white font-semibold;
+    @apply bg-meta-error/10 text-meta-error font-semibold border border-meta-error/20;
   }
   
   .badge-info {
-    @apply bg-meta-info text-white font-semibold;
+    @apply bg-meta-info/10 text-meta-info font-semibold border border-meta-info/20;
   }
   
   .badge-secondary {
-    @apply bg-meta-light text-meta-text border border-meta-border;
+    @apply bg-meta-lighter text-meta-textSecondary border border-meta-border;
   }
   
   .difficulty-easy {
@@ -99,7 +99,7 @@
   }
 
   .card {
-    @apply bg-meta-light border border-meta-border rounded-xl p-6 shadow-meta backdrop-blur-sm;
+    @apply bg-white border border-meta-border rounded-xl p-6 shadow-meta backdrop-blur-sm;
   }
 
   .nav-link {
@@ -117,15 +117,15 @@
 
 /* Code editor styles */
 .code-editor-container {
-  @apply border border-meta-border rounded-xl overflow-hidden bg-meta-darker shadow-meta;
+  @apply border border-meta-border rounded-xl overflow-hidden bg-white shadow-meta;
 }
 
 .code-editor-header {
-  @apply bg-meta-light border-b border-meta-border px-4 py-3 flex items-center justify-between;
+  @apply bg-meta-lighter border-b border-meta-border px-4 py-3 flex items-center justify-between;
 }
 
 .code-editor-textarea {
-  @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none bg-meta-darker text-meta-text;
+  @apply w-full p-4 font-mono text-sm resize-none focus:outline-none border-none bg-white text-meta-text;
   font-family: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace;
   line-height: 1.6;
   tab-size: 2;
@@ -165,16 +165,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #fafaf9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #d6d3d1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: #a8a29e;
 }
 
 /* Utility classes */
@@ -187,11 +187,11 @@
 
 /* Meta specific styles */
 .meta-gradient {
-  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
 }
 
 .meta-shadow {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .meta-card-hover {
@@ -200,17 +200,17 @@
 
 /* Modern glass effect */
 .glass {
-  background: rgba(30, 41, 59, 0.8);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Gradient backgrounds */
 .gradient-bg {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #fefefe 0%, #fafaf9 100%);
 }
 
 .gradient-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(250, 250, 249, 0.9) 100%);
   backdrop-filter: blur(10px);
 }

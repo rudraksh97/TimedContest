@@ -52,10 +52,10 @@ export const AttemptHistory: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-meta-light rounded-xl w-1/4 mb-6"></div>
-          <div className="space-y-4">
+          <div className="h-8 bg-meta-lighter rounded-xl w-1/4 mb-6"></div>
+          <div className="grid grid-cols-1 gap-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-20 bg-meta-light rounded-xl"></div>
+              <div key={i} className="h-20 bg-meta-lighter rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -157,7 +157,7 @@ export const AttemptHistory: React.FC = () => {
         ) : (
           <div className="divide-y divide-meta-border">
             {filteredAttempts.map((attempt) => (
-              <div key={attempt.id} className="px-6 py-4 hover:bg-meta-darker/30 transition-all duration-200">
+              <div key={attempt.id} className="px-6 py-4 hover:bg-meta-lighter/30 transition-all duration-200">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-4 mb-3">

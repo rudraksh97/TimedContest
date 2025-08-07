@@ -10,7 +10,7 @@ import { AttemptReview } from './pages/AttemptReview'
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-meta-dark">
+      <div className="min-h-screen bg-gradient-to-br from-white to-gray-50">
         <Navigation />
         <main>
           <Routes>

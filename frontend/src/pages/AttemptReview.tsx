@@ -34,10 +34,10 @@ export const AttemptReview: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-meta-light rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-meta-lighter rounded w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="h-96 bg-meta-light rounded"></div>
-            <div className="h-96 bg-meta-light rounded"></div>
+            <div className="h-96 bg-meta-lighter rounded"></div>
+            <div className="h-96 bg-meta-lighter rounded"></div>
           </div>
         </div>
       </div>
@@ -159,8 +159,8 @@ export const AttemptReview: React.FC = () => {
                   key={i}
                   className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                     attempt[`question${i}_code` as keyof Attempt]
-                      ? 'bg-meta-success text-meta-dark'
-                      : 'bg-meta-light text-meta-textSecondary'
+                      ? 'bg-meta-success text-white'
+                      : 'bg-meta-lighter text-meta-textSecondary'
                   }`}
                 >
                   {i}
@@ -233,7 +233,7 @@ export const AttemptReview: React.FC = () => {
         {/* Code Submission */}
         <div>
           <div className="card p-0 overflow-hidden">
-            <div className="px-6 py-4 border-b border-meta-border bg-meta-darker">
+            <div className="px-6 py-4 border-b border-meta-border bg-meta-lighter">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-meta-text">Your Submission</h2>
                 {currentCode.language && (

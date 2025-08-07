@@ -241,7 +241,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
           <p className="text-meta-textSecondary">{error || 'Failed to load contest'}</p>
           <button 
             onClick={() => window.location.href = '/'} 
-            className="mt-4 px-4 py-2 bg-meta-blue text-meta-dark rounded hover:bg-meta-blueDark"
+            className="mt-4 px-4 py-2 bg-meta-blue text-white rounded hover:bg-meta-blueDark"
           >
             Back to Contests
           </button>
@@ -256,13 +256,13 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
   return (
     <div className="min-h-screen bg-meta-dark">
       {/* Header */}
-      <div className="bg-meta-light shadow-meta border-b border-meta-border">
+      <div className="bg-white shadow-meta border-b border-meta-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => window.location.href = '/'}
-                className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-border text-meta-text hover:bg-meta-lighter focus:ring-meta-blue"
+                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue"
               >
                 ← Back
               </button>
@@ -276,14 +276,14 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
             <div className="flex space-x-3">
               <button
                 onClick={() => saveAttempt()}
-                className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-border text-meta-text hover:bg-meta-lighter focus:ring-meta-blue"
+                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue"
               >
                 💾 Save
               </button>
               
               <button
                 onClick={finishContest}
-                className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-success text-meta-dark hover:bg-meta-success/90 focus:ring-meta-success"
+                className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-success text-white hover:bg-meta-success/90 focus:ring-meta-success"
               >
                 ✅ Finish
               </button>
@@ -310,10 +310,11 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
               <button
                 key={num}
                 onClick={() => setActiveQuestion(num)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue"
+                ${
                   activeQuestion === num
-                    ? 'bg-meta-blue text-meta-dark'
-                    : 'bg-meta-light text-meta-text border border-meta-border hover:bg-meta-lighter'
+                    ? 'bg-meta-blue text-white'
+                    : 'bg-white text-meta-text border border-meta-border hover:bg-meta-lighter'
                 }`}
               >
                 Q{num}
@@ -328,7 +329,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
             <button
               onClick={() => setActiveQuestion(Math.max(1, activeQuestion - 1))}
               disabled={activeQuestion === 1}
-              className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-border text-meta-text hover:bg-meta-lighter focus:ring-meta-blue disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue disabled:opacity-50 disabled:cursor-not-allowed"
             >
               ← Previous
             </button>
@@ -336,7 +337,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
             <button
               onClick={() => setActiveQuestion(Math.min(3, activeQuestion + 1))}
               disabled={activeQuestion === 3}
-              className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-border text-meta-text hover:bg-meta-lighter focus:ring-meta-blue disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next →
             </button>

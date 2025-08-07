@@ -168,7 +168,7 @@ export const ContestAttempt: React.FC = () => {
   return (
     <div className="h-screen flex flex-col bg-gradient-bg">
       {/* Header */}
-      <div className="flex-shrink-0 border-b border-meta-border bg-meta-darker/80 backdrop-blur-md px-6 py-4">
+      <div className="flex-shrink-0 border-b border-meta-border bg-meta-lighter/80 backdrop-blur-md px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
@@ -214,7 +214,7 @@ export const ContestAttempt: React.FC = () => {
       </div>
 
       {/* Timer */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-meta-border bg-meta-light/50 backdrop-blur-sm">
+      <div className="flex-shrink-0 px-6 py-4 border-b border-meta-border bg-meta-lighter/50 backdrop-blur-sm">
         <Timer onTimeUp={handleTimeUp} />
       </div>
 
@@ -223,7 +223,7 @@ export const ContestAttempt: React.FC = () => {
         {/* Left Panel - Problem Description */}
         <div className="w-1/2 flex flex-col border-r border-meta-border">
           {/* Problem Navigation */}
-          <div className="flex-shrink-0 border-b border-meta-border bg-meta-darker/50 backdrop-blur-sm">
+          <div className="flex-shrink-0 border-b border-meta-border bg-meta-lighter/50 backdrop-blur-sm">
             <div className="flex">
               {questions.map((question, index) => (
                 <button
@@ -232,7 +232,7 @@ export const ContestAttempt: React.FC = () => {
                   className={`flex-1 px-4 py-3 text-sm font-semibold border-r border-meta-border last:border-r-0 transition-all duration-200 ${
                     activeQuestion === index + 1
                       ? 'bg-meta-blue/10 text-meta-blue border-b-2 border-meta-blue'
-                      : 'text-meta-textSecondary hover:bg-meta-light hover:text-meta-text'
+                      : 'text-meta-textSecondary hover:bg-meta-lighter hover:text-meta-text'
                   }`}
                 >
                   <div className="flex items-center justify-center space-x-2">
@@ -247,7 +247,7 @@ export const ContestAttempt: React.FC = () => {
           </div>
 
           {/* Problem Content */}
-          <div className="flex-1 overflow-y-auto p-6 bg-meta-light/50 backdrop-blur-sm">
+          <div className="flex-1 overflow-y-auto p-6 bg-meta-lighter/50 backdrop-blur-sm">
             {questions[activeQuestion - 1] && (
               <div className="problem-description">
                 <div className="flex items-center space-x-3 mb-6">
@@ -277,7 +277,7 @@ export const ContestAttempt: React.FC = () => {
         {/* Right Panel - Code Editor */}
         <div className="w-1/2 flex flex-col">
           {/* Editor Header */}
-          <div className="flex-shrink-0 border-b border-meta-border bg-meta-darker/50 backdrop-blur-sm px-6 py-4">
+          <div className="flex-shrink-0 border-b border-meta-border bg-meta-lighter/50 backdrop-blur-sm px-6 py-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-meta-text">Code</h3>
               <LanguageSelector

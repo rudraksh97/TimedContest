@@ -64,10 +64,10 @@ export const ContestDetails: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-meta-light rounded-xl w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="h-8 bg-meta-lighter rounded-xl w-1/3 mb-6"></div>
+          <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-64 bg-meta-light rounded-xl"></div>
+              <div key={i} className="h-64 bg-meta-lighter rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -170,7 +170,7 @@ export const ContestDetails: React.FC = () => {
         <div>
           <h2 className="text-2xl font-bold text-meta-text mb-6">Your Submissions</h2>
           <div className="card p-0 overflow-hidden gradient-card">
-            <div className="px-6 py-4 bg-meta-darker/50 border-b border-meta-border">
+            <div className="px-6 py-4 bg-meta-lighter/50 border-b border-meta-border">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-meta-text">Submission History</h3>
                 <div className="text-sm text-meta-textSecondary">
@@ -181,7 +181,7 @@ export const ContestDetails: React.FC = () => {
             
             <div className="divide-y divide-meta-border">
               {attempts.map((attempt) => (
-                <div key={attempt.id} className="px-6 py-4 hover:bg-meta-darker/30 transition-all duration-200">
+                <div key={attempt.id} className="px-6 py-4 hover:bg-meta-lighter/30 transition-all duration-200">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-4 mb-3">

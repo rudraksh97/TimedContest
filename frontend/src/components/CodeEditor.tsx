@@ -47,12 +47,12 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
       <div className="code-editor-header">
         <div className="flex items-center space-x-3">
           <span className="text-sm font-semibold text-meta-text">{languageConfig.name}</span>
-          <span className="text-xs text-meta-textSecondary font-medium bg-meta-light px-2 py-1 rounded-md">
+          <span className="text-xs text-meta-textSecondary font-medium bg-meta-lighter px-2 py-1 rounded-md">
             {languageConfig.extension}
           </span>
         </div>
         {readOnly && (
-          <div className="text-xs text-meta-textSecondary font-medium bg-meta-light px-2 py-1 rounded-md">
+          <div className="text-xs text-meta-textSecondary font-medium bg-meta-lighter px-2 py-1 rounded-md">
             Read Only
           </div>
         )}
@@ -68,7 +68,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           style={{ 
             height: height === '100%' ? '100%' : height,
             minHeight: height === '100%' ? '400px' : height,
-            backgroundColor: readOnly ? '#1e293b' : '#0f172a',
+            backgroundColor: readOnly ? '#fafaf9' : '#ffffff',
             resize: 'none',
           }}
           placeholder={readOnly ? '' : `Write your ${languageConfig.name} code here...`}

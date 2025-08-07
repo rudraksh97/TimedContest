@@ -28,7 +28,7 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
   const getStatusBadge = () => {
     if (!contest.has_attempts) {
       return (
-        <span className="px-3 py-1 rounded-full text-xs font-semibold border text-meta-textSecondary bg-meta-light border-meta-border">
+        <span className="px-3 py-1 rounded-full text-xs font-semibold border text-meta-textSecondary bg-meta-lighter border-meta-border">
           Not Attempted
         </span>
       )
