@@ -5,7 +5,6 @@ import { CodeEditor } from '../components/CodeEditor'
 import { HtmlRenderer } from '../components/HtmlRenderer'
 import { attemptAPI, contestAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
-import { statusColors, getStatusText } from '../utils/language'
 
 export const AttemptReview: React.FC = () => {
   const { attemptId } = useParams<{ attemptId: string }>()
@@ -15,6 +14,7 @@ export const AttemptReview: React.FC = () => {
   const [activeQuestion, setActiveQuestion] = useState(1)
   const [loading, setLoading] = useState(true)
   const [startingNewAttempt, setStartingNewAttempt] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     fetchAttempt()
@@ -45,6 +45,24 @@ export const AttemptReview: React.FC = () => {
     } finally {
       setStartingNewAttempt(false)
     }
+  }
+
+  const handleCopyCode = async () => {
+    const currentCode = getCurrentCode()
+    if (currentCode.code) {
+      try {
+        await navigator.clipboard.writeText(currentCode.code)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } catch (error) {
+        console.error('Failed to copy code:', error)
+      }
+    }
+  }
+
+  const getLeetCodeUrl = (question: Question | null) => {
+    if (!question?.neetcode_number) return null
+    return `https://leetcode.com/problems/${question.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/`
   }
 
   if (loading) {
@@ -103,6 +121,7 @@ export const AttemptReview: React.FC = () => {
   const currentCode = getCurrentCode()
   const currentQuestion = getCurrentQuestion()
   const questions = [attempt.contest?.question1, attempt.contest?.question2, attempt.contest?.question3].filter(Boolean)
+  const leetcodeUrl = getLeetCodeUrl(currentQuestion || null)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -135,7 +154,7 @@ export const AttemptReview: React.FC = () => {
               Submission Review
             </h1>
             <p className="text-meta-textSecondary">
-              {attempt.contest?.name} • Problem {activeQuestion} of 3
+              {attempt.contest?.name} • Problem {activeQuestion} of {questions.length}
             </p>
           </div>
         </div>
@@ -144,14 +163,7 @@ export const AttemptReview: React.FC = () => {
       {/* Submission Info */}
       <div className="card mb-8">
         <h2 className="text-lg font-semibold text-meta-text mb-4">Submission Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
-            <h3 className="text-sm font-medium text-meta-textSecondary mb-2">Status</h3>
-            <span className={`badge ${statusColors[attempt.status]} border`}>
-              {getStatusText(attempt.status)}
-            </span>
-          </div>
-          
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <h3 className="text-sm font-medium text-meta-textSecondary mb-2">Started</h3>
             <div className="text-sm text-meta-text">
@@ -176,69 +188,8 @@ export const AttemptReview: React.FC = () => {
               </div>
             </div>
           )}
-          
-          <div>
-            <h3 className="text-sm font-medium text-meta-textSecondary mb-2">Problems Attempted</h3>
-            <div className="flex space-x-1">
-              {[1, 2, 3].map(i => (
-                <div
-                  key={i}
-                  className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                    attempt[`question${i}_code` as keyof Attempt]
-                      ? 'bg-meta-success text-white'
-                      : 'bg-meta-lighter text-meta-textSecondary'
-                  }`}
-                >
-                  {i}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
-
-      {/* Completion Time Analysis */}
-      {attempt.duration_seconds && (
-        <div className="card mb-8">
-          <h2 className="text-lg font-semibold text-meta-text mb-4">Completion Time Analysis</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-4 bg-meta-lighter rounded-lg">
-              <div className="text-2xl font-bold text-meta-primary mb-2">
-                {formatTime(attempt.duration_seconds)}
-              </div>
-              <div className="text-sm text-meta-textSecondary">Total Time</div>
-            </div>
-            
-            <div className="text-center p-4 bg-meta-lighter rounded-lg">
-              <div className="text-2xl font-bold text-meta-success mb-2">
-                {Math.round((attempt.duration_seconds / 3600) * 100) / 100}
-              </div>
-              <div className="text-sm text-meta-textSecondary">Hours</div>
-            </div>
-            
-            <div className="text-center p-4 bg-meta-lighter rounded-lg">
-              <div className="text-2xl font-bold text-meta-warning mb-2">
-                {attempt.duration_seconds > 3600 ? 'Over Time' : 'On Time'}
-              </div>
-              <div className="text-sm text-meta-textSecondary">Status</div>
-            </div>
-          </div>
-          
-          {attempt.duration_seconds > 3600 && (
-            <div className="mt-4 p-4 bg-meta-warning/10 border border-meta-warning/20 rounded-lg">
-              <div className="flex items-center space-x-2">
-                <span className="text-meta-warning">⚠️</span>
-                <span className="text-sm text-meta-textSecondary">
-                  This attempt took longer than the 1-hour time limit. 
-                  You exceeded by {formatTime(attempt.duration_seconds - 3600)}.
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-
 
       {/* Problem Navigation */}
       <div className="mb-6">
@@ -275,10 +226,24 @@ export const AttemptReview: React.FC = () => {
             
             {currentQuestion && (
               <div className="problem-description">
-                <div className="flex items-center space-x-3 mb-4">
+                <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-meta-text">
                     {currentQuestion.title}
                   </h3>
+                  {leetcodeUrl && (
+                    <a
+                      href={leetcodeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center space-x-2 text-meta-primary hover:text-meta-primary/80 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                        <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                      </svg>
+                      <span className="text-sm font-medium">Open on LeetCode</span>
+                    </a>
+                  )}
                 </div>
                 
                 <div className="mb-4 text-meta-textSecondary">
@@ -304,11 +269,37 @@ export const AttemptReview: React.FC = () => {
           <div className="card p-0 overflow-hidden">
             <div className="px-6 py-4 border-b border-meta-border bg-meta-lighter">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-meta-text">Your Submission</h2>
-                {currentCode.language && (
-                  <span className="badge badge-info">
-                    {currentCode.language}
-                  </span>
+                <div className="flex items-center space-x-4">
+                  <h2 className="text-lg font-semibold text-meta-text">Your Submission</h2>
+                  {currentCode.language && (
+                    <span className="badge badge-info">
+                      {currentCode.language}
+                    </span>
+                  )}
+                </div>
+                {currentCode.code && (
+                  <button
+                    onClick={handleCopyCode}
+                    className="inline-flex items-center space-x-2 text-meta-primary hover:text-meta-primary/80 transition-colors"
+                    title="Copy code to clipboard"
+                  >
+                    {copied ? (
+                      <>
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm font-medium">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                          <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                        </svg>
+                        <span className="text-sm font-medium">Copy Code</span>
+                      </>
+                    )}
+                  </button>
                 )}
               </div>
             </div>
