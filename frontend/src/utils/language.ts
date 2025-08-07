@@ -25,6 +25,18 @@ export const languageConfig = {
     extension: '.js',
     icon: '📜',
   },
+  go: {
+    name: 'Go',
+    monaco: 'go',
+    extension: '.go',
+    icon: '🐹',
+  },
+  c: {
+    name: 'C',
+    monaco: 'c',
+    extension: '.c',
+    icon: '🔧',
+  },
 } as const;
 
 export const getLanguageConfig = (language: Language) => {

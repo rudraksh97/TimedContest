@@ -93,7 +93,9 @@ async def get_contest_templates(contest_id: int, db: Session = Depends(get_db)):
                 "python": contest.question1.python_template,
                 "java": contest.question1.java_template,
                 "cpp": contest.question1.cpp_template,
-                "javascript": contest.question1.javascript_template
+                "javascript": contest.question1.javascript_template,
+                "go": contest.question1.go_template,
+                "c": contest.question1.c_template
             }
         },
         "question2": {
@@ -103,7 +105,9 @@ async def get_contest_templates(contest_id: int, db: Session = Depends(get_db)):
                 "python": contest.question2.python_template,
                 "java": contest.question2.java_template,
                 "cpp": contest.question2.cpp_template,
-                "javascript": contest.question2.javascript_template
+                "javascript": contest.question2.javascript_template,
+                "go": contest.question2.go_template,
+                "c": contest.question2.c_template
             }
         },
         "question3": {
@@ -113,7 +117,9 @@ async def get_contest_templates(contest_id: int, db: Session = Depends(get_db)):
                 "python": contest.question3.python_template,
                 "java": contest.question3.java_template,
                 "cpp": contest.question3.cpp_template,
-                "javascript": contest.question3.javascript_template
+                "javascript": contest.question3.javascript_template,
+                "go": contest.question3.go_template,
+                "c": contest.question3.c_template
             }
         }
     }

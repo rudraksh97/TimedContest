@@ -170,6 +170,10 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
     debouncedSave(updatedCodes)
   }
 
+  const handleQuestionTabClick = (questionNum: number) => {
+    setActiveQuestion(questionNum)
+  }
+
   const getTemplateForQuestion = (questionNum: number, language: Language): string => {
     if (!templates) return ''
     
@@ -179,7 +183,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
   }
 
   const handleTimeUp = async () => {
-    alert('⏰ Time\'s up! Contest completed.')
+    // Time is up - auto-submit the contest
     await finishContest()
   }
 
@@ -274,7 +278,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
             </div>
             
             <div className="flex space-x-3">
-              <button
+                            <button
                 onClick={() => saveAttempt()}
                 className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue"
               >
@@ -285,7 +289,7 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
                 onClick={finishContest}
                 className="px-4 py-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 bg-meta-success text-white hover:bg-meta-success/90 focus:ring-meta-success"
               >
-                ✅ Finish
+                ✅ Submit Contest
               </button>
               
               <button
@@ -301,28 +305,32 @@ export const ContestPage: React.FC<ContestPageProps> = ({ contestId, attemptId }
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Timer */}
-        <Timer onTimeUp={handleTimeUp} />
+        <Timer onTimeUp={handleTimeUp} startTime={attempt?.started_at} />
 
         {/* Question Navigation */}
         <div className="flex items-center justify-between">
           <div className="flex space-x-2">
-            {[1, 2, 3].map((num) => (
-              <button
-                key={num}
-                onClick={() => setActiveQuestion(num)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue"
-                ${
-                  activeQuestion === num
-                    ? 'bg-meta-blue text-white'
-                    : 'bg-white text-meta-text border border-meta-border hover:bg-meta-lighter'
-                }`}
-              >
-                Q{num}
-                {codes[num as keyof typeof codes].code.trim() && (
-                  <span className="ml-2 w-2 h-2 bg-meta-success rounded-full inline-block" />
-                )}
-              </button>
-            ))}
+            {[1, 2, 3].map((num) => {
+              const hasCode = codes[num as keyof typeof codes].code.trim()
+              
+              return (
+                <button
+                  key={num}
+                  onClick={() => handleQuestionTabClick(num)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-2 bg-white text-meta-text border-meta-border hover:bg-meta-lighter focus:ring-meta-blue"
+                  ${
+                    activeQuestion === num
+                      ? 'bg-meta-blue text-white'
+                      : 'bg-white text-meta-text border border-meta-border hover:bg-meta-lighter'
+                  }`}
+                >
+                  Q{num}
+                  {hasCode && (
+                    <span className="ml-2 w-2 h-2 bg-meta-success rounded-full inline-block" />
+                  )}
+                </button>
+              )
+            })}
           </div>
           
           <div className="flex space-x-2">

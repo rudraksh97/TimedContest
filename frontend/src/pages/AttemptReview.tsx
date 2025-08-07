@@ -161,9 +161,18 @@ export const AttemptReview: React.FC = () => {
           
           {attempt.completed_at && (
             <div>
+              <h3 className="text-sm font-medium text-meta-textSecondary mb-2">Completed</h3>
+              <div className="text-sm text-meta-text">
+                {new Date(attempt.completed_at).toLocaleString()}
+              </div>
+            </div>
+          )}
+          
+          {attempt.duration_seconds && (
+            <div>
               <h3 className="text-sm font-medium text-meta-textSecondary mb-2">Duration</h3>
               <div className="text-sm text-meta-text">
-                {formatTime(attempt.duration_seconds || 0)}
+                {formatTime(attempt.duration_seconds)}
               </div>
             </div>
           )}
@@ -187,6 +196,49 @@ export const AttemptReview: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Completion Time Analysis */}
+      {attempt.duration_seconds && (
+        <div className="card mb-8">
+          <h2 className="text-lg font-semibold text-meta-text mb-4">Completion Time Analysis</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-4 bg-meta-lighter rounded-lg">
+              <div className="text-2xl font-bold text-meta-primary mb-2">
+                {formatTime(attempt.duration_seconds)}
+              </div>
+              <div className="text-sm text-meta-textSecondary">Total Time</div>
+            </div>
+            
+            <div className="text-center p-4 bg-meta-lighter rounded-lg">
+              <div className="text-2xl font-bold text-meta-success mb-2">
+                {Math.round((attempt.duration_seconds / 3600) * 100) / 100}
+              </div>
+              <div className="text-sm text-meta-textSecondary">Hours</div>
+            </div>
+            
+            <div className="text-center p-4 bg-meta-lighter rounded-lg">
+              <div className="text-2xl font-bold text-meta-warning mb-2">
+                {attempt.duration_seconds > 3600 ? 'Over Time' : 'On Time'}
+              </div>
+              <div className="text-sm text-meta-textSecondary">Status</div>
+            </div>
+          </div>
+          
+          {attempt.duration_seconds > 3600 && (
+            <div className="mt-4 p-4 bg-meta-warning/10 border border-meta-warning/20 rounded-lg">
+              <div className="flex items-center space-x-2">
+                <span className="text-meta-warning">⚠️</span>
+                <span className="text-sm text-meta-textSecondary">
+                  This attempt took longer than the 1-hour time limit. 
+                  You exceeded by {formatTime(attempt.duration_seconds - 3600)}.
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+
 
       {/* Problem Navigation */}
       <div className="mb-6">

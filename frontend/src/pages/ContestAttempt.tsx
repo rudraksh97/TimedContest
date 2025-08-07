@@ -107,12 +107,18 @@ export const ContestAttempt: React.FC = () => {
   }
 
   const handleLanguageChange = (language: Language) => {
+    const questionTemplate = getTemplateForQuestion(activeQuestion, language)
+    
     const updatedCodes = {
       ...codes,
-      [activeQuestion]: { ...codes[activeQuestion as keyof typeof codes], language }
+      [activeQuestion]: { code: questionTemplate, language }
     }
     setCodes(updatedCodes)
     debouncedSave(updatedCodes)
+  }
+
+  const handleQuestionTabClick = (questionNum: number) => {
+    setActiveQuestion(questionNum)
   }
 
   const getTemplateForQuestion = (questionNum: number, language: Language): string => {
@@ -121,6 +127,7 @@ export const ContestAttempt: React.FC = () => {
   }
 
   const handleTimeUp = async () => {
+    // Time is up - auto-submit the contest
     await finishContest()
   }
 
@@ -184,12 +191,12 @@ export const ContestAttempt: React.FC = () => {
           
           {/* Center - Timer */}
           <div className="flex-1 flex justify-center">
-            <Timer onTimeUp={handleTimeUp} />
+            <Timer onTimeUp={handleTimeUp} startTime={attempt?.started_at} />
           </div>
           
           {/* Right side */}
           <div className="flex items-center space-x-3">
-            {saving && (
+                        {saving && (
               <div className="flex items-center space-x-2 text-meta-textSecondary">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-meta-primary"></div>
                 <span className="text-sm">Saving...</span>
@@ -200,7 +207,7 @@ export const ContestAttempt: React.FC = () => {
               onClick={finishContest}
               className="btn-glass text-meta-primary hover:bg-meta-primary hover:text-white"
             >
-              Submit
+              Submit Contest
             </button>
             
             <button
@@ -220,27 +227,32 @@ export const ContestAttempt: React.FC = () => {
           {/* Problem Tabs */}
           <div className="glass-light border-b border-meta-border/30 h-12 flex items-center">
             <div className="flex w-full">
-              {questions.map((question, index) => (
-                <button
-                  key={question?.id}
-                  onClick={() => setActiveQuestion(index + 1)}
-                  className={`flex-1 px-4 py-3 text-sm font-medium border-r border-meta-border/30 last:border-r-0 transition-all duration-200 relative h-12 flex items-center justify-center ${
-                    activeQuestion === index + 1
-                      ? 'text-meta-primary bg-white/50'
-                      : 'text-meta-textSecondary hover:text-meta-text hover:bg-white/30'
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <span>{index + 1}. {question?.title}</span>
-                    {codes[index + 1 as keyof typeof codes].code.trim() && (
-                      <div className="w-1.5 h-1.5 bg-meta-primary rounded-full"></div>
+              {questions.map((question, index) => {
+                const questionNum = index + 1
+                const hasCode = codes[questionNum as keyof typeof codes].code.trim()
+                
+                return (
+                  <button
+                    key={question?.id}
+                    onClick={() => handleQuestionTabClick(questionNum)}
+                    className={`flex-1 px-4 py-3 text-sm font-medium border-r border-meta-border/30 last:border-r-0 transition-all duration-200 relative h-12 flex items-center justify-center ${
+                      activeQuestion === questionNum
+                        ? 'text-meta-primary bg-white/50'
+                        : 'text-meta-textSecondary hover:text-meta-text hover:bg-white/30'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <span>{questionNum}. {question?.title}</span>
+                      {hasCode && (
+                        <div className="w-1.5 h-1.5 bg-meta-primary rounded-full"></div>
+                      )}
+                    </div>
+                    {activeQuestion === questionNum && (
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-meta-primary"></div>
                     )}
-                  </div>
-                  {activeQuestion === index + 1 && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-meta-primary"></div>
-                  )}
-                </button>
-              ))}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -256,19 +268,12 @@ export const ContestAttempt: React.FC = () => {
                 </div>
                 
                 {/* Problem Description */}
-                <div className="glass rounded-2xl p-6 mb-6">
+                <div className="glass rounded-2xl p-6">
                   <HtmlRenderer 
                     content={questions[activeQuestion - 1]?.description || ''}
                     className="text-meta-text"
-                    maxHeight="400px"
+                    maxHeight="none"
                   />
-                </div>
-                
-                {/* Problem Info */}
-                <div className="glass rounded-xl p-4 text-sm">
-                  <div className="flex items-center justify-between text-meta-textSecondary">
-                    <span><strong>Problem:</strong> #{questions[activeQuestion - 1]?.neetcode_number}</span>
-                  </div>
                 </div>
               </div>
             )}
@@ -334,17 +339,7 @@ export const ContestAttempt: React.FC = () => {
                 </button>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <button className="glass rounded-lg px-4 py-2 text-sm font-medium text-meta-textSecondary hover:text-meta-text transition-colors">
-                  Run Code
-                </button>
-                <button 
-                  onClick={finishContest}
-                  className="btn-glass text-meta-primary hover:bg-meta-primary hover:text-white font-semibold"
-                >
-                  Submit
-                </button>
-              </div>
+
             </div>
           </div>
         </div>

@@ -14,6 +14,8 @@ class QuestionBase(BaseModel):
     java_template: Optional[str] = None
     cpp_template: Optional[str] = None
     javascript_template: Optional[str] = None
+    go_template: Optional[str] = None
+    c_template: Optional[str] = None
 
 # Clean question schema without difficulty/category for API responses
 class QuestionClean(BaseModel):
@@ -25,6 +27,8 @@ class QuestionClean(BaseModel):
     java_template: Optional[str] = None
     cpp_template: Optional[str] = None
     javascript_template: Optional[str] = None
+    go_template: Optional[str] = None
+    c_template: Optional[str] = None
     created_at: datetime
     
     class Config:
@@ -123,4 +127,6 @@ class TemplateResponse(BaseModel):
     java: Optional[str] = None
     cpp: Optional[str] = None
     javascript: Optional[str] = None
+    go: Optional[str] = None
+    c: Optional[str] = None
 

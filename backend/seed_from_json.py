@@ -4,8 +4,6 @@ Script to seed the database with questions and contests from leetcode_data.json
 """
 
 import json
-import re
-import html
 from typing import Dict, List, Optional
 from database import SessionLocal
 from models import Question, Contest, Difficulty, Attempt
@@ -16,7 +14,27 @@ def add_leetcode_link(title_slug: str) -> str:
     """
     Add LeetCode problem link to the description
     """
-    return f"\n\nLeetCode Problem: https://leetcode.com/problems/{title_slug}/"
+    return f"\n\n<strong>LeetCode Problem:</strong> <a href=\"https://leetcode.com/problems/{title_slug}/\" target=\"_blank\">https://leetcode.com/problems/{title_slug}/</a>"
+
+def generate_basic_template(language: str, title: str) -> str:
+    """
+    Generate basic template code for Go and C when not available in LeetCode data
+    """
+    if language == "go":
+        # Convert title to function name (e.g., "Two Sum" -> "twoSum")
+        function_name = "".join(word.lower() if i == 0 else word.title() for i, word in enumerate(title.split()))
+        return f"""func {function_name}() {{
+    // TODO: Implement your solution here
+    return
+}}"""
+    elif language == "c":
+        # Convert title to function name (e.g., "Two Sum" -> "twoSum")
+        function_name = "".join(word.lower() if i == 0 else word.title() for i, word in enumerate(title.split()))
+        return f"""int* {function_name}() {{
+    // TODO: Implement your solution here
+    return NULL;
+}}"""
+    return ""
 
 def extract_code_snippet(code_snippets: List[Dict], language: str) -> Optional[str]:
     """
@@ -30,7 +48,9 @@ def extract_code_snippet(code_snippets: List[Dict], language: str) -> Optional[s
         "python": "python3",
         "java": "java", 
         "cpp": "cpp",
-        "javascript": "javascript"
+        "javascript": "javascript",
+        "go": "golang",
+        "c": "c"
     }
     
     target_lang = language_map.get(language, language)
@@ -75,6 +95,8 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
             java_template = extract_code_snippet(code_snippets, "java")
             cpp_template = extract_code_snippet(code_snippets, "cpp")
             javascript_template = extract_code_snippet(code_snippets, "javascript")
+            go_template = extract_code_snippet(code_snippets, "go") or generate_basic_template("go", title)
+            c_template = extract_code_snippet(code_snippets, "c") or generate_basic_template("c", title)
             
             # Map difficulty
             difficulty_enum = Difficulty.MEDIUM
@@ -93,7 +115,9 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
                 python_template=python_template,
                 java_template=java_template,
                 cpp_template=cpp_template,
-                javascript_template=javascript_template
+                javascript_template=javascript_template,
+                go_template=go_template,
+                c_template=c_template
             )
             
             db.add(question)

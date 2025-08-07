@@ -46,6 +46,11 @@ export default {
           error: '#374151',
           info: '#9ca3af',
           
+          // Blue colors for interactive elements
+          blue: '#3b82f6',
+          blueDark: '#2563eb',
+          blueLight: '#60a5fa',
+          
           // Glass effect colors - Pure whites and greys
           glass: 'rgba(255, 255, 255, 0.8)',
           glassDark: 'rgba(255, 255, 255, 0.6)',

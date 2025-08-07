@@ -89,7 +89,7 @@ export const ContestList: React.FC = () => {
   }
 
   return (
-    <div className="max-w-full mx-auto px-6 py-4">
+    <div className="h-screen flex flex-col max-w-full mx-auto px-6 py-4">
 
 
       {/* Stats */}
@@ -191,90 +191,147 @@ export const ContestList: React.FC = () => {
       </div>
 
       {/* Contest Grid */}
-      <div className="grid grid-cols-10 gap-3">
-        {filteredContests.length === 0 ? (
-          <div className="col-span-full">
-            <div className="bg-slate-50 rounded-3xl p-12 text-center border-2 border-slate-200">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-800 rounded-full mb-6 shadow-lg">
-                <Target className="w-10 h-10 text-slate-200" />
-              </div>
-              <div className="text-2xl font-bold text-slate-800 mb-3">
-                {filter === 'attempted' 
-                  ? "Ready to Begin Your Coding Journey?"
-                  : filter === 'not-attempted'
-                  ? "Amazing! You're on a Roll!"
-                  : "Your Coding Adventure Awaits!"}
-              </div>
-              <p className="text-slate-600 text-lg max-w-md mx-auto leading-relaxed">
-                {filter === 'attempted' 
-                  ? "Time to dive into your first coding challenge! Pick any contest and start building your skills."
-                  : filter === 'not-attempted'
-                  ? "You've tackled all available challenges! New contests are coming soon. Keep checking back!"
-                  : "We're preparing exciting coding challenges just for you. Check back soon for fresh problems to solve!"}
-              </p>
-              {filter === 'attempted' && (
-                <button 
-                  onClick={() => setFilter('not-attempted')}
-                  className="mt-6 px-8 py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  Show Me Fresh Challenges
-                </button>
-              )}
+      {filteredContests.length === 0 ? (
+        <div className="col-span-full">
+          <div className="bg-slate-50 rounded-3xl p-12 text-center border-2 border-slate-200">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-800 rounded-full mb-6 shadow-lg">
+              <Target className="w-10 h-10 text-slate-200" />
             </div>
-          </div>
-        ) : (
-          filteredContests.map((contest) => {
-            const isStarting = startingContests.has(contest.id)
-            return (
-              <div
-                key={contest.id}
-                className="bg-white rounded-lg p-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 flex flex-col h-20 cursor-pointer group relative"
-                onClick={(e) => handleContestClick(contest, e)}
+            <div className="text-2xl font-bold text-slate-800 mb-3">
+              {filter === 'attempted' 
+                ? "Ready to Begin Your Coding Journey?"
+                : filter === 'not-attempted'
+                ? "Amazing! You're on a Roll!"
+                : "Your Coding Adventure Awaits!"}
+            </div>
+            <p className="text-slate-600 text-lg max-w-md mx-auto leading-relaxed">
+              {filter === 'attempted' 
+                ? "Time to dive into your first coding challenge! Pick any contest and start building your skills."
+                : filter === 'not-attempted'
+                ? "You've tackled all available challenges! New contests are coming soon. Keep checking back!"
+                : "We're preparing exciting coding challenges just for you. Check back soon for fresh problems to solve!"}
+            </p>
+            {filter === 'attempted' && (
+              <button 
+                onClick={() => setFilter('not-attempted')}
+                className="mt-6 px-8 py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                <div className="flex items-center justify-between mb-1">
-                  <span className={`w-2 h-2 rounded-full ${
-                    contest.last_attempt_status === 'completed' 
-                      ? 'bg-green-500' 
-                      : contest.has_attempts 
-                        ? 'bg-blue-500'
-                        : 'bg-gray-300'
-                  }`}></span>
-                  <div className="flex items-center space-x-1">
-                    {contest.has_attempts && (
-                      <Link
-                        to={`/contest/${contest.id}`}
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-gray-400 hover:text-gray-600 transition-colors p-1"
-                        title="View contest history"
-                      >
-                        <History className="w-3 h-3" />
-                      </Link>
-                    )}
-                    <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-xs">
-                      {isStarting ? '⟳' : '→'}
+                Show Me Fresh Challenges
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
+                 <div className="grid grid-cols-2 gap-6 flex-1">
+          {/* Left Column - First 25 contests */}
+          <div className="grid grid-cols-5 gap-3">
+            {filteredContests.slice(0, 25).map((contest) => {
+              const isStarting = startingContests.has(contest.id)
+              return (
+                <div
+                  key={contest.id}
+                  className="bg-white rounded-lg p-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 flex flex-col h-20 cursor-pointer group relative"
+                  onClick={(e) => handleContestClick(contest, e)}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`w-2 h-2 rounded-full ${
+                      contest.last_attempt_status === 'completed' 
+                        ? 'bg-green-500' 
+                        : contest.has_attempts 
+                          ? 'bg-blue-500'
+                          : 'bg-gray-300'
+                    }`}></span>
+                    <div className="flex items-center space-x-1">
+                      {contest.has_attempts && (
+                        <Link
+                          to={`/contest/${contest.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                          title="View contest history"
+                        >
+                          <History className="w-3 h-3" />
+                        </Link>
+                      )}
+                      <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-xs">
+                        {isStarting ? '⟳' : '→'}
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="flex-1">
-                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
-                    {contest.name}
-                  </h3>
-                  <p className="text-xs text-gray-500">
-                    {isStarting ? 'Starting...' : '3 Problems'}
-                  </p>
-                </div>
-                
-                {isStarting && (
-                  <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                  
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+                      {contest.name}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {isStarting ? 'Starting...' : '3 Problems'}
+                    </p>
                   </div>
-                )}
-              </div>
-            )
-          })
-        )}
-      </div>
+                  
+                  {isStarting && (
+                    <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Right Column - Last 25 contests */}
+          <div className="grid grid-cols-5 gap-3">
+            {filteredContests.slice(25, 50).map((contest) => {
+              const isStarting = startingContests.has(contest.id)
+              return (
+                <div
+                  key={contest.id}
+                  className="bg-white rounded-lg p-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 border border-gray-200 flex flex-col h-20 cursor-pointer group relative"
+                  onClick={(e) => handleContestClick(contest, e)}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`w-2 h-2 rounded-full ${
+                      contest.last_attempt_status === 'completed' 
+                        ? 'bg-green-500' 
+                        : contest.has_attempts 
+                          ? 'bg-blue-500'
+                          : 'bg-gray-300'
+                    }`}></span>
+                    <div className="flex items-center space-x-1">
+                      {contest.has_attempts && (
+                        <Link
+                          to={`/contest/${contest.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                          title="View contest history"
+                        >
+                          <History className="w-3 h-3" />
+                        </Link>
+                      )}
+                      <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-xs">
+                        {isStarting ? '⟳' : '→'}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+                      {contest.name}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {isStarting ? 'Starting...' : '3 Problems'}
+                    </p>
+                  </div>
+                  
+                  {isStarting && (
+                    <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
 
     </div>

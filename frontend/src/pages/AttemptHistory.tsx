@@ -41,11 +41,17 @@ export const AttemptHistory: React.FC = () => {
     return attempt.status === filter
   })
 
+  const completedAttempts = attempts.filter(a => a.status === 'completed')
+  const avgCompletionTime = completedAttempts.length > 0 
+    ? Math.round(completedAttempts.reduce((sum, a) => sum + (a.duration_seconds || 0), 0) / completedAttempts.length)
+    : 0
+
   const stats = {
     total: attempts.length,
-    completed: attempts.filter(a => a.status === 'completed').length,
+    completed: completedAttempts.length,
     inProgress: attempts.filter(a => a.status === 'in_progress').length,
     abandoned: attempts.filter(a => a.status === 'abandoned').length,
+    avgTime: avgCompletionTime,
   }
 
   if (loading) {
@@ -76,7 +82,7 @@ export const AttemptHistory: React.FC = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
         <div className="card meta-card-hover gradient-card">
           <div className="flex items-center">
             <div className="flex-1">
@@ -109,6 +115,15 @@ export const AttemptHistory: React.FC = () => {
             <div className="flex-1">
               <p className="text-sm font-medium text-meta-textSecondary">Abandoned</p>
               <p className="text-3xl font-bold text-meta-textSecondary">{stats.abandoned}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="card meta-card-hover gradient-card">
+          <div className="flex items-center">
+            <div className="flex-1">
+              <p className="text-sm font-medium text-meta-textSecondary">Avg. Time</p>
+              <p className="text-3xl font-bold text-meta-primary">{formatTime(stats.avgTime)}</p>
             </div>
           </div>
         </div>
@@ -186,10 +201,27 @@ export const AttemptHistory: React.FC = () => {
                       
                       {attempt.completed_at && (
                         <div>
+                          <span className="text-meta-textSecondary font-medium">Completed:</span>
+                          <div className="font-semibold text-meta-text">
+                            {new Date(attempt.completed_at).toLocaleDateString()}
+                          </div>
+                          <div className="text-xs text-meta-textSecondary">
+                            {new Date(attempt.completed_at).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {attempt.duration_seconds && (
+                        <div>
                           <span className="text-meta-textSecondary font-medium">Duration:</span>
                           <div className="font-semibold text-meta-text">
-                            {formatTime(attempt.duration_seconds || 0)}
+                            {formatTime(attempt.duration_seconds)}
                           </div>
+                          {attempt.duration_seconds > 3600 && (
+                            <div className="text-xs text-meta-warning">
+                              ⚠️ Over time limit
+                            </div>
+                          )}
                         </div>
                       )}
                       

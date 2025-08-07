@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS questions (
     java_template TEXT,
     cpp_template TEXT,
     javascript_template TEXT,
+    go_template TEXT,
+    c_template TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -33,11 +35,11 @@ CREATE TABLE IF NOT EXISTS attempts (
     duration_seconds INTEGER,
     status VARCHAR(20) DEFAULT 'in_progress' CHECK (status IN ('in_progress', 'completed', 'abandoned')),
     question1_code TEXT,
-    question1_language VARCHAR(20),
+    question1_language VARCHAR(20) CHECK (question1_language IN ('python', 'java', 'cpp', 'javascript', 'go', 'c')),
     question2_code TEXT,
-    question2_language VARCHAR(20),
+    question2_language VARCHAR(20) CHECK (question2_language IN ('python', 'java', 'cpp', 'javascript', 'go', 'c')),
     question3_code TEXT,
-    question3_language VARCHAR(20),
+    question3_language VARCHAR(20) CHECK (question3_language IN ('python', 'java', 'cpp', 'javascript', 'go', 'c')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

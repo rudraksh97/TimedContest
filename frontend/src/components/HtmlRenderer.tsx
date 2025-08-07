@@ -84,6 +84,21 @@ export const HtmlRenderer: React.FC<HtmlRendererProps> = ({
         .html-content .example { 
           font-weight: 600 !important; 
         }
+        .html-content a { 
+          color: #2563eb !important; 
+          text-decoration: underline !important; 
+          text-decoration-color: #2563eb !important; 
+          text-decoration-thickness: 1px !important; 
+          text-underline-offset: 2px !important;
+        }
+        .html-content a:hover { 
+          color: #1d4ed8 !important; 
+          text-decoration-color: #1d4ed8 !important; 
+        }
+        .html-content a:visited { 
+          color: #7c3aed !important; 
+          text-decoration-color: #7c3aed !important; 
+        }
       `}</style>
       <div 
         className={`html-content ${className}`}

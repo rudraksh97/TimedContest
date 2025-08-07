@@ -10,6 +10,8 @@ export interface Question {
   java_template?: string;
   cpp_template?: string;
   javascript_template?: string;
+  go_template?: string;
+  c_template?: string;
   created_at: string;
 }
 
@@ -34,7 +36,7 @@ export interface ContestSummary {
 
 // Use string literal types instead of enums
 export type AttemptStatus = 'in_progress' | 'completed' | 'abandoned';
-export type Language = 'python' | 'java' | 'cpp' | 'javascript';
+export type Language = 'python' | 'java' | 'cpp' | 'javascript' | 'go' | 'c';
 
 export interface Attempt {
   id: string;
@@ -83,6 +85,8 @@ export interface QuestionTemplate {
     java?: string;
     cpp?: string;
     javascript?: string;
+    go?: string;
+    c?: string;
   };
 }
 

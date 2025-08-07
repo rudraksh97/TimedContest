@@ -21,6 +21,8 @@ class Language(str, enum.Enum):
     JAVA = "java"
     CPP = "cpp"
     JAVASCRIPT = "javascript"
+    GO = "go"
+    C = "c"
 
 class Question(Base):
     __tablename__ = "questions"
@@ -35,6 +37,8 @@ class Question(Base):
     java_template = Column(Text)
     cpp_template = Column(Text)
     javascript_template = Column(Text)
+    go_template = Column(Text)
+    c_template = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Contest(Base):
