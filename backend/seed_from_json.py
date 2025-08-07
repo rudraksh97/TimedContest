@@ -148,62 +148,118 @@ def seed_questions_from_json(db: Session) -> Dict[str, int]:
 
 def create_contests(db: Session, title_to_id: Dict[str, int], questions_per_contest: int = 3) -> None:
     """
-    Create 50 balanced contests with questions ordered from low to high difficulty
+    Create contests with various difficulty combinations while ensuring all problems are used
+    Distribution patterns:
+    - (Easy, Easy, Easy)
+    - (Easy, Medium, Medium) 
+    - (Easy, Easy, Medium)
+    - (Easy, Medium, Hard)
+    - (Medium, Medium, Medium)
     """
-    print("Creating 50 balanced contests...")
+    print("Creating contests with balanced difficulty distribution...")
     
-    # Get all questions with their difficulty levels
-    questions = []
+    # Get all questions grouped by difficulty
+    easy_questions = []
+    medium_questions = []
+    hard_questions = []
+    
     for title_slug, question_id in title_to_id.items():
         question = db.query(Question).filter(Question.id == question_id).first()
         if question:
-            questions.append({
+            question_data = {
                 'id': question.id,
                 'difficulty': question.difficulty,
                 'title': question.title
-            })
-    
-    # Sort questions by difficulty (Easy -> Medium -> Hard)
-    difficulty_order = {'Easy': 1, 'Medium': 2, 'Hard': 3}
-    questions.sort(key=lambda x: difficulty_order[x['difficulty']])
-    
-    total_questions = len(questions)
-    target_contests = 50
-    
-    if total_questions < target_contests * questions_per_contest:
-        print(f"❌ Not enough questions ({total_questions}) to create {target_contests} contests with {questions_per_contest} questions each")
-        return
-    
-    # Create exactly 50 contests
-    for contest_number in range(1, target_contests + 1):
-        try:
-            # Calculate question indices for this contest
-            start_idx = (contest_number - 1) * questions_per_contest
-            end_idx = start_idx + questions_per_contest
+            }
             
-            if end_idx > total_questions:
-                print(f"❌ Not enough questions for contest {contest_number}")
+            if question.difficulty == 'Easy':
+                easy_questions.append(question_data)
+            elif question.difficulty == 'Medium':
+                medium_questions.append(question_data)
+            elif question.difficulty == 'Hard':
+                hard_questions.append(question_data)
+    
+    print(f"Found {len(easy_questions)} Easy, {len(medium_questions)} Medium, {len(hard_questions)} Hard questions")
+    
+    # Define contest patterns with their difficulty combinations
+    contest_patterns = [
+        ('Easy', 'Easy', 'Easy'),           # Pattern 1: All Easy
+        ('Easy', 'Medium', 'Medium'),       # Pattern 2: Easy + 2 Medium
+        ('Easy', 'Easy', 'Medium'),         # Pattern 3: 2 Easy + Medium
+        ('Easy', 'Medium', 'Hard'),         # Pattern 4: One of each
+        ('Medium', 'Medium', 'Medium'),     # Pattern 5: All Medium
+        ('Medium', 'Medium', 'Hard'),       # Pattern 6: 2 Medium + Hard
+        ('Medium', 'Hard', 'Hard'),         # Pattern 7: Medium + 2 Hard
+        ('Hard', 'Hard', 'Hard'),           # Pattern 8: All Hard
+    ]
+    
+    # Initialize question indices for each difficulty
+    easy_idx = 0
+    medium_idx = 0
+    hard_idx = 0
+    
+    contests_created = 0
+    max_contests = 50
+    
+    # Create contests using the patterns
+    pattern_idx = 0
+    while contests_created < max_contests:
+        pattern = contest_patterns[pattern_idx % len(contest_patterns)]
+        
+        # Check if we have enough questions for this pattern
+        easy_needed = pattern.count('Easy')
+        medium_needed = pattern.count('Medium')
+        hard_needed = pattern.count('Hard')
+        
+        if (easy_idx + easy_needed > len(easy_questions) or 
+            medium_idx + medium_needed > len(medium_questions) or 
+            hard_needed > 0 and hard_idx + hard_needed > len(hard_questions)):
+            
+            # If we can't create more contests with current pattern, try next pattern
+            pattern_idx += 1
+            if pattern_idx >= len(contest_patterns) * 2:  # Try each pattern twice before giving up
+                print(f"⚠️  Cannot create more contests with available questions")
                 break
+            continue
+        
+        try:
+            # Select questions based on the pattern
+            contest_questions = []
             
-            # Get questions for this contest (already sorted by difficulty)
-            contest_questions = questions[start_idx:end_idx]
+            for difficulty in pattern:
+                if difficulty == 'Easy':
+                    contest_questions.append(easy_questions[easy_idx])
+                    easy_idx += 1
+                elif difficulty == 'Medium':
+                    contest_questions.append(medium_questions[medium_idx])
+                    medium_idx += 1
+                elif difficulty == 'Hard':
+                    contest_questions.append(hard_questions[hard_idx])
+                    hard_idx += 1
             
             contest = Contest(
-                name=f"Contest {contest_number}",
+                name=f"Contest {contests_created + 1}",
                 question1_id=contest_questions[0]['id'],
                 question2_id=contest_questions[1]['id'] if len(contest_questions) > 1 else None,
                 question3_id=contest_questions[2]['id'] if len(contest_questions) > 2 else None
             )
             
             db.add(contest)
-            print(f"✅ Created Contest {contest_number} with questions: {[q['title'][:30] + '...' for q in contest_questions]}")
+            print(f"✅ Created Contest {contests_created + 1} with pattern {pattern}:")
+            for i, q in enumerate(contest_questions):
+                print(f"   - {pattern[i]}: {q['title'][:30]}...")
+            
+            contests_created += 1
             
         except Exception as e:
-            print(f"❌ Error creating contest {contest_number}: {e}")
+            print(f"❌ Error creating contest {contests_created + 1}: {e}")
+            pattern_idx += 1
             continue
     
     db.commit()
-    print(f"Successfully created {target_contests} contests!")
+    print(f"Successfully created {contests_created} contests!")
+    print(f"Questions used: {easy_idx} Easy, {medium_idx} Medium, {hard_idx} Hard")
+    print(f"Questions remaining: {len(easy_questions) - easy_idx} Easy, {len(medium_questions) - medium_idx} Medium, {len(hard_questions) - hard_idx} Hard")
 
 def is_database_empty(db: Session) -> bool:
     """
