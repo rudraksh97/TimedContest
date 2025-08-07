@@ -11,19 +11,19 @@ export const Navigation: React.FC = () => {
   }
 
   return (
-    <nav className="bg-hackerrank-darker/80 backdrop-blur-md border-b border-hackerrank-border sticky top-0 z-50">
+    <nav className="bg-meta-darker/80 backdrop-blur-md border-b border-meta-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link 
               to="/" 
-              className="flex items-center space-x-3 text-lg font-bold text-hackerrank-text hover:text-hackerrank-green transition-all duration-200 group"
+              className="flex items-center space-x-3 text-lg font-bold text-meta-text hover:text-meta-blue transition-all duration-200 group"
             >
-              <div className="w-10 h-10 hackerrank-gradient rounded-xl flex items-center justify-center text-hackerrank-dark text-lg font-bold shadow-hackerrank group-hover:shadow-hackerrank-lg transition-all duration-200">
-                HR
+              <div className="w-10 h-10 meta-gradient rounded-xl flex items-center justify-center text-meta-dark text-lg font-bold shadow-meta group-hover:shadow-meta-lg transition-all duration-200">
+                C
               </div>
-              <span className="text-xl font-extrabold bg-gradient-to-r from-hackerrank-green to-hackerrank-greenLight bg-clip-text text-transparent">
-                HackerRank
+              <span className="text-xl font-extrabold bg-gradient-to-r from-meta-blue to-meta-blueLight bg-clip-text text-transparent">
+                CodeContest
               </span>
             </Link>
             
@@ -53,9 +53,9 @@ export const Navigation: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-3 text-sm text-hackerrank-textSecondary">
+            <div className="hidden sm:flex items-center space-x-3 text-sm text-meta-textSecondary">
               <span className="font-medium">Ready to code?</span>
-              <div className="w-2 h-2 bg-hackerrank-green rounded-full animate-pulse-slow"></div>
+              <div className="w-2 h-2 bg-meta-blue rounded-full animate-pulse-slow"></div>
             </div>
           </div>
         </div>

@@ -17,12 +17,12 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 }) => {
   return (
     <div className="flex items-center space-x-2">
-      <span className="text-sm text-hackerrank-textSecondary font-medium">Language:</span>
+      <span className="text-sm text-meta-textSecondary font-medium">Language:</span>
       <select
         value={selectedLanguage}
         onChange={(e) => onChange(e.target.value as Language)}
         disabled={disabled}
-        className="text-sm border border-hackerrank-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-hackerrank-green focus:border-transparent bg-hackerrank-light text-hackerrank-text font-medium shadow-hackerrank transition-all duration-200 hover:border-hackerrank-borderLight"
+        className="text-sm border border-meta-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-meta-blue focus:border-transparent bg-meta-light text-meta-text font-medium shadow-meta transition-all duration-200 hover:border-meta-borderLight"
       >
         {languages.map((language) => {
           const config = getLanguageConfig(language)

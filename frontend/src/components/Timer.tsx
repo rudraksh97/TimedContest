@@ -82,10 +82,10 @@ export const Timer: React.FC<TimerProps> = ({
   const progressPercentage = (timerState.timeLeft / initialTime) * 100
 
   return (
-    <div className="bg-hackerrank-light/50 backdrop-blur-sm border border-hackerrank-border rounded-xl p-4 shadow-hackerrank">
+    <div className="bg-meta-light/50 backdrop-blur-sm border border-meta-border rounded-xl p-4 shadow-meta">
       {/* Notification */}
       {notification && (
-        <div className="px-4 py-3 bg-hackerrank-warning/20 border border-hackerrank-warning/30 rounded-lg text-hackerrank-warning text-sm font-medium mb-4">
+        <div className="px-4 py-3 bg-meta-warning/20 border border-meta-warning/30 rounded-lg text-meta-warning text-sm font-medium mb-4">
           {notification}
         </div>
       )}
@@ -96,28 +96,28 @@ export const Timer: React.FC<TimerProps> = ({
             <div className={`text-3xl font-mono font-bold ${timerColorClass}`}>
               {formatTime(timerState.timeLeft)}
             </div>
-            <div className="text-sm text-hackerrank-textSecondary font-medium">
+            <div className="text-sm text-meta-textSecondary font-medium">
               {timerState.timeLeft <= 0 ? 'Time\'s up!' : 'remaining'}
             </div>
           </div>
           
           {/* Progress indicator */}
           <div className="flex items-center space-x-3">
-            <div className="w-40 bg-hackerrank-border rounded-full h-3 overflow-hidden">
+            <div className="w-40 bg-meta-border rounded-full h-3 overflow-hidden">
               <div
                 className={`h-3 rounded-full transition-all duration-1000 ${
                   timerState.timeLeft <= 300 
-                    ? 'bg-hackerrank-error' 
+                    ? 'bg-meta-error' 
                     : timerState.timeLeft <= 1800 
-                    ? 'bg-hackerrank-warning' 
-                    : 'bg-hackerrank-success'
+                    ? 'bg-meta-warning' 
+                    : 'bg-meta-success'
                 }`}
                 style={{
                   width: `${progressPercentage}%`
                 }}
               />
             </div>
-            <span className="text-sm text-hackerrank-textSecondary font-medium min-w-0">
+            <span className="text-sm text-meta-textSecondary font-medium min-w-0">
               {Math.round(progressPercentage)}%
             </span>
           </div>
@@ -127,14 +127,14 @@ export const Timer: React.FC<TimerProps> = ({
           <button
             onClick={toggleTimer}
             disabled={timerState.timeLeft <= 0}
-            className="btn btn-secondary btn-sm shadow-hackerrank"
+            className="btn btn-secondary btn-sm shadow-meta"
           >
             {timerState.isRunning ? 'Pause' : 'Resume'}
           </button>
           
           <button
             onClick={resetTimer}
-            className="btn btn-secondary btn-sm shadow-hackerrank"
+            className="btn btn-secondary btn-sm shadow-meta"
           >
             Reset
           </button>

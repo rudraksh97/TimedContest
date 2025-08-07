@@ -8,51 +8,51 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
         },
-        hackerrank: {
-          // Main brand colors - HackerRank green
-          green: '#00ea64',
-          greenDark: '#00c853',
-          greenLight: '#00ff6b',
+        meta: {
+          // Main brand colors - Meta blue
+          blue: '#0ea5e9',
+          blueDark: '#0284c7',
+          blueLight: '#38bdf8',
           
           // Background colors - Clean, modern grays
-          dark: '#0f1419',
-          darker: '#0a0e13',
-          light: '#1a1f2e',
-          lighter: '#2a2f3e',
+          dark: '#0f172a',
+          darker: '#020617',
+          light: '#1e293b',
+          lighter: '#334155',
           
           // Text colors - Better contrast
-          text: '#ffffff',
-          textSecondary: '#a0aec0',
-          textMuted: '#718096',
+          text: '#f8fafc',
+          textSecondary: '#cbd5e1',
+          textMuted: '#94a3b8',
           
           // Border colors - Subtle and modern
-          border: '#2d3748',
-          borderLight: '#4a5568',
+          border: '#334155',
+          borderLight: '#475569',
           
           // Accent colors
-          blue: '#3182ce',
-          blueLight: '#63b3ed',
-          yellow: '#d69e2e',
-          yellowLight: '#f6e05e',
-          red: '#e53e3e',
-          redLight: '#fc8181',
+          purple: '#8b5cf6',
+          purpleLight: '#a78bfa',
+          yellow: '#f59e0b',
+          yellowLight: '#fbbf24',
+          red: '#ef4444',
+          redLight: '#f87171',
           
           // Status colors
-          success: '#00ea64',
-          warning: '#f6ad55',
-          error: '#fc8181',
-          info: '#63b3ed',
+          success: '#10b981',
+          warning: '#f59e0b',
+          error: '#ef4444',
+          info: '#3b82f6',
         }
       },
       fontFamily: {
@@ -60,8 +60,8 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'hackerrank': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'hackerrank-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'meta': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'meta-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

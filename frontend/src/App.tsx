@@ -10,7 +10,7 @@ import { AttemptReview } from './pages/AttemptReview'
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-hackerrank-dark">
+      <div className="min-h-screen bg-meta-dark">
         <Navigation />
         <main>
           <Routes>
