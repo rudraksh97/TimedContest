@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { Question, Attempt, Language } from '../types'
+import { Question, Attempt } from '../types'
 import { CodeEditor } from '../components/CodeEditor'
 import { HtmlRenderer } from '../components/HtmlRenderer'
-import { attemptAPI, contestAPI } from '../services/api'
+import { attemptAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
 
 export const AttemptReview: React.FC = () => {
