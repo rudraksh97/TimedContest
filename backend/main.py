@@ -186,6 +186,12 @@ async def update_attempt(
         duration = attempt.completed_at - attempt.started_at
         attempt.duration_seconds = int(duration.total_seconds())
     
+    # If resetting the timer (remaining_time_seconds is set to 3600), update started_at
+    if (attempt_update.remaining_time_seconds == 3600 and 
+        attempt.remaining_time_seconds != 3600):
+        attempt.started_at = datetime.utcnow()
+        print(f"Timer reset detected, updating started_at to {attempt.started_at}")
+    
     db.commit()
     db.refresh(attempt)
     

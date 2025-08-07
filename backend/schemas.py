@@ -110,6 +110,7 @@ class AttemptUpdate(BaseModel):
     completed_at: Optional[datetime] = None
     duration_seconds: Optional[int] = None
     remaining_time_seconds: Optional[int] = None
+    started_at: Optional[datetime] = None
 
 class Attempt(AttemptBase):
     id: uuid.UUID

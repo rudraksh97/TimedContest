@@ -157,6 +157,11 @@ export const Timer: React.FC<TimerProps> = ({
     }
     setTimerState(newState)
     console.log('Timer reset to initial time:', initialTime, 'seconds')
+    
+    // Update the database with the new remaining time
+    if (onTimeUpdate) {
+      onTimeUpdate(initialTime)
+    }
   }
 
   const timerColorClass = getTimerColor(timerState.timeLeft)

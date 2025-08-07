@@ -52,7 +52,7 @@ export const ContestAttempt: React.FC = () => {
           }
         } else {
           newCodes[i as keyof typeof codes] = {
-            code: templatesData[questionKey].templates.python || '',
+            code: templatesData[questionKey as keyof ContestTemplates].templates.python || '',
             language: 'python'
           }
         }
@@ -101,7 +101,17 @@ export const ContestAttempt: React.FC = () => {
     if (!attemptId) return
     
     try {
-      await attemptAPI.update(attemptId, { remaining_time_seconds: remainingTime })
+      const updateData: {
+        remaining_time_seconds: number;
+        started_at?: string;
+      } = { remaining_time_seconds: remainingTime }
+      
+      // If resetting to initial time (3600 seconds), also update started_at
+      if (remainingTime === 3600) {
+        updateData.started_at = new Date().toISOString()
+      }
+      
+      await attemptAPI.update(attemptId, updateData)
     } catch (error) {
       console.error('Error saving remaining time:', error)
     }
@@ -146,7 +156,9 @@ export const ContestAttempt: React.FC = () => {
     
     try {
       await attemptAPI.update(attemptId, { status: 'completed' })
-      navigate(`/attempt/${attemptId}/review`)
+      // Navigate to review page and replace the current history entry
+      // This ensures the back button takes users to the page before the contest, not back to the contest
+      navigate(`/attempt/${attemptId}/review`, { replace: true })
     } catch (error) {
       console.error('Error finishing contest:', error)
     }
@@ -161,7 +173,9 @@ export const ContestAttempt: React.FC = () => {
     
     try {
       await attemptAPI.update(attemptId, { status: 'abandoned' })
-      navigate(`/contest/${id}`)
+      // Navigate to contest details and replace the current history entry
+      // This ensures the back button takes users to the page before the contest, not back to the contest
+      navigate(`/contest/${id}`, { replace: true })
     } catch (error) {
       console.error('Error abandoning contest:', error)
     }
