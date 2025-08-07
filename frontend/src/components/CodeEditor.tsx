@@ -31,14 +31,43 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
       const start = textarea.selectionStart
       const end = textarea.selectionEnd
       
-      // Insert tab character
-      const newValue = value.substring(0, start) + '  ' + value.substring(end)
+      // Insert tab character (4 spaces)
+      const newValue = value.substring(0, start) + '    ' + value.substring(end)
       onChange(newValue)
       
       // Move cursor
       setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd = start + 2
+        textarea.selectionStart = textarea.selectionEnd = start + 4
       }, 0)
+    }
+    
+    // Handle backspace key for proper indentation removal
+    if (e.key === 'Backspace') {
+      const textarea = e.currentTarget
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      
+      // If there's a selection, let the default behavior handle it
+      if (start !== end) {
+        return
+      }
+      
+      // Check if the previous 4 characters are spaces
+      if (start >= 4) {
+        const beforeCursor = value.substring(start - 4, start)
+        
+        // If the last 4 characters before cursor are spaces, remove them
+        if (beforeCursor === '    ') {
+          e.preventDefault()
+          const newValue = value.substring(0, start - 4) + value.substring(end)
+          onChange(newValue)
+          
+          // Move cursor back by 4
+          setTimeout(() => {
+            textarea.selectionStart = textarea.selectionEnd = start - 4
+          }, 0)
+        }
+      }
     }
   }
 
