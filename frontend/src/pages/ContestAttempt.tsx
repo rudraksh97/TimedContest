@@ -164,23 +164,6 @@ export const ContestAttempt: React.FC = () => {
     }
   }
 
-  const abandonContest = async () => {
-    if (!attemptId || !id) return
-    
-    if (!confirm('Are you sure you want to abandon this contest? Your progress will be lost.')) {
-      return
-    }
-    
-    try {
-      await attemptAPI.update(attemptId, { status: 'abandoned' })
-      // Navigate to contest details and replace the current history entry
-      // This ensures the back button takes users to the page before the contest, not back to the contest
-      navigate(`/contest/${id}`, { replace: true })
-    } catch (error) {
-      console.error('Error abandoning contest:', error)
-    }
-  }
-
   if (loading || !attempt || !templates) {
     return (
       <div className="h-screen flex items-center justify-center bg-gradient-bg">
@@ -238,12 +221,6 @@ export const ContestAttempt: React.FC = () => {
               Submit Contest
             </button>
             
-            <button
-              onClick={abandonContest}
-              className="glass rounded-lg px-4 py-2 text-meta-textSecondary hover:text-meta-text transition-colors"
-            >
-              Exit
-            </button>
           </div>
         </div>
       </div>

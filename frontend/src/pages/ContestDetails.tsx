@@ -4,6 +4,7 @@ import { Contest, Attempt } from '../types'
 import { contestAPI, attemptAPI } from '../services/api'
 import { formatTime } from '../utils/timer'
 import { statusColors, getStatusText } from '../utils/language'
+import { ConfirmationModal } from '../components/ConfirmationModal'
 
 export const ContestDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -12,6 +13,10 @@ export const ContestDetails: React.FC = () => {
   const [attempts, setAttempts] = useState<Attempt[]>([])
   const [loading, setLoading] = useState(true)
   const [startingContest, setStartingContest] = useState(false)
+  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; attemptId: string | null }>({
+    isOpen: false,
+    attemptId: null
+  })
 
   useEffect(() => {
     fetchData()
@@ -50,14 +55,22 @@ export const ContestDetails: React.FC = () => {
   }
 
   const handleDeleteAttempt = async (attemptId: string) => {
-    if (!confirm('Are you sure you want to delete this submission?')) return
+    setDeleteModal({ isOpen: true, attemptId })
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteModal.attemptId) return
     
     try {
-      await attemptAPI.delete(attemptId)
-      setAttempts(attempts.filter(a => a.id !== attemptId))
+      await attemptAPI.delete(deleteModal.attemptId)
+      setAttempts(attempts.filter(a => a.id !== deleteModal.attemptId))
     } catch (error) {
       console.error('Error deleting attempt:', error)
     }
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, attemptId: null })
   }
 
   if (loading) {
@@ -218,6 +231,15 @@ export const ContestDetails: React.FC = () => {
           </div>
         </div>
       )}
+      <ConfirmationModal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this submission?"
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </div>
   )
 }

@@ -4,11 +4,16 @@ import { Attempt } from '../types'
 import { attemptAPI } from '../services/api'
 import { statusColors, getStatusText } from '../utils/language'
 import { formatTime } from '../utils/timer'
+import { ConfirmationModal } from '../components/ConfirmationModal'
 
 export const AttemptHistory: React.FC = () => {
   const [attempts, setAttempts] = useState<Attempt[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'completed' | 'in_progress' | 'abandoned'>('all')
+  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; attemptId: string | null }>({
+    isOpen: false,
+    attemptId: null
+  })
 
   useEffect(() => {
     fetchAttempts()
@@ -26,14 +31,22 @@ export const AttemptHistory: React.FC = () => {
   }
 
   const handleDeleteAttempt = async (attemptId: string) => {
-    if (!confirm('Are you sure you want to delete this submission?')) return
+    setDeleteModal({ isOpen: true, attemptId })
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteModal.attemptId) return
     
     try {
-      await attemptAPI.delete(attemptId)
-      setAttempts(attempts.filter(a => a.id !== attemptId))
+      await attemptAPI.delete(deleteModal.attemptId)
+      setAttempts(attempts.filter(a => a.id !== deleteModal.attemptId))
     } catch (error) {
       console.error('Error deleting attempt:', error)
     }
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, attemptId: null })
   }
 
   const filteredAttempts = attempts.filter(attempt => {
@@ -290,6 +303,14 @@ export const AttemptHistory: React.FC = () => {
           </div>
         )}
       </div>
+
+      <ConfirmationModal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this submission? This action cannot be undone."
+      />
     </div>
   )
 }

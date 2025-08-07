@@ -40,6 +40,10 @@
     @apply bg-meta-error text-white hover:bg-meta-error/90 focus:ring-meta-error shadow-meta;
   }
   
+  .btn-warning {
+    @apply bg-meta-warning text-white hover:bg-meta-warning/90 focus:ring-meta-warning shadow-meta;
+  }
+  
   .btn-sm {
     @apply px-3 py-1.5 text-xs;
   }
