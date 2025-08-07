@@ -39,10 +39,10 @@ export const ContestList: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-meta-light rounded-xl w-1/4 mb-6"></div>
+          <div className="h-8 bg-meta-lighter rounded-xl w-1/4 mb-6"></div>
           <div className="grid grid-cols-1 gap-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-16 bg-meta-light rounded-xl"></div>
+              <div key={i} className="h-16 bg-meta-lighter rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -139,7 +139,7 @@ export const ContestList: React.FC = () => {
 
       {/* Contest List */}
       <div className="card p-0 overflow-hidden gradient-card">
-        <div className="px-6 py-4 bg-meta-darker/50 border-b border-meta-border">
+        <div className="px-6 py-4 bg-meta-lighter/50 border-b border-meta-border">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-meta-text">Contests</h3>
             <div className="text-sm text-meta-textSecondary">
@@ -162,7 +162,7 @@ export const ContestList: React.FC = () => {
             </div>
           ) : (
             filteredContests.map((contest) => (
-              <div key={contest.id} className="px-6 py-4 hover:bg-meta-darker/50 transition-all duration-200">
+              <div key={contest.id} className="px-6 py-4 hover:bg-meta-lighter/50 transition-all duration-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">

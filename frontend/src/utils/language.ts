@@ -39,8 +39,8 @@ export const difficultyColors = {
 
 export const statusColors = {
   in_progress: 'text-meta-blue bg-meta-blue/10 border-meta-blue/20',
-  completed: 'text-meta-success bg-meta-success text-meta-dark font-semibold',
-  abandoned: 'text-meta-textSecondary bg-meta-light border-meta-border',
+  completed: 'text-meta-success bg-meta-success/10 border-meta-success/20',
+  abandoned: 'text-meta-textSecondary bg-meta-lighter border-meta-border',
 } as const;
 
 export const getStatusText = (status: AttemptStatus): string => {

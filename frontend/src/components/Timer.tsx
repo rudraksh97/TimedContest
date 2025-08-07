@@ -82,7 +82,7 @@ export const Timer: React.FC<TimerProps> = ({
   const progressPercentage = (timerState.timeLeft / initialTime) * 100
 
   return (
-    <div className="bg-meta-light/50 backdrop-blur-sm border border-meta-border rounded-xl p-4 shadow-meta">
+    <div className="bg-white/80 backdrop-blur-sm border border-meta-border rounded-xl p-4 shadow-meta">
       {/* Notification */}
       {notification && (
         <div className="px-4 py-3 bg-meta-warning/20 border border-meta-warning/30 rounded-lg text-meta-warning text-sm font-medium mb-4">

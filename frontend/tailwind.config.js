@@ -8,51 +8,51 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          50: '#fef7f0',
+          100: '#fdecd4',
+          200: '#fbd5a8',
+          300: '#f8b871',
+          400: '#f59338',
+          500: '#f2751a',
+          600: '#e35a0f',
+          700: '#bc4310',
+          800: '#963614',
+          900: '#792e14',
         },
         meta: {
-          // Main brand colors - Meta blue
-          blue: '#0ea5e9',
-          blueDark: '#0284c7',
-          blueLight: '#38bdf8',
+          // Main brand colors - Warm brown
+          blue: '#d97706',
+          blueDark: '#b45309',
+          blueLight: '#f59e0b',
           
-          // Background colors - Clean, modern grays
-          dark: '#0f172a',
-          darker: '#020617',
-          light: '#1e293b',
-          lighter: '#334155',
+          // Background colors - Light, warm whites and creams
+          dark: '#fefefe',
+          darker: '#fafaf9',
+          light: '#fefcfb',
+          lighter: '#fef3f2',
           
-          // Text colors - Better contrast
-          text: '#f8fafc',
-          textSecondary: '#cbd5e1',
-          textMuted: '#94a3b8',
+          // Text colors - Rich browns and grays
+          text: '#292524',
+          textSecondary: '#57534e',
+          textMuted: '#78716c',
           
-          // Border colors - Subtle and modern
-          border: '#334155',
-          borderLight: '#475569',
+          // Border colors - Soft, warm borders
+          border: '#e7e5e4',
+          borderLight: '#f3f4f6',
           
-          // Accent colors
-          purple: '#8b5cf6',
-          purpleLight: '#a78bfa',
+          // Accent colors - Warm, earthy tones
+          purple: '#a855f7',
+          purpleLight: '#c084fc',
           yellow: '#f59e0b',
           yellowLight: '#fbbf24',
           red: '#ef4444',
           redLight: '#f87171',
           
-          // Status colors
-          success: '#10b981',
-          warning: '#f59e0b',
-          error: '#ef4444',
-          info: '#3b82f6',
+          // Status colors - Muted, warm versions
+          success: '#059669',
+          warning: '#d97706',
+          error: '#dc2626',
+          info: '#2563eb',
         }
       },
       fontFamily: {
@@ -60,8 +60,8 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'meta': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'meta-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'meta': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+        'meta-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03)',
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
