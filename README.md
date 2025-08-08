@@ -8,6 +8,6 @@ A comprehensive 1-hour timed contest platform featuring 50 carefully curated con
 - **1-Hour Timer**: Automatic timer with notifications at 30 minutes and 5 minutes remaining
 - **Attempt History**: Track all attempts with detailed review capabilities
 
-##How to deploy:
+## How to deploy:
 
-*docker compose up --build
+**docker compose up --build
