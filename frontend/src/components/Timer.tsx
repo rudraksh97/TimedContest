@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { formatTime, getTimerColor } from '../utils/timer'
 import { ConfirmationModal } from './ConfirmationModal'
 import { TimerState } from '../types'
@@ -30,6 +30,8 @@ export const Timer: React.FC<TimerProps> = ({
   })
   const [notification, setNotification] = useState<string>('')
   const [resetModal, setResetModal] = useState(false)
+  const lastSyncedTimeRef = useRef<number>(remainingTime ?? initialTime)
+  const hasFiredTimeUpRef = useRef<boolean>(false)
 
   const calculateRemainingTime = () => {
     if (remainingTime !== undefined) {
@@ -80,7 +82,10 @@ export const Timer: React.FC<TimerProps> = ({
       }, 1000)
     } else if (timerState.timeLeft <= 0) {
       setTimerState(prev => ({ ...prev, isRunning: false }))
-      onTimeUp?.()
+      if (!hasFiredTimeUpRef.current) {
+        hasFiredTimeUpRef.current = true
+        onTimeUp?.()
+      }
     }
 
     return () => {
@@ -89,6 +94,18 @@ export const Timer: React.FC<TimerProps> = ({
       }
     }
   }, [timerState.isRunning, timerState.timeLeft, timerState.hasWarned30Min, timerState.hasWarned5Min, onTimeUp, onWarning])
+
+  // Throttle-persist remaining time to parent (e.g., API) every 5s and at 0
+  useEffect(() => {
+    if (!onTimeUpdate) return
+    const shouldSync = timerState.timeLeft === 0 ||
+      (lastSyncedTimeRef.current - timerState.timeLeft >= 5 && timerState.isRunning)
+
+    if (shouldSync) {
+      lastSyncedTimeRef.current = timerState.timeLeft
+      onTimeUpdate(timerState.timeLeft)
+    }
+  }, [timerState.timeLeft, timerState.isRunning, onTimeUpdate])
 
   const toggleTimer = () => {
     setTimerState(prev => ({ ...prev, isRunning: !prev.isRunning }))

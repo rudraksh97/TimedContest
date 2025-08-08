@@ -21,6 +21,7 @@ export const ContestAttempt: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const saveTimeoutRef = useRef<number>()
+  const isFinishingRef = useRef<boolean>(false)
 
   useEffect(() => {
     fetchData()
@@ -147,20 +148,45 @@ export const ContestAttempt: React.FC = () => {
   }
 
   const handleTimeUp = async () => {
-    // Time is up - auto-submit the contest
-    await finishContest()
+    // Flush any pending code save, then auto-complete with remaining_time_seconds=0
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current)
+      setSaving(true)
+      await saveAttempt()
+      setSaving(false)
+    }
+    await finishContest(0)
   }
 
-  const finishContest = async () => {
+  const finishContest = async (finalRemainingSeconds?: number) => {
     if (!attemptId) return
     
     try {
-      await attemptAPI.update(attemptId, { status: 'completed' })
+      // Prevent double submission
+      if (isFinishingRef.current) return
+      isFinishingRef.current = true
+
+      // If there is a pending debounced save, flush it before finishing
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current)
+        setSaving(true)
+        await saveAttempt()
+        setSaving(false)
+      }
+
+      const updatePayload: any = { status: 'completed' }
+      if (typeof finalRemainingSeconds === 'number') {
+        updatePayload.remaining_time_seconds = finalRemainingSeconds
+      }
+
+      await attemptAPI.update(attemptId, updatePayload)
       // Navigate to review page and replace the current history entry
       // This ensures the back button takes users to the page before the contest, not back to the contest
       navigate(`/attempt/${attemptId}/review`, { replace: true })
     } catch (error) {
       console.error('Error finishing contest:', error)
+    } finally {
+      isFinishingRef.current = false
     }
   }
 
@@ -215,8 +241,9 @@ export const ContestAttempt: React.FC = () => {
             )}
             
             <button
-              onClick={finishContest}
+              onClick={() => finishContest()}
               className="btn-glass text-meta-primary hover:bg-meta-primary hover:text-white"
+              disabled={isFinishingRef.current}
             >
               Submit Contest
             </button>
