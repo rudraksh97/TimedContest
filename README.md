@@ -10,4 +10,4 @@ A comprehensive 1-hour timed contest platform featuring 50 carefully curated con
 
 ## How to deploy:
 
-**docker compose up --build
+docker compose up --build
